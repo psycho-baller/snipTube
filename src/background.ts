@@ -1,6 +1,11 @@
-function polling() {
-  // console.log("polling");
-  setTimeout(polling, 1000 * 30);
-}
+chrome.tabs.onUpdated.addListener((tabId, tab) => {
+  if (tab.url && tab.url.includes("youtube.com/watch")) {
+    const queryParameters = tab.url.split("?")[1];
+    const urlParameters = new URLSearchParams(queryParameters);
 
-polling();
+    chrome.tabs.sendMessage(tabId, {
+      type: "NEW",
+      videoId: urlParameters.get("v"),
+    });
+  }
+});
