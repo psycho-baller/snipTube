@@ -10,9 +10,9 @@ let defaultSnipLength = 20;
 
 const newVideoLoaded = async () => {
   // make sure currentVideo is set
-  if (!currentVideo) {
-    currentVideo = window.location.href.split("v=")[1] || "";
-  }
+  // if (!currentVideo) {
+  //   currentVideo = window.location.href.split("v=")[1] || "";
+  // }
 
   const bookmarkBtnExists = document.getElementsByClassName("bookmark-btn")[0];
 
@@ -61,11 +61,9 @@ async function addNewBookmarkEventHandler(this: HTMLButtonElement) {
   }
 
   currentVideoBookmarks = await fetchBookmarks();
-  console.log(currentVideoBookmarks, newBookmark);
   chrome.storage.sync.set({
     [currentVideo]: JSON.stringify([...currentVideoBookmarks, newBookmark].sort((a, b) => a.endTimestamp - b.endTimestamp))
   });
-  console.log(chrome.storage.sync.get([currentVideo]));
 
 }
 
@@ -74,7 +72,6 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
 
   if (type === "NEW") {
     currentVideo = videoId;
-    console.log("new video loaded", videoId, currentVideo);
     newVideoLoaded();
   } else if (type === "PLAY") {
     youtubePlayer.currentTime = value;

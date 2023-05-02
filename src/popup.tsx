@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import type { Snip } from "./types";
 const Popup = () => {
   const [count, setCount] = useState(0);
-  const [inYoutube, setInYoutube] = useState(true);
+  const [inYoutube, setInYoutube] = useState(false);
   const [currentURL, setCurrentURL] = useState<string>();
   const [currentVideoBookmarks, setCurrentVideoBookmarks] = useState<Snip[]>([]);
 
@@ -13,25 +13,28 @@ const Popup = () => {
 
   useEffect(() => {
     // get the current video id
-    const activeTabs = chrome.tabs.query({ active: true, currentWindow: true }) as unknown as { url: string }[]
-    console.log("activeTabs: ", activeTabs);
-    const queryParameters = activeTabs[0]?.url.split("?")[1];
-    const urlParameters = new URLSearchParams(queryParameters);
-    const currentVideo = urlParameters.get("v");
-    console.log("currentVideo: ", currentVideo);
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0] as chrome.tabs.Tab;
+      const url = tab.url as string;
+      const queryParameters = url.split("?")[1];
+      const urlParameters = new URLSearchParams(queryParameters);
+      const currentVideo = urlParameters.get("v");
 
-    if (activeTabs[0]?.url.includes("youtube.com/watch") && currentVideo) {
-      setInYoutube(true);
-      chrome.storage.sync.get([currentVideo], (obj) => {
-        setCurrentVideoBookmarks(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
-      });
-    } else {
-      setInYoutube(false);
+      if (url.includes("youtube.com/watch") && currentVideo) {
+        setInYoutube(true);
+        chrome.storage.sync.get([currentVideo], (obj) => {
+          setCurrentVideoBookmarks(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
+        });
+      } else {
+        setInYoutube(false);
+      }
+      // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      //   setCurrentURL(tabs[0].url);
+      // });
     }
-    // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    //   setCurrentURL(tabs[0].url);
-    // });
-  }, []);
+    )
+  }
+    , []);
 
   const changeBackground = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -51,7 +54,7 @@ const Popup = () => {
   };
 
   return (
-    <>
+    <main>
       {inYoutube ? (
         <ul>
           <h1>Current Video Bookmarks</h1>
@@ -64,7 +67,7 @@ const Popup = () => {
       ) : (
         <div>not in youtube</div>
       )}
-    </>
+    </main>
   );
 };
 {/* <>
