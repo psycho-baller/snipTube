@@ -3,41 +3,47 @@ import { Snip } from "./types";
 import { useState } from "react";
 
 let currentVideo = "";
-let currentVideoBookmarks = [] as Snip[];
+let currentVideoSnips = [] as Snip[];
 let youtubePlayer: HTMLVideoElement;
-let youtubeLeftControls;
+let firstRightButton;
 let defaultSnipLength = 20;
 
 const newVideoLoaded = async () => {
-  // make sure currentVideo is set
-  // if (!currentVideo) {
-  //   currentVideo = window.location.href.split("v=")[1] || "";
-  // }
+  const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
 
-  const bookmarkBtnExists = document.getElementsByClassName("bookmark-btn")[0];
+  // get the current video id if it doesn't exists
+  if (!currentVideo) {
+    const url = window.location.href;
+    const queryParameters = url.split("?")[1];
+    const urlParameters = new URLSearchParams(queryParameters);
+    currentVideo = urlParameters.get("v") as string;
+  }
+  // section 1: add the snips to the video
+  await updateVideoSnips();
 
-  currentVideoBookmarks = await fetchBookmarks();
-
-  if (!bookmarkBtnExists) {
+  // section 2: add a snip button
+  if (!snipButtonExists) {
     // create an svg element
-    const bookmarkBtn = document.createElement("button");
-    bookmarkBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Edit / Add_Plus_Circle"> <path id="Vector" d="M8 12H12M12 12H16M12 12V16M12 12V8M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`;
+    const snipBtn = document.createElement("button");
+    snipBtn.innerHTML = `<svg style="padding: 2px; padding-bottom: 4px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Edit / Add_Plus_Circle"> <path id="Vector" d="M8 12H12M12 12H16M12 12V16M12 12V8M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`;
 
-    bookmarkBtn.className = "ytp-button " + "bookmark-btn";
-    bookmarkBtn.title = "Create a snip";
-    bookmarkBtn.style.display = "flex";
-    bookmarkBtn.style.alignItems = "center";
+    snipBtn.className = "snip-btn" + " ytp-button";
+    snipBtn.title = "Create a snip";
+    snipBtn.style.display = "inline-flex";
+    snipBtn.style.alignItems = "center";
+    snipBtn.style.justifyContent = "center";
 
-    youtubeLeftControls = document.getElementsByClassName("ytp-left-controls")[0];
+    // get the first button in the right side of the video
+    firstRightButton = document.getElementsByClassName("ytp-right-controls")[0]?.getElementsByClassName("ytp-button")[0];
     youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
 
-    youtubeLeftControls?.appendChild(bookmarkBtn);
-    bookmarkBtn.addEventListener("click", addNewBookmarkEventHandler);
+    // add it before the first button
+    firstRightButton?.parentElement?.insertBefore(snipBtn, firstRightButton);
+    snipBtn.addEventListener("click", addNewSnipEventHandler);
   }
 };
 
-
-function fetchBookmarks(): any[] | PromiseLike<any[]> {
+function fetchSnips(): Snip[] | PromiseLike<Snip[]> {
   return new Promise((resolve) => {
     chrome.storage.sync.get([currentVideo], (obj) => {
       resolve(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
@@ -45,26 +51,62 @@ function fetchBookmarks(): any[] | PromiseLike<any[]> {
   });
 }
 
-async function addNewBookmarkEventHandler(this: HTMLButtonElement) {
+async function addNewSnipEventHandler(this: HTMLButtonElement) {
   const date = new Date();
   const currentTime = youtubePlayer.currentTime;
-  const newBookmark: Snip = {
+  const newSnip: Snip = {
     startTimestamp: currentTime - defaultSnipLength,
     endTimestamp: currentTime,
     createdAt: date.getTime(),
     updatedAt: date.getTime(),
     videoId: currentVideo,
     id: currentVideo + (date.getTime()).toString(),
-    title: document.title,
+    vidTitle: document.title,
     notes: "this is a note I wrote",
-    tags: [],
+    // make it folder based instead of tag based
+    tags: [{ "name": "tag1" }, { "name": "tag2" }],
   }
 
-  currentVideoBookmarks = await fetchBookmarks();
+  currentVideoSnips = await fetchSnips();
   chrome.storage.sync.set({
-    [currentVideo]: JSON.stringify([...currentVideoBookmarks, newBookmark].sort((a, b) => a.endTimestamp - b.endTimestamp))
+    [currentVideo]: JSON.stringify([...currentVideoSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
   });
+  updateVideoSnips();
+}
 
+
+async function updateVideoSnips() {
+  currentVideoSnips = await fetchSnips();
+  console.log("🚀 ~ file: contentScript.tsx:87 ~ updateVideoSnips ~ currentVideoSnips:", currentVideoSnips)
+  if (currentVideoSnips.length > 0) {
+    youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
+    const progressBar = document.getElementById("previewbar");
+
+    currentVideoSnips.forEach((snip) => {
+      // if the snip is already on the video, don't add it again
+      if (document.getElementById(`snip-${snip.id}`)) {
+        return;
+      }
+      const snipElement = document.createElement("li");
+      const tags = snip.tags || [];
+      const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
+      snipElement.id = `snip-${snip.id}}`;
+      snipElement.style.position = "absolute";
+      snipElement.style.top = "0px";
+      snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}%`;
+      snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}%`;
+      snipElement.style.height = "100%";
+      snipElement.style.backgroundColor = firstTag?.color || "yellow";
+      snipElement.style.zIndex = "1000";
+      snipElement.style.cursor = "pointer";
+      snipElement.title = "Click to jump to this snip";
+
+      snipElement.addEventListener("click", () => {
+        youtubePlayer.currentTime = snip.startTimestamp;
+      });
+      progressBar?.appendChild(snipElement);
+    });
+  }
 }
 
 chrome.runtime.onMessage.addListener((obj, sender, response) => {
@@ -76,12 +118,11 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
   } else if (type === "PLAY") {
     youtubePlayer.currentTime = value;
   } else if (type === "DELETE") {
-    currentVideoBookmarks = currentVideoBookmarks.filter((b) => b.endTimestamp != value);
-    chrome.storage.sync.set({ [currentVideo]: JSON.stringify(currentVideoBookmarks) });
+    currentVideoSnips = currentVideoSnips.filter((b) => b.endTimestamp != value);
+    chrome.storage.sync.set({ [currentVideo]: JSON.stringify(currentVideoSnips) });
 
-    response(currentVideoBookmarks);
+    response(currentVideoSnips);
   }
 });
-
 
 newVideoLoaded();

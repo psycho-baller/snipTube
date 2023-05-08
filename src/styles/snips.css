@@ -1,0 +1,24 @@
+#snip-container {
+  font-size: 11px;
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  text-shadow: 0 0 2px rgba(0,0,0,.5);
+  text-align: left;
+  direction: ltr;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  height: 100%;
+  transform: scaleY(0.6) translateY(-30%) translateY(1.5px);
+  z-index: 42;
+  overflow: visible;
+  padding: 0px;
+  margin: 0px;
+  transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1) 0s;
+
+  
+}

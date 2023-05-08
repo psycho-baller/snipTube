@@ -4,8 +4,12 @@ export type Snip = {
   notes?: string;
   videoId: string;
   id: string;
+  vidTitle: string;
   title?: string;
-  tags?: string[];
+  tags?: {
+    name: string;
+    color?: string;
+  }[];
   createdAt: number;
   updatedAt: number;
 };

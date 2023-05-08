@@ -4,10 +4,13 @@ chrome.runtime.onInstalled.addListener(() => {
       if (tab.url && tab.url.includes("youtube.com/watch")) {
         const queryParameters = tab.url.split("?")[1];
         const urlParameters = new URLSearchParams(queryParameters);
-        chrome.tabs.sendMessage(tabId, {
+        chrome.tabs.sendMessage(tabId, { // new
           type: "NEW",
           videoId: urlParameters.get("v"),
         });
+        // returning
+        // chrome.tabs.sendMessage(tabId, { // returning
+
       }
     }
   });
