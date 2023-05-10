@@ -14,10 +14,14 @@ const newVideoLoaded = async () => {
   // get the current video id if it doesn't exists
   if (!currentVideo) {
     const url = window.location.href;
+    if (!url.includes("youtube.com/watch")) {
+      return;
+    }
     const queryParameters = url.split("?")[1];
     const urlParameters = new URLSearchParams(queryParameters);
     currentVideo = urlParameters.get("v") as string;
   }
+
   // section 1: add the snips to the video
   await updateVideoSnips();
 
@@ -71,13 +75,12 @@ async function addNewSnipEventHandler(this: HTMLButtonElement) {
   chrome.storage.sync.set({
     [currentVideo]: JSON.stringify([...currentVideoSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
   });
-  updateVideoSnips();
+  await updateVideoSnips();
 }
 
 
 async function updateVideoSnips() {
   currentVideoSnips = await fetchSnips();
-  console.log("🚀 ~ file: contentScript.tsx:87 ~ updateVideoSnips ~ currentVideoSnips:", currentVideoSnips)
   if (currentVideoSnips.length > 0) {
     youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
     const progressBar = document.getElementById("previewbar");
@@ -109,12 +112,12 @@ async function updateVideoSnips() {
   }
 }
 
-chrome.runtime.onMessage.addListener((obj, sender, response) => {
+chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
   const { type, value, videoId } = obj;
 
   if (type === "NEW") {
     currentVideo = videoId;
-    newVideoLoaded();
+    await newVideoLoaded();
   } else if (type === "PLAY") {
     youtubePlayer.currentTime = value;
   } else if (type === "DELETE") {
@@ -123,6 +126,7 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
 
     response(currentVideoSnips);
   }
+
+  await newVideoLoaded();
 });
 
-newVideoLoaded();
