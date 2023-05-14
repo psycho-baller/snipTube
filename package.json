@@ -17,19 +17,25 @@
     "url": "https://github.com/psycho-baller/snipTube.git"
   },
   "dependencies": {
+    "css-loader": "^6.7.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "style-loader": "^3.3.2"
   },
   "devDependencies": {
     "@types/chrome": "0.0.158",
     "@types/jest": "^27.0.2",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
+    "autoprefixer": "^10.4.14",
     "copy-webpack-plugin": "^9.0.1",
     "glob": "^7.1.6",
     "jest": "^27.2.1",
+    "postcss": "^8.4.23",
+    "postcss-loader": "^7.3.0",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2 ",
+    "tailwindcss": "^3.3.2",
     "ts-jest": "^27.0.5",
     "ts-loader": "^8.0.0",
     "typescript": "^4.4.3 ",

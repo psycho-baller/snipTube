@@ -78,7 +78,6 @@ async function addNewSnipEventHandler(this: HTMLButtonElement) {
   await updateVideoSnips();
 }
 
-
 async function updateVideoSnips() {
   currentVideoSnips = await fetchSnips();
   if (currentVideoSnips.length > 0) {
