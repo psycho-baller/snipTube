@@ -6,10 +6,12 @@ export type Snip = {
   id: string;
   vidTitle: string;
   title?: string;
-  tags?: {
-    name: string;
-    color?: string;
-  }[];
+  tags?: Tag[];
   createdAt: number;
   updatedAt: number;
+};
+
+export type Tag = {
+  name: string;
+  color?: string;
 };

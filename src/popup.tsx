@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import type { Snip } from "./types";
+import type { Snip, Tag } from "./types";
+import './styles/tailwind.css'
+
 const Popup = () => {
   const [count, setCount] = useState(0);
   const [inYoutube, setInYoutube] = useState(false);
@@ -54,20 +56,37 @@ const Popup = () => {
   };
 
   return (
-    <main>
+    <main className="min-w-max min-h-1/2 p-4">
       {inYoutube ? (
-        <ul>
-          <h1>Current Video Bookmarks</h1>
-          {currentVideoBookmarks.map((b) => (
-            <li key={b.id}>
-              {b.startTimestamp} - {b.endTimestamp}
-            </li>
-          ))}
-        </ul>
+        <>
+          <h1 className="text-2xl font-bold mb-4 text-center">
+            Current Video Bookmarks</h1>
+          <ul>
+            {currentVideoBookmarks.map((bookmark: Snip, i): JSX.Element => (
+              <li key={i} className="p-4 mb-4">
+                <div className="flex flex-col">
+                  <div className="flex">
+                    <div className="text-gray-500">{Math.floor(bookmark.startTimestamp / 60)}:{String(Math.round(bookmark.startTimestamp) % 60).padStart(2, "0")}</div>
+                    <div className="text-gray-500">{" "}-{" "}</div>
+                    <div className="text-gray-500">{Math.floor(bookmark.endTimestamp / 60)}:{String(Math.round(bookmark.endTimestamp) % 60).padStart(2, "0")}</div>
+                  </div>
+                  <div className="flex">
+                    {bookmark?.tags?.map((tag: Tag, i: number) => (
+                      <div key={i} className={`bg-${tag.color ?? "gray"}-300 rounded-full px-2 py-1 text-xs mr-2 border border-${tag.color ?? "gray"}-400`}>{tag.name}</div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-2">{bookmark?.notes ?? ""}</div>
+              </li>
+            ))}
+          </ul>
+        </>
       ) : (
-        <div>not in youtube</div>
-      )}
-    </main>
+        // Have a home page that shows by default when you're not on youtube
+        <div className="uppercase text-center text-2xl font-bold whitespace-nowrap" >🚫not in youtube🚫</div>
+      )
+      }
+    </main >
   );
 };
 {/* <>

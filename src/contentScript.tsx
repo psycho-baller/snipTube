@@ -82,7 +82,35 @@ async function updateVideoSnips() {
   currentVideoSnips = await fetchSnips();
   if (currentVideoSnips.length > 0) {
     youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
-    const progressBar = document.getElementById("previewbar");
+    let previewBar = document.getElementById("snip-preview-bar") as HTMLUListElement | null;
+    if (!previewBar) {
+      previewBar = document.createElement("ul") as HTMLUListElement;
+      previewBar.id = "snip-preview-bar";
+      previewBar.style.position = "absolute";
+      previewBar.style.top = "0px";
+      previewBar.style.left = "0px";
+      previewBar.style.width = "100%";
+      previewBar.style.height = "100%";
+      previewBar.style.zIndex = "1000";
+      previewBar.style.transform = "scaleY(0.6)";
+      previewBar.style.pointerEvents = "none";
+      previewBar.style.display = "flex";
+      previewBar.style.flexDirection = "row";
+      previewBar.style.justifyContent = "flex-start";
+      previewBar.style.alignItems = "flex-start";
+      previewBar.style.overflow = "hidden";
+      previewBar.style.padding = "0px";
+      previewBar.style.margin = "0px";
+      previewBar.style.listStyle = "none";
+      previewBar.style.backgroundColor = "transparent";
+      previewBar.style.border = "none";
+      previewBar.style.outline = "none";
+      previewBar.style.cursor = "pointer";
+
+      // add it to the progress bar
+      const progressBar = document.getElementsByClassName("ytp-progress-bar")[0];
+      progressBar.appendChild(previewBar);
+    }
 
     currentVideoSnips.forEach((snip) => {
       // if the snip is already on the video, don't add it again
@@ -106,7 +134,7 @@ async function updateVideoSnips() {
       snipElement.addEventListener("click", () => {
         youtubePlayer.currentTime = snip.startTimestamp;
       });
-      progressBar?.appendChild(snipElement);
+      previewBar?.appendChild(snipElement);
     });
   }
 }
@@ -126,6 +154,6 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
     response(currentVideoSnips);
   }
 
-  await newVideoLoaded();
+  // await newVideoLoaded();
 });
 
