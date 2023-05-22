@@ -7,6 +7,7 @@ let currentVideoSnips = [] as Snip[];
 let youtubePlayer: HTMLVideoElement;
 let firstRightButton;
 let defaultSnipLength = 20;
+let previewBar: HTMLUListElement | null;
 
 const newVideoLoaded = async () => {
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
@@ -22,10 +23,7 @@ const newVideoLoaded = async () => {
     currentVideo = urlParameters.get("v") as string;
   }
 
-  // section 1: add the snips to the video
-  await updateVideoSnips();
-
-  // section 2: add a snip button
+  // section 1: add a snip button
   if (!snipButtonExists) {
     // create an svg element
     const snipBtn = document.createElement("button");
@@ -45,9 +43,13 @@ const newVideoLoaded = async () => {
     firstRightButton?.parentElement?.insertBefore(snipBtn, firstRightButton);
     snipBtn.addEventListener("click", addNewSnipEventHandler);
   }
+
+  // section 2: add the snips to the video
+  await updateVideoSnips();
 };
 
-function fetchSnips(): Snip[] | PromiseLike<Snip[]> {
+async function fetchSnips(): Promise<Snip[]> {
+  // console.log("fetching snips", currentVideo);
   return new Promise((resolve) => {
     chrome.storage.sync.get([currentVideo], (obj) => {
       resolve(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
@@ -79,64 +81,67 @@ async function addNewSnipEventHandler(this: HTMLButtonElement) {
 }
 
 async function updateVideoSnips() {
-  currentVideoSnips = await fetchSnips();
+  // console.log("currentVideo", currentVideo);
+
+  currentVideoSnips = await fetchSnips() as Snip[];
+  previewBar = document.getElementById("snip-preview-bar") as HTMLUListElement | null;
+  previewBar?.remove();
+  previewBar = document.createElement("ul") as HTMLUListElement;
   if (currentVideoSnips.length > 0) {
     youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
-    let previewBar = document.getElementById("snip-preview-bar") as HTMLUListElement | null;
-    if (!previewBar) {
-      previewBar = document.createElement("ul") as HTMLUListElement;
-      previewBar.id = "snip-preview-bar";
-      previewBar.style.position = "absolute";
-      previewBar.style.top = "0px";
-      previewBar.style.left = "0px";
-      previewBar.style.width = "100%";
-      previewBar.style.height = "100%";
-      previewBar.style.zIndex = "1000";
-      previewBar.style.transform = "scaleY(0.6)";
-      previewBar.style.pointerEvents = "none";
-      previewBar.style.display = "flex";
-      previewBar.style.flexDirection = "row";
-      previewBar.style.justifyContent = "flex-start";
-      previewBar.style.alignItems = "flex-start";
-      previewBar.style.overflow = "hidden";
-      previewBar.style.padding = "0px";
-      previewBar.style.margin = "0px";
-      previewBar.style.listStyle = "none";
-      previewBar.style.backgroundColor = "transparent";
-      previewBar.style.border = "none";
-      previewBar.style.outline = "none";
-      previewBar.style.cursor = "pointer";
+    previewBar.id = "snip-preview-bar";
+    previewBar.style.position = "absolute";
+    previewBar.style.top = "0px";
+    previewBar.style.left = "0px";
+    previewBar.style.width = "100%";
+    previewBar.style.height = "100%";
+    previewBar.style.zIndex = "1000";
+    previewBar.style.transform = "scaleY(0.6)";
+    previewBar.style.pointerEvents = "none";
+    previewBar.style.display = "flex";
+    previewBar.style.flexDirection = "row";
+    previewBar.style.justifyContent = "flex-start";
+    previewBar.style.alignItems = "flex-start";
+    previewBar.style.overflow = "hidden";
+    previewBar.style.padding = "0px";
+    previewBar.style.margin = "0px";
+    previewBar.style.listStyle = "none";
+    previewBar.style.backgroundColor = "transparent";
+    previewBar.style.border = "none";
+    previewBar.style.outline = "none";
+    previewBar.style.cursor = "pointer";
 
-      // add it to the progress bar
-      const progressBar = document.getElementsByClassName("ytp-progress-bar")[0];
-      progressBar.appendChild(previewBar);
-    }
-
-    currentVideoSnips.forEach((snip) => {
-      // if the snip is already on the video, don't add it again
-      if (document.getElementById(`snip-${snip.id}`)) {
-        return;
-      }
-      const snipElement = document.createElement("li");
-      const tags = snip.tags || [];
-      const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
-      snipElement.id = `snip-${snip.id}}`;
-      snipElement.style.position = "absolute";
-      snipElement.style.top = "0px";
-      snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}%`;
-      snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}%`;
-      snipElement.style.height = "100%";
-      snipElement.style.backgroundColor = firstTag?.color || "yellow";
-      snipElement.style.zIndex = "1000";
-      snipElement.style.cursor = "pointer";
-      snipElement.title = "Click to jump to this snip";
-
-      snipElement.addEventListener("click", () => {
-        youtubePlayer.currentTime = snip.startTimestamp;
-      });
-      previewBar?.appendChild(snipElement);
-    });
+    // add it to the progress bar
+    const progressBar = document.getElementsByClassName("ytp-progress-bar")[0];
+    progressBar.appendChild(previewBar);
   }
+
+  currentVideoSnips.forEach((snip) => {
+    // if the snip is already on the video, don't add it again
+    // if (document.getElementById(`snip-${snip.id}`)) {
+    //   return;
+    // }
+    const snipElement = document.createElement("li");
+    const tags = snip.tags || [];
+    const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
+    snipElement.id = `snip-${snip.id}}`;
+    snipElement.style.position = "absolute";
+    snipElement.style.top = "0px";
+    snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}%`;
+    snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}%`;
+    snipElement.style.height = "100%";
+    snipElement.style.backgroundColor = firstTag?.color || "yellow";
+    snipElement.style.zIndex = "1000";
+    snipElement.style.cursor = "pointer";
+    snipElement.title = "Click to jump to this snip";
+
+    snipElement.addEventListener("click", () => {
+      youtubePlayer.currentTime = snip.startTimestamp;
+    });
+    previewBar?.appendChild(snipElement);
+  });
+  // if
+
 }
 
 chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
@@ -154,6 +159,6 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
     response(currentVideoSnips);
   }
 
-  // await newVideoLoaded();
+  await newVideoLoaded();
 });
 
