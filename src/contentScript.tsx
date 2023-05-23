@@ -60,17 +60,19 @@ async function fetchSnips(): Promise<Snip[]> {
 async function addNewSnipEventHandler(this: HTMLButtonElement) {
   const date = new Date();
   const currentTime = youtubePlayer.currentTime;
+  const videoTitle = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0]?.textContent as string;
   const newSnip: Snip = {
-    startTimestamp: currentTime - defaultSnipLength,
-    endTimestamp: currentTime,
-    createdAt: date.getTime(),
-    updatedAt: date.getTime(),
-    videoId: currentVideo,
-    id: currentVideo + (date.getTime()).toString(),
-    vidTitle: document.title,
+    vidTitle: videoTitle as string,
+    title: "How to live in the now",
     notes: "this is a note I wrote",
     // make it folder based instead of tag based
     tags: [{ "name": "tag1" }, { "name": "tag2" }],
+    startTimestamp: currentTime - defaultSnipLength,
+    endTimestamp: currentTime,
+    id: currentVideo + (date.getTime()).toString(),
+    videoId: currentVideo,
+    createdAt: date.getTime(),
+    updatedAt: date.getTime(),
   }
 
   currentVideoSnips = await fetchSnips();

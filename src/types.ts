@@ -1,11 +1,11 @@
 export type Snip = {
   startTimestamp: number;
   endTimestamp: number;
-  notes?: string;
   videoId: string;
   id: string;
   vidTitle: string;
-  title?: string;
+  title: string; // AI generated title that can be edited
+  notes?: string;
   tags?: Tag[];
   createdAt: number;
   updatedAt: number;
