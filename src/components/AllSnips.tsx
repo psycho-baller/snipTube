@@ -15,7 +15,7 @@ const AllSnips: React.FC<Props> = ({ snips }) => {
         {snips.map((snip: Snip, i): JSX.Element => (
           <li key={i} className="mb-4 border border-gray-300 rounded-md flex flex-row">
             <img className="h-full" src="https://i.ytimg.com/vi/3qYbVjg5Z7k/hqdefault.jpg" alt="thumbnail" />
-            <div className="flex flex-col justify-start w-full p-3">
+            <div className="flex flex-col justify-start p-3 w-full">
               <div className="font-bold">{snip.title}</div>
               <div className="flex flex-row justify-between">
                 <div className="text-gray-500">{Math.floor(snip.startTimestamp / 60)}:{String(Math.round(snip.startTimestamp) % 60).padStart(2, "0")}</div>

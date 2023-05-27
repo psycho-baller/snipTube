@@ -9,8 +9,8 @@ const Popup = () => {
   const [count, setCount] = useState(0);
   const [inYoutube, setInYoutube] = useState(false);
   const [currentURL, setCurrentURL] = useState<string>();
-  const [currentVideoBookmarks, setCurrentVideoBookmarks] = useState<Snip[]>([]);
-  const [allVideoBookmarks, setAllVideoBookmarks] = useState<Snip[]>([]);
+  const [currentVideoSnips, setCurrentVideoSnips] = useState<Snip[]>([]);
+  const [allVideoSnips, setAllVideoSnips] = useState<Snip[]>([]);
 
   useEffect(() => {
     chrome.action.setBadgeText({ text: count.toString() });
@@ -28,14 +28,14 @@ const Popup = () => {
       // get all the snips
       chrome.storage.sync.get(null, (obj) => {
         const allSnips = Object.values(obj).flat();
-        setAllVideoBookmarks(allSnips);
+        setAllVideoSnips(allSnips);
       });
       if (url.includes("youtube.com/watch") && currentVideo) {
         setInYoutube(true);
 
         // get the snips for the current video
         chrome.storage.sync.get([currentVideo], (obj) => {
-          setCurrentVideoBookmarks(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
+          setCurrentVideoSnips(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
         });
       } else {
         setInYoutube(false);
@@ -66,15 +66,15 @@ const Popup = () => {
   };
 
   return (
-    <main className="w-[30rem] min-h-max p-3">
+    <main className="w-[30rem] min-h-max">
       {inYoutube ? (
-        <Tabs currentVideoBookmarks={currentVideoBookmarks} allVideoBookmarks={allVideoBookmarks} />
+        <Tabs currentVideoSnips={currentVideoSnips} allVideoSnips={allVideoSnips} />
 
       ) : (
         // Have a home page that shows by default when you're not on youtube
-        <AllSnips snips={allVideoBookmarks} />
+        <AllSnips snips={allVideoSnips} />
 
-        // <div className="uppercase text-center text-2xl font-bold whitespace-nowrap" >🚫not in youtube🚫</div>
+        // <div className="text-2xl font-bold text-center uppercase whitespace-nowrap" >🚫not in youtube🚫</div>
       )
       }
     </main >

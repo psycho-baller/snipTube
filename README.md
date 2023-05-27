@@ -72,6 +72,9 @@ Load `dist` directory
 
 ## TODO
 
-* [ ] add sass and style the snips
-* [ ] make everything get updated instantly (e.g: when we make a new snip, reflect that in the video bar)
-* [ ] build the popup.tsx file
+* [X] add sass and style the snips
+* [X] make everything get updated instantly (e.g: when we make a new snip, reflect that in the video bar)
+* [X] build the popup.tsx file
+* [ ] style the tags in the popup and put them in tab 2 too
+* [ ] make the tags clickable in the popup and make them filter the snips
+* [ ] add notes and play button for both tabs
