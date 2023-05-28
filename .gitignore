@@ -3,3 +3,6 @@ node_modules/
 dist/
 tmp/
 .vscode
+.venv
+__pycache__
+*.py[cod]
