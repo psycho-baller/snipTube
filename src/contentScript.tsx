@@ -1,7 +1,5 @@
 import { getTime } from "./utils";
 import { Snip } from "./types";
-import { useState } from "react";
-import { sum } from "./sum";
 
 let currentVideo = "";
 let currentVideoSnips = [] as Snip[];

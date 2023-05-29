@@ -78,3 +78,7 @@ Load `dist` directory
 * [ ] style the tags in the popup and put them in tab 2 too
 * [ ] make the tags clickable in the popup and make them filter the snips
 * [ ] add notes and play button for both tabs
+* [ ] add a delete button for the snips
+* [ ] add a way users can change the name of the snip
+  * [ ] before submitting the snip
+  * [ ] after submitting the snip (in the popup)

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const DropdownButton: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('newest');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<string>('newest');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const options = [

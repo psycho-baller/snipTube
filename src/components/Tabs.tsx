@@ -18,7 +18,7 @@ const Tabs: FC<Props> = ({ currentVideoSnips, allVideoSnips }) => {
     snips: allVideoSnips
   }] as { name: string, snips: Snip[] }[];
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<number>(0);
 
   return (
     <section className="flex flex-col items-center justify-center flex-nowrap dark:bg-slate-950 dark:text-slate-100 ">

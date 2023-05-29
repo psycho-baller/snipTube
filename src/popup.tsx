@@ -6,8 +6,8 @@ import Tabs from "./components/Tabs";
 import AllSnips from "./components/AllSnips";
 
 const Popup = () => {
-  const [count, setCount] = useState(0);
-  const [inYoutube, setInYoutube] = useState(false);
+  const [count, setCount] = useState<number>(0);
+  const [inYoutube, setInYoutube] = useState<boolean>(false);
   const [currentURL, setCurrentURL] = useState<string>();
   const [currentVideoSnips, setCurrentVideoSnips] = useState<Snip[]>([]);
   const [allVideoSnips, setAllVideoSnips] = useState<Snip[]>([]);
