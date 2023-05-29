@@ -1,6 +1,7 @@
 import { getTime } from "./utils";
 import { Snip } from "./types";
 import { useState } from "react";
+import { sum } from "./sum";
 
 let currentVideo = "";
 let currentVideoSnips = [] as Snip[];
@@ -59,15 +60,22 @@ async function fetchSnips(): Promise<Snip[]> {
 
 async function addNewSnipEventHandler(this: HTMLButtonElement) {
   const date = new Date();
-  const currentTime = youtubePlayer.currentTime;
+  const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
+  console.log("currentTime", currentTime);
+  const startTime = currentTime - defaultSnipLength;
+  const summary: string = await fetch(`http://127.0.0.1:8000/summary/${currentVideo}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
+    method: "GET",
+  })
+    .then((response) => response.json())
+    .then((data) => data.summary)
   const videoTitle = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0]?.textContent as string;
   const newSnip: Snip = {
     vidTitle: videoTitle as string,
-    title: "How to live in the now",
+    title: summary,
     notes: "this is a note I wrote",
     // make it folder based instead of tag based
     tags: [{ "name": "tag1" }, { "name": "tag2" }],
-    startTimestamp: currentTime - defaultSnipLength,
+    startTimestamp: startTime,
     endTimestamp: currentTime,
     id: currentVideo + (date.getTime()).toString(),
     videoId: currentVideo,
@@ -120,17 +128,17 @@ async function updateVideoSnips() {
 
   currentVideoSnips.forEach((snip) => {
     // if the snip is already on the video, don't add it again
-    // if (document.getElementById(`snip-${snip.id}`)) {
+    // if (document.getElementById(`snip - ${ snip.id }`)) {
     //   return;
     // }
     const snipElement = document.createElement("li");
     const tags = snip.tags || [];
     const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
-    snipElement.id = `snip-${snip.id}}`;
+    snipElement.id = `snip - ${snip.id}} `;
     snipElement.style.position = "absolute";
     snipElement.style.top = "0px";
-    snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}%`;
-    snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}%`;
+    snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}% `;
+    snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}% `;
     snipElement.style.height = "100%";
     snipElement.style.backgroundColor = firstTag?.color || "yellow";
     snipElement.style.zIndex = "1000";

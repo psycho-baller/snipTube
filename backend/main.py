@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 import requests
 import os
 from youtube_transcript_api import YouTubeTranscriptApi
@@ -22,6 +24,19 @@ class StudentData(TypedDict):
 
 headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
 app = FastAPI()
+# CORS configuration
+origins = [
+    "https://www.youtube.com",
+    "chrome-extension://dneafihlnpeeamgniakaihmljijohlob",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
 
 def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
@@ -46,7 +61,6 @@ async def summary(video_id: str, start_time: int = None, end_time: int = None):
     transcript: list[StudentData] = YouTubeTranscriptApi.get_transcript(video_id)
     if start_time and end_time: # format 2
         # handle edge cases
-        # if start_time is after the last line, return empty string with error message
         if start_time > int(transcript[-1]["start"]) + int(transcript[-1]["duration"]) or start_time < 0:
             return "Error: start_time is out of range"
         elif end_time < int(transcript[0]["start"]) or end_time > int(transcript[-1]["start"]) + int(transcript[-1]["duration"]):
@@ -78,4 +92,6 @@ async def summary(video_id: str, start_time: int = None, end_time: int = None):
     print(texts)
 
     summary = chain.run(texts)
-    return summary
+    
+    print(summary)
+    return {"summary": summary}
