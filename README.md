@@ -82,3 +82,4 @@ Load `dist` directory
 * [ ] add a way users can change the name of the snip
   * [ ] before submitting the snip
   * [ ] after submitting the snip (in the popup)
+* [ ] Try out [plasmo](https://www.plasmo.com/)

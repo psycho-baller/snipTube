@@ -30,19 +30,18 @@ const CurrentSnips: React.FC<Props> = ({ snips }) => {
       <FilterAndSort tags={tags} />
       <ul className="w-full">
         {snips.map((snip: Snip, i): JSX.Element => (
-          <li key={i} className="flex flex-row w-full mb-4 border border-gray-300 rounded-md">
+          <li key={i} className="flex flex-row w-full mb-4 rounded-md bg-slate-800">
             <div className="flex flex-col justify-start w-full p-3">
               <div className="font-bold">{snip.title}</div>
               <div className="flex flex-row justify-between">
-                <div className="text-gray-500">{Math.floor(snip.startTimestamp / 60)}:{String(Math.round(snip.startTimestamp) % 60).padStart(2, "0")}</div>
-                <div className="text-gray-500">{Math.floor(snip.endTimestamp / 60)}:{String(Math.round(snip.endTimestamp) % 60).padStart(2, "0")}</div>
+                <div className="text-gray-400">{Math.floor(snip.startTimestamp / 60)}:{String(Math.round(snip.startTimestamp) % 60).padStart(2, "0")}</div>
+                <div className="text-gray-400">{Math.floor(snip.endTimestamp / 60)}:{String(Math.round(snip.endTimestamp) % 60).padStart(2, "0")}</div>
               </div>
             </div>
             {/* <div className="mt-2">{snip?.notes ?? ""}</div> */}
           </li>
         ))}
       </ul>
-
     </>);
 };
 
