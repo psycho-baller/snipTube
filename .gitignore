@@ -1,9 +1,40 @@
-npm-debug.log
-node_modules/
-dist/
-tmp/
-# .vscode
-.venv
-__pycache__
-*.py[cod]
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+#cache
+.turbo
+
+# misc
 .DS_Store
+__pycache__
+*.pem
+.vscode
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*
+.venv
+out/
+build/
+dist/
+
+# plasmo - https://www.plasmo.com
+.plasmo
+
+# bpp - http://bpp.browser.market/
+keys.json
+
+# typescript
+.tsbuildinfo
