@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import type { Snip, Tag } from "~types";
 import Tabs from "~components/Tabs";
 import AllSnips from "~components/AllSnips";
+import "~style.css"
 
 interface Props { }
 
@@ -41,13 +42,12 @@ const Popup: FC<Props> = () => {
       } else {
         setInYoutube(false);
       }
-      // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      //   setCurrentURL(tabs[0].url);
-      // });
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        setCurrentURL(tabs[0].url);
+      });
     }
-    )
-  }
-    , []);
+    );
+  }, []);
 
   const changeBackground = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {

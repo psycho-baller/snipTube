@@ -1,27 +1,3 @@
-import cssText from "data-text:~style.css"
-import type { PlasmoCSConfig } from "plasmo"
-import "~base.css"
-
-export const config: PlasmoCSConfig = {
-  matches: ["https://www.plasmo.com/*"]
-}
-
-export const getStyle = () => {
-  const style = document.createElement("style")
-  style.textContent = cssText
-  return style
-}
-
-const PlasmoOverlay = () => {
-  return (
-    <div className="fixed z-50 flex top-32 right-8">
-      balls in ma face
-    </div>
-  )
-}
-
-export default PlasmoOverlay
-
 import type { Snip } from "./types";
 
 let currentVideo = "";
@@ -83,13 +59,8 @@ async function fetchSnips(): Promise<Snip[]> {
 async function addNewSnipEventHandler(this: HTMLButtonElement) {
   const date = new Date();
   const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
-  console.log("currentTime", currentTime);
   const startTime = currentTime - defaultSnipLength;
-  const summary: string = await fetch(`http://127.0.0.1:8000/summary/${currentVideo}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => data.summary)
+  const summary: string = "No summary available";
   const videoTitle = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0]?.textContent as string;
   const newSnip: Snip = {
     vidTitle: videoTitle as string,
