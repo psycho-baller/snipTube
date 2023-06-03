@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "description": "Save the most important parts of a YouTube video with built-in AI for summarization",
   "author": "Rami",
+  "license": "MIT",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",

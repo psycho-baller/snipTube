@@ -12,7 +12,7 @@ from langchain.llms import OpenAI
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 
-FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
+# FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
 OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 API_URL = "http://localhost:3000/api/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
 
@@ -22,7 +22,7 @@ class StudentData(TypedDict):
     start: float
     duration: float
 
-headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
+# headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
 app = FastAPI()
 # CORS configuration
 origins = [
@@ -38,15 +38,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    return response.json()
+# def query(payload):
+#     response = requests.post(API_URL, headers=headers, json=payload)
+#     return response.json()
 
-@app.get("/")
-async def root():
-    return query({
-    "question": "USA",
-})
+# @app.get("/")
+# async def root():
+#     return query({
+#     "question": "USA",
+# })
 
 """
 given a youtube video_id, return the video's summary. There are 2 different formats for the summary:
