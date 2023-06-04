@@ -1,5 +1,7 @@
+import textwrap
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from langchain import PromptTemplate
 
 import requests
 import os
@@ -8,14 +10,21 @@ from typing import TypedDict
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import YoutubeLoader
-from langchain.llms import OpenAI
+from langchain.llms import GPT4All
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
+
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import transformers
+import torch
+
 
 # FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
 OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 API_URL = "http://localhost:3000/api/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
-
+    
+API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
+headers = {"Authorization": "Bearer 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"}
 
 class StudentData(TypedDict):
     text: str
@@ -48,16 +57,11 @@ app.add_middleware(
 #     "question": "USA",
 # })
 
-"""
-given a youtube video_id, return the video's summary. There are 2 different formats for the summary:
-1. just the text of the whole summary
-2. summary of specific time intervals, with that, we need to pass the start and end time of the interval
-"""
-@app.get("/summary/{video_id}")
-async def summary(video_id: str, start_time: int = None, end_time: int = None):
-    # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
-    # transcript = loader.load()
-        
+def query(payload):
+	response = requests.post(API_URL, headers=headers, json=payload)
+	return response.json()
+
+def getText(video_id: str, start_time: int = None, end_time: int = None):
     transcript: list[StudentData] = YouTubeTranscriptApi.get_transcript(video_id)
     if start_time and end_time: # format 2
         # handle edge cases
@@ -81,6 +85,20 @@ async def summary(video_id: str, start_time: int = None, end_time: int = None):
                 break
     else: # format 1
         text = [line["text"].replace("\n", "") for line in transcript]
+    
+    return text
+
+"""
+given a youtube video_id, return the video's summary. There are 2 different formats for the summary:
+1. just the text of the whole summary
+2. summary of specific time intervals, with that, we need to pass the start and end time of the interval
+"""
+@app.get("/summary_openAI/{video_id}")
+async def summary_openAI(video_id: str, start_time: int = None, end_time: int = None):
+    # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
+    # transcript = loader.load()
+        
+    text = getText(video_id, start_time, end_time)
             
     llm = OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY)
     chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=False)
@@ -95,3 +113,51 @@ async def summary(video_id: str, start_time: int = None, end_time: int = None):
     
     print(summary)
     return {"summary": summary}
+
+@app.get("/summary/{video_id}")
+async def summary(video_id: str, start_time: int = None, end_time: int = None):
+    # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
+    # transcript = loader.load()
+        
+    text = getText(video_id, start_time, end_time)
+    
+    # set up model
+    model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
+    llm = GPT4All(model=model_path, verbose=True)
+    
+    # set up prompt
+    prompt_template = """Write a concise title that summarizes this text in 1-2 sentences.
+{text}
+
+CONCISE SUMMARIZED TITLE FROM TEXT:"""
+    BULLET_POINT_PROMPT = PromptTemplate(template=prompt_template,
+                        input_variables=["text"])
+
+    chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=BULLET_POINT_PROMPT)
+    # text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+
+    # langchain bug temp fix to make .run() work
+    # texts = text_splitter.split_documents([Document(page_content=text, metadata={"video_id": video_id})])
+    print(text)
+
+    summary = chain.run([Document(page_content=text, metadata={"video_id": video_id})])
+    
+    wrapped_summary = textwrap.fill(summary, width=100)
+    
+    print(summary)
+    return {"summary": wrapped_summary}
+
+"""
+same as summary, but using HuggingFace
+"""
+@app.get("/summary_HG/{video_id}")
+async def summary_HG(video_id: str, start_time: int = None, end_time: int = None):
+    
+    # text = getText(video_id, start_time, end_time)
+	
+    output = query({
+	"inputs": "Can you please let us know more details about your ",
+    })
+    
+    return {"summary": output}
+    
