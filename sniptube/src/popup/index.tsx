@@ -1,9 +1,9 @@
-import { useEffect, useState, type FC } from "react";
+import React, { useEffect, useState, type FC } from "react";
 import { createRoot } from "react-dom/client";
 import type { Snip, Tag } from "~types";
-import Tabs from "~components/Tabs";
-import AllSnips from "~components/AllSnips";
-import "~style.css"
+import Tabs from "./Tabs";
+import AllSnips from "./AllSnips";
+import "~styles/tailwind.css"
 
 interface Props { }
 

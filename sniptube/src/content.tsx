@@ -1,4 +1,10 @@
 import type { Snip } from "./types";
+import type { PlasmoCSConfig } from "plasmo"
+
+export const config: PlasmoCSConfig = {
+  matches: ["https://*.youtube.com/*"],
+  run_at: "document_end",
+}
 
 let currentVideo = "";
 let currentVideoSnips = [] as Snip[];
@@ -60,11 +66,12 @@ async function addNewSnipEventHandler(this: HTMLButtonElement) {
   const date = new Date();
   const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
   const startTime = currentTime - defaultSnipLength;
-  const summary: string = await fetch(`http://127.0.0.1:8000/summary/${currentVideo}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => data.summary)
+  const summary: string = "hello world"
+  //await fetch(`http://127.0.0.1:8000/summary/${currentVideo}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
+  //   method: "GET",
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => data.summary)
   const videoTitle = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0]?.textContent as string;
   const newSnip: Snip = {
     vidTitle: videoTitle as string,

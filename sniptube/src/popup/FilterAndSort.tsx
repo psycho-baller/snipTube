@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Tag } from '../types';
+import { type FC } from 'react';
+import { type Tag } from '../types';
 import Dropdown from './Dropdown';
 
 interface Props {

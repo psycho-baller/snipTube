@@ -2,7 +2,9 @@
 
 ## Development
 
-run `uvicorn main:app --reload` to start the server
+To run the browser extension, run `yarn dev` in the sniptube folder (`cd sniptube`)
+
+To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd backend`)
 
 ## TODO
 
@@ -18,3 +20,5 @@ run `uvicorn main:app --reload` to start the server
   * [ ] after submitting the snip (in the popup)
 * [X] Try out [plasmo](https://www.plasmo.com/)
 * [ ] Investigate different OSS LLMs to see which one is the best for this project
+* [ ] The snip summary now has context to the whole video instead of just the snip
+
