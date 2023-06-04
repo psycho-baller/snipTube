@@ -68,11 +68,11 @@ def getText(video_id: str, start_time: int = None, end_time: int = None):
         if start_time > int(transcript[-1]["start"]) + int(transcript[-1]["duration"]) or start_time < 0:
             return "Error: start_time is out of range"
         elif end_time < int(transcript[0]["start"]) or end_time > int(transcript[-1]["start"]) + int(transcript[-1]["duration"]):
-            return "Error: end_time is out of range"
+            return {"type": "error", "text": "Error: end_time is out of range"}
         elif start_time > end_time:
-            return "Error: start_time is after end_time"
+            return {"type": "error", "text": "Error: start_time is greater than end_time"}
         elif start_time == end_time:
-            return "Error: start_time is equal to end_time"
+            return {"type": "error", "text": "Error: start_time is equal to end_time"}
             
         text = ""
         for line in transcript:
@@ -80,13 +80,12 @@ def getText(video_id: str, start_time: int = None, end_time: int = None):
             to_time = from_time + int(line["duration"])
             # if interval touches the line
             if (start_time <= from_time and end_time >= from_time) or (start_time <= to_time and end_time >= to_time):
-                text += line["text"].replace("\n", "")
+                text += line["text"].replace("\n", " ")
             elif to_time > end_time: # if interval is after the line
-                break
+                return {"type": "snip", "text": text}
     else: # format 1
-        text = [line["text"].replace("\n", "") for line in transcript]
-    
-    return text
+        text = " ".join([line["text"].replace("\n", " ") for line in transcript])
+        return {"type": "full", "text": text}
 
 """
 given a youtube video_id, return the video's summary. There are 2 different formats for the summary:
@@ -118,29 +117,38 @@ async def summary_openAI(video_id: str, start_time: int = None, end_time: int = 
 async def summary(video_id: str, start_time: int = None, end_time: int = None):
     # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
     # transcript = loader.load()
-        
-    text = getText(video_id, start_time, end_time)
-    
+
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
     llm = GPT4All(model=model_path, verbose=True)
+
+    res = getText(video_id, start_time, end_time)
     
-    # set up prompt
-    prompt_template = """Write a concise title that summarizes this text in 1-2 sentences.
+    # handle different types of responses
+    if res["type"] == "error":
+        return res["text"]
+    elif res["type"] == "snip": # format 2
+        text = res["text"]
+        prompt_template = """Write a concise title that summarizes this text in 1-2 sentences.
 {text}
 
 CONCISE SUMMARIZED TITLE FROM TEXT:"""
-    BULLET_POINT_PROMPT = PromptTemplate(template=prompt_template,
+
+        BULLET_POINT_PROMPT = PromptTemplate(template=prompt_template,
                         input_variables=["text"])
+        chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=BULLET_POINT_PROMPT)
+        text_document = [Document(page_content=text, metadata={"video_id": video_id})]
 
-    chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=BULLET_POINT_PROMPT)
-    # text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+    elif res["type"] == "full": # format 1
+        text = res["text"]
+        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+        text_document = text_splitter.split_documents([Document(page_content=text, metadata={"video_id": video_id})])
+        
 
-    # langchain bug temp fix to make .run() work
-    # texts = text_splitter.split_documents([Document(page_content=text, metadata={"video_id": video_id})])
-    print(text)
+    print(text_document)
 
-    summary = chain.run([Document(page_content=text, metadata={"video_id": video_id})])
+    summary = chain.run(text_document)
     
     wrapped_summary = textwrap.fill(summary, width=100)
     

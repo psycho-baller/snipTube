@@ -16,3 +16,4 @@ run `uvicorn main:app --reload` to start the server
   * [ ] before submitting the snip
   * [ ] after submitting the snip (in the popup)
 * [X] Try out [plasmo](https://www.plasmo.com/)
+* [ ] Investigate different OSS LLMs to see which one is the best for this project

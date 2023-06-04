@@ -38,3 +38,9 @@ keys.json
 
 # typescript
 .tsbuildinfo
+
+# LLM binaries
+*.bin
+
+# Others
+scratch.py
