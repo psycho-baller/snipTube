@@ -10,7 +10,7 @@ from typing import TypedDict
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import YoutubeLoader
-from langchain.llms import GPT4All
+from langchain.llms import GPT4All, Cohere
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 
@@ -21,10 +21,12 @@ import torch
 
 # FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
 OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
+COHERE_API_KEY: str = os.getenv("COHERE_API_KEY")
+HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
 API_URL = "http://localhost:3000/api/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
     
 API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
-headers = {"Authorization": "Bearer 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"}
+headers = {"Authorization": "Bearer " + HUGGINGFACE_API_KEY}
 
 class StudentData(TypedDict):
     text: str
@@ -85,7 +87,7 @@ def getText(video_id: str, start_time: int = None, end_time: int = None):
                 return {"type": "snip", "text": text}
     else: # format 1
         text = " ".join([line["text"].replace("\n", " ") for line in transcript])
-        return {"type": "full", "text": text}
+    return {"type": "full", "text": text}
 
 """
 given a youtube video_id, return the video's summary. There are 2 different formats for the summary:
@@ -121,6 +123,7 @@ async def summary(video_id: str, start_time: int = None, end_time: int = None):
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
     llm = GPT4All(model=model_path, verbose=True)
+    # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
 
     res = getText(video_id, start_time, end_time)
     
@@ -129,7 +132,7 @@ async def summary(video_id: str, start_time: int = None, end_time: int = None):
         return res["text"]
     elif res["type"] == "snip": # format 2
         text = res["text"]
-        prompt_template = """Write a concise title that summarizes this text in 1-2 sentences.
+        prompt_template = """Write a concise title that summarizes this text in 1-2 sentences:
 {text}
 
 CONCISE SUMMARIZED TITLE FROM TEXT:"""

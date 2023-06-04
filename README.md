@@ -3,6 +3,7 @@
 ## Development
 
 run `uvicorn main:app --reload` to start the server
+
 ## TODO
 
 * [X] add sass and style the snips
