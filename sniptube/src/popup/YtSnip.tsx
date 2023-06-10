@@ -4,10 +4,11 @@ import type { Snip, Tag } from '~types';
 import "~styles/play-pause-btn.css";
 interface Props {
   snip: Snip;
+  index: number;
 }
 
 const YtSnip: FC<Props> = (props) => {
-  const { snip } = props;
+  const { snip, index } = props;
 
   const [state, setState] = useState<'pause' | 'play'>('pause')
 
@@ -15,14 +16,13 @@ const YtSnip: FC<Props> = (props) => {
     e.preventDefault();
 
     // animate the play button
-    var animateElement = document.getElementById('from_pause_to_play') as unknown as SVGAnimateElement;
     if (state === 'pause') {
       setState('play');
-      document.getElementById('circle').className = 'play';
+      var animateElement = document.getElementById('from_pause_to_play_' + index) as unknown as SVGAnimateElement;
       animateElement.beginElement();
     } else {
       setState('pause');
-      document.getElementById('circle').className = '';
+      var animateElement = document.getElementById('from_play_to_pause_' + index) as unknown as SVGAnimateElement;
       animateElement.beginElement();
     }
 
@@ -61,11 +61,11 @@ const YtSnip: FC<Props> = (props) => {
             <div className="">{Math.floor(snip.startTimestamp / 60)}:{String(Math.round(snip.startTimestamp) % 60).padStart(2, "0")}</div>
             {/* <div className="mx-1">-</div> */}
             {/* play button */}
-            <button className="p-2 mx-1 rounded-full" onClick={handlePlayBtnClick} id='pause' >
-              <svg width="104" height="104">
-                <circle id="circle" cx="51" cy="51" r="50" stroke-dasharray="314" stroke-dashoffset="0" />
+            <button className="p-2 mx-1 transform rounded-full scale-7" onClick={handlePlayBtnClick} id='pause'  >
+              <svg width="104" height="104" id={index.toString()} viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle id="circle" className={`${state === 'play' ? 'play' : ''}`} cx="51" cy="51" r="50" stroke-dasharray="314" stroke-dashoffset="0" />
                 <line id='line1' x1="38" y1="30" x2="38" y2="70" />
-                <path id='line2' d="M 66 30 L 66 50 L 66 70" rx="10" ry="10">
+                <path id={`line2_${index}`} d="M 66 30 L 66 50 L 66 70" rx="10" ry="10">
                   <animate
                     attributeName="d"
                     dur="300ms"
@@ -73,17 +73,17 @@ const YtSnip: FC<Props> = (props) => {
                     to="M 38 30 L 70 50 L 38 70"
                     begin="indefinite"
                     fill="freeze"
-                    id="from_pause_to_play"
+                    id={`from_pause_to_play_${index}`}
                   />
                 </path>
                 <animate
-                  xlinkHref="#line2"
+                  xlinkHref={`#line2_${index}`}
                   attributeName="d"
                   dur="300ms"
                   from="M 38 30 L 70 50 L 38 70"
                   to="M 66 30 L 66 50 L 66 70"
                   fill="freeze"
-                  id="from_play_to_pause"
+                  id={`from_play_to_pause_${index}`}
                   begin="indefinite"
                 />
               </svg>

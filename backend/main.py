@@ -122,7 +122,7 @@ async def summary(video_id: str, start_time: int = None, end_time: int = None):
 
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
-    llm = GPT4All(model=model_path, verbose=True)
+    llm = GPT4All(model=model_path)
     # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
 
     res = getText(video_id, start_time, end_time)
@@ -139,12 +139,12 @@ CONCISE SUMMARIZED TITLE FROM TEXT:"""
 
         BULLET_POINT_PROMPT = PromptTemplate(template=prompt_template,
                         input_variables=["text"])
-        chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=BULLET_POINT_PROMPT)
+        chain = load_summarize_chain(llm, chain_type="stuff", verbose=False, prompt=BULLET_POINT_PROMPT)
         text_document = [Document(page_content=text, metadata={"video_id": video_id})]
 
     elif res["type"] == "full": # format 1
         text = res["text"]
-        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True)
+        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=False)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
         text_document = text_splitter.split_documents([Document(page_content=text, metadata={"video_id": video_id})])
         

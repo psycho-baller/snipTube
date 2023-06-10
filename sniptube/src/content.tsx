@@ -62,7 +62,7 @@ async function fetchSnips(): Promise<Snip[]> {
   });
 }
 
-async function addNewSnipEventHandler(this: HTMLButtonElement) {
+async function addNewSnipEventHandler() {
   const date = new Date();
   const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
   const startTime = currentTime - defaultSnipLength;
