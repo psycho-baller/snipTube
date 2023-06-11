@@ -56,12 +56,6 @@ const YtSnip: FC<Props> = (props) => {
     // const newSnips = snips.filter((s: Snip) => s.id !== snip.id) as Snip[];
     // setSnips(newSnips);
     removeSnip(snip.id);
-
-
-
-
-
-
     // chrome.storage.sync.get([vidID], (result) => {
     //   const snips = JSON.parse(result[vidID]);
     //   const newSnips = snips.filter((s: Snip) => s.id !== snip.id) as Snip[];

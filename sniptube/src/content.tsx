@@ -1,7 +1,7 @@
 import { useSnipsStore } from "~utils/store";
 import type { Snip } from "./utils/types";
 import type { PlasmoCSConfig } from "plasmo"
-import { getSnips, setSnips } from "~utils/storage";
+import { getSnips, getVideoId, setSnips } from "~utils/storage";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/*"],
@@ -60,27 +60,6 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 };
 
-// async function getSnips(): Promise<Snip[]> {
-//   console.log("fetching snips", videoId);
-//   console.log("videoId", useSnipsStore.getState().videoId);
-
-//   // clear storage
-//   // chrome.storage.sync.clear();
-//   // console.log("cleared storage");
-
-//   // return new Promise((resolve) => {
-//   //   chrome.storage.sync.get([videoId], (obj) => {
-//   //     console.log("obj", obj);
-//   //     if (!obj[videoId]) {
-//   //       chrome.storage.sync.set({ [videoId]: JSON.stringify([]) });
-//   //       resolve([]);
-//   //     }
-//   //     console.log(obj[videoId] ? (obj[videoId]) : []);
-//   //     resolve(obj[videoId].length > 0 ? JSON.parse(obj[videoId]) : []);
-//   //   });
-//   // });
-// }
-
 async function addNewSnipEventHandler() {
   const date = new Date();
   const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
@@ -99,79 +78,78 @@ async function addNewSnipEventHandler() {
     tags: [{ "name": "tag1" }, { "name": "tag2" }],
     startTimestamp: startTime,
     endTimestamp: currentTime,
-    id: videoId + (date.getTime()).toString(),
+    // join the video id with the current time to make a unique id
+    id: `${videoId}-${currentTime}`,
     videoId: videoId,
     createdAt: date.getTime(),
     updatedAt: date.getTime(),
   }
-
-  videoIdSnips = await getSnips();
   // chrome.storage.sync.set({
   //   [videoId]: JSON.stringify([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
   // });
-  await setSnips([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
-  await updateVideoSnips();
+  getSnips().then((snips) => setSnips([...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp)).then(() => updateVideoSnips()));
 }
 
 async function updateVideoSnips() {
   // console.log("videoId", videoId);
 
-  videoIdSnips = await getSnips() as Snip[];
+  // videoIdSnips = await getSnips() as Snip[];
   previewBar = document.getElementById("snip-preview-bar") as HTMLUListElement | null;
   previewBar?.remove();
   previewBar = document.createElement("ul") as HTMLUListElement;
-  if (videoIdSnips.length > 0) {
-    youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
-    previewBar.id = "snip-preview-bar";
-    previewBar.style.position = "absolute";
-    previewBar.style.top = "0px";
-    previewBar.style.left = "0px";
-    previewBar.style.width = "100%";
-    previewBar.style.height = "100%";
-    previewBar.style.zIndex = "1000";
-    previewBar.style.transform = "scaleY(0.6)";
-    previewBar.style.pointerEvents = "none";
-    previewBar.style.display = "flex";
-    previewBar.style.flexDirection = "row";
-    previewBar.style.justifyContent = "flex-start";
-    previewBar.style.alignItems = "flex-start";
-    previewBar.style.overflow = "hidden";
-    previewBar.style.padding = "0px";
-    previewBar.style.margin = "0px";
-    previewBar.style.listStyle = "none";
-    previewBar.style.backgroundColor = "transparent";
-    previewBar.style.border = "none";
-    previewBar.style.outline = "none";
-    previewBar.style.cursor = "pointer";
+  youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
+  previewBar.id = "snip-preview-bar";
+  previewBar.style.position = "absolute";
+  previewBar.style.top = "0px";
+  previewBar.style.left = "0px";
+  previewBar.style.width = "100%";
+  previewBar.style.height = "100%";
+  previewBar.style.zIndex = "1000";
+  previewBar.style.transform = "scaleY(0.6)";
+  previewBar.style.pointerEvents = "none";
+  previewBar.style.display = "flex";
+  previewBar.style.flexDirection = "row";
+  previewBar.style.justifyContent = "flex-start";
+  previewBar.style.alignItems = "flex-start";
+  previewBar.style.overflow = "hidden";
+  previewBar.style.padding = "0px";
+  previewBar.style.margin = "0px";
+  previewBar.style.listStyle = "none";
+  previewBar.style.backgroundColor = "transparent";
+  previewBar.style.border = "none";
+  previewBar.style.outline = "none";
+  previewBar.style.cursor = "pointer";
 
-    // add it to the progress bar
-    const progressBar = document.getElementsByClassName("ytp-progress-bar")[0];
-    progressBar.appendChild(previewBar);
-  }
+  // add it to the progress bar
+  const progressBar = document.getElementsByClassName("ytp-progress-bar")[0];
+  progressBar.appendChild(previewBar);
 
-  videoIdSnips.forEach((snip) => {
-    // if the snip is already on the video, don't add it again
-    // if (document.getElementById(`snip - ${ snip.id }`)) {
-    //   return;
-    // }
-    const snipElement = document.createElement("li");
-    const tags = snip.tags || [];
-    const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
-    snipElement.id = `snip - ${snip.id}} `;
-    snipElement.style.position = "absolute";
-    snipElement.style.top = "0px";
-    snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}% `;
-    snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}% `;
-    snipElement.style.height = "100%";
-    snipElement.style.backgroundColor = firstTag?.color || "yellow";
-    snipElement.style.zIndex = "1000";
-    snipElement.style.cursor = "pointer";
-    snipElement.title = "Click to jump to this snip";
 
-    snipElement.addEventListener("click", () => {
-      youtubePlayer.currentTime = snip.startTimestamp;
+  getSnips().then((snips) => {
+    snips.forEach((snip) => {
+      // if the snip is already on the video, don't add it again
+      // if (document.getElementById(`snip - ${ snip.id }`)) {
+      //   return;
+      // }
+      const snipElement = document.createElement("li");
+      const tags = snip.tags || [];
+      const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
+      snipElement.id = `snip - ${snip.id}} `;
+      snipElement.style.position = "absolute";
+      snipElement.style.top = "0px";
+      snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}% `;
+      snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}% `;
+      snipElement.style.height = "100%";
+      snipElement.style.backgroundColor = firstTag?.color || "yellow";
+      snipElement.style.zIndex = "1000";
+      snipElement.style.cursor = "pointer";
+      snipElement.title = "Click to jump to this snip";
+
+      // snipElement.addEventListener("click", () => {
+      //   youtubePlayer.currentTime = snip.startTimestamp;
+      // });
+      previewBar?.appendChild(snipElement);
     });
-    previewBar?.appendChild(snipElement);
   });
   // if
 

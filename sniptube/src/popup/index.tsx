@@ -5,14 +5,14 @@ import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
 import "~styles/tailwind.css"
 import { useAllSnipsStore, useSnipsStore } from "~utils/store";
-import { getSnips } from "~utils/storage";
+import { getAllSnips, getSnips } from "~utils/storage";
 
 interface Props { }
 
 const Popup: FC<Props> = () => {
   const [count, setCount] = useState<number>(0);
   const [inYoutube, setInYoutube] = useState<boolean>(false);
-  const [currentURL, setCurrentURL] = useState<string>();
+  // const [currentURL, setCurrentURL] = useState<string>();
   const currentVideoSnips: Snip[] = useSnipsStore((state) => state.snips);
   const setCurrentVideoSnips = useSnipsStore((state) => state.setSnips);
   const allVideoSnips: Snip[] = useAllSnipsStore((state) => state.snips);
@@ -33,7 +33,7 @@ const Popup: FC<Props> = () => {
       const currentVideo = urlParameters.get("v");
 
       // get all the snips
-      getSnips().then((allSnips) => setAllVideoSnips(allSnips));
+      getAllSnips().then((allSnips) => setAllVideoSnips(allSnips));
 
       if (url.includes("youtube.com/watch") && currentVideo) {
         setInYoutube(true);
@@ -43,9 +43,6 @@ const Popup: FC<Props> = () => {
       } else {
         setInYoutube(false);
       }
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        setCurrentURL(tabs[0].url);
-      });
     });
   }, []);
 

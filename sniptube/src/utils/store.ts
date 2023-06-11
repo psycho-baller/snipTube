@@ -35,7 +35,7 @@ export const useSnipsStore = create<State & Actions>((set) => ({
 export const useAllSnipsStore = create<State & Actions>((set) => ({
   snips: [],
   removeSnip: (snipId) => set((state) => {
-    const vidId = state.snips.find((s: Snip) => s.id === snipId)?.videoId;
+    const vidId = snipId.split("-")[0];
     const snips = state.snips.filter((s: Snip) => s.id !== snipId) as Snip[];
     setSnips(snips, vidId);
     return { snips };
