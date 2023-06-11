@@ -1,4 +1,4 @@
-import { useSnipsStore } from "~utils/stores";
+import { useSnipsStore } from "~utils/store";
 import type { Snip } from "./utils/types";
 import type { PlasmoCSConfig } from "plasmo"
 import { getSnips, setSnips } from "~utils/storage";

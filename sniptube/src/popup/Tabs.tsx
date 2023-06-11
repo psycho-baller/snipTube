@@ -3,7 +3,7 @@ import type { Snip } from '../utils/types';
 import React from 'react';
 import AllSnips from './AllSnips';
 import CurrentSnips from './CurrentSnips';
-import { useSnipsStore } from '~utils/stores';
+import { useSnipsStore } from '~utils/store';
 
 interface Props {
 }

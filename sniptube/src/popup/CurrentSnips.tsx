@@ -2,7 +2,7 @@ import { useMemo, type FC } from "react";
 import type { Snip, Tag } from "~utils/types";
 import FilterAndSort from "./FilterAndSort";
 import YtSnip from "./YtSnip";
-import { useSnipsStore } from "~utils/stores";
+import { useSnipsStore } from "~utils/store";
 
 interface Props {
 }

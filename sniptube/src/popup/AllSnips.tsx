@@ -1,6 +1,6 @@
 import React from "react";
 import type { Snip } from "../utils/types";
-import { useAllSnipsStore } from "~utils/stores";
+import { useAllSnipsStore } from "~utils/store";
 
 interface Props {
 }

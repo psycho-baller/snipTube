@@ -4,7 +4,7 @@ import type { Snip, Tag } from "~utils/types";
 import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
 import "~styles/tailwind.css"
-import { useAllSnipsStore, useSnipsStore } from "~utils/stores";
+import { useAllSnipsStore, useSnipsStore } from "~utils/store";
 import { getSnips } from "~utils/storage";
 
 interface Props { }
@@ -17,8 +17,6 @@ const Popup: FC<Props> = () => {
   const setCurrentVideoSnips = useSnipsStore((state) => state.setSnips);
   const allVideoSnips: Snip[] = useAllSnipsStore((state) => state.snips);
   const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
-  const setVideoId = useSnipsStore((state) => state.setVideoId);
-  const videoId = useSnipsStore((state) => state.videoId);
   useEffect(() => {
     chrome.action.setBadgeText({ text: count.toString() });
   }, [count]);
@@ -33,23 +31,15 @@ const Popup: FC<Props> = () => {
       const queryParameters = url.split("?")[1];
       const urlParameters = new URLSearchParams(queryParameters);
       const currentVideo = urlParameters.get("v");
-      console.log("current video", currentVideo, videoId);
-      // setVideoId(currentVideo);
-      console.log("video id", videoId);
 
       // get all the snips
-      // chrome.storage.sync.get(null, (obj) => {
-      // const allSnips = Object.values(obj).flat();
-      // setAllVideoSnips(allSnips);
-      // });
+      getSnips().then((allSnips) => setAllVideoSnips(allSnips));
+
       if (url.includes("youtube.com/watch") && currentVideo) {
         setInYoutube(true);
 
         // get the snips for the current video
-        getSnips().then((snips) => {
-          console.log("snips", snips);
-          setCurrentVideoSnips(snips);
-        });
+        getSnips().then((snips) => setCurrentVideoSnips(snips));
       } else {
         setInYoutube(false);
       }

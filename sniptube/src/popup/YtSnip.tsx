@@ -2,7 +2,7 @@
 import { useState, type FC, type MouseEvent } from 'react';
 import type { Snip, Tag } from '~utils/types';
 import "~styles/play-pause-btn.css";
-import { useSnipsStore } from '~utils/stores';
+import { useSnipsStore } from '~utils/store';
 interface Props {
   snip: Snip;
   index: number;
