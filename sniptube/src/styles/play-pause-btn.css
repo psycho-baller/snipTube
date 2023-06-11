@@ -21,6 +21,6 @@ svg #line1 {
   stroke-width:4px;stroke:white;stroke-linecap: round;
 }
 
-svg #line2 {
+svg .line2 {
   stroke-width:4px;stroke:white;fill:white;stroke-linejoin: round;stroke-linecap: round;
 }

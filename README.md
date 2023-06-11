@@ -14,8 +14,8 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
 * [ ] style the tags in the popup and put them in tab 2 too
 * [ ] make the tags clickable in the popup and make them filter the snips
 * [ ] add notes and play button for both tabs
-* [ ] add a delete button for the snips
-* [ ] add a way users can change the name of the snip
+* [X] add a delete button for the snips
+* [ ] add a way users can change the name (AI generated title) of the snip
   * [ ] before submitting the snip
   * [ ] after submitting the snip (in the popup)
 * [X] Try out [plasmo](https://www.plasmo.com/)

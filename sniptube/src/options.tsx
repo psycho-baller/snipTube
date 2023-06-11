@@ -21,23 +21,23 @@ const Options = () => {
     );
   }, []);
 
-  const saveOptions = () => {
-    // Saves options to chrome.storage.sync.
-    chrome.storage.sync.set(
-      {
-        favoriteColor: color,
-        likesColor: like,
-      },
-      () => {
-        // Update status to let user know options were saved.
-        setStatus("Options saved.");
-        const id = setTimeout(() => {
-          setStatus("");
-        }, 1000);
-        return () => clearTimeout(id);
-      }
-    );
-  };
+  // const saveOptions = () => {
+  //   // Saves options to chrome.storage.sync.
+  //   chrome.storage.sync.set(
+  //     {
+  //       favoriteColor: color,
+  //       likesColor: like,
+  //     },
+  //     () => {
+  //       // Update status to let user know options were saved.
+  //       setStatus("Options saved.");
+  //       const id = setTimeout(() => {
+  //         setStatus("");
+  //       }, 1000);
+  //       return () => clearTimeout(id);
+  //     }
+  //   );
+  // };
 
   return (
     <>
@@ -63,7 +63,7 @@ const Options = () => {
         </label>
       </div>
       <div>{status}</div>
-      <button onClick={saveOptions}>Save</button>
+      {/* <button onClick={saveOptions}>Save</button> */}
     </>
   );
 };

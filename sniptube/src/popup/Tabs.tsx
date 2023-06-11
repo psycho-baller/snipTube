@@ -1,22 +1,17 @@
 import { type FC, Fragment, useState } from 'react';
-import type { Snip } from '../types';
+import type { Snip } from '../utils/types';
 import React from 'react';
 import AllSnips from './AllSnips';
 import CurrentSnips from './CurrentSnips';
+import { useSnipsStore } from '~utils/stores';
 
 interface Props {
-  currentVideoSnips: Snip[];
-  allVideoSnips: Snip[];
 }
 
-const Tabs: FC<Props> = ({ currentVideoSnips, allVideoSnips }) => {
-  const tabs = [{
-    name: "Current Video Snips",
-    snips: currentVideoSnips
-  }, {
-    name: "All Video Snips",
-    snips: allVideoSnips
-  }] as { name: string, snips: Snip[] }[];
+const Tabs: FC<Props> = (props) => {
+  const { } = props;
+
+  const tabs = ["Current Video Snips", "All Video Snips"];
 
   const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -29,7 +24,7 @@ const Tabs: FC<Props> = ({ currentVideoSnips, allVideoSnips }) => {
             aria-label="tab"
             onClick={() => setActiveTab(index)}
           >
-            <button className="px-4 py-2 mx-2 font-semibold transition-colors duration-200 transform rounded-md focus:outline-none" aria-label="tab">{tab.name}</button>
+            <button className="px-4 py-2 mx-2 font-semibold transition-colors duration-200 transform rounded-md focus:outline-none" aria-label="tab">{tab}</button>
           </li>
         ))}
         <li className="self-end flex-grow border-b"></li>
@@ -38,16 +33,9 @@ const Tabs: FC<Props> = ({ currentVideoSnips, allVideoSnips }) => {
       </ul>
       <div className="w-full px-4">
         {(activeTab === 0) ? (
-          (currentVideoSnips.length > 0) ? (
-            <CurrentSnips snips={currentVideoSnips} />
-          ) : (
-            <div className="flex flex-col items-center justify-center w-full h-96">
-              <h1 className="text-2xl font-semibold">No Snips Found</h1>
-              <p className="text-lg text-center">Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.</p>
-            </div>
-          )
+          <CurrentSnips />
         ) : (
-          <AllSnips snips={allVideoSnips} />
+          <AllSnips />
         )}
       </div>
 

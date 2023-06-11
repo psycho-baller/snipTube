@@ -9,14 +9,14 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from typing import TypedDict
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import YoutubeLoader
+# from langchain.document_loaders import YoutubeLoader
 from langchain.llms import GPT4All, Cohere
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import transformers
-import torch
+# from transformers import AutoTokenizer, AutoModelForCausalLM
+# import transformers
+# import torch
 
 
 # FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
@@ -38,7 +38,7 @@ app = FastAPI()
 # CORS configuration
 origins = [
     "https://www.youtube.com",
-    "chrome-extension://dneafihlnpeeamgniakaihmljijohlob",
+    # "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
 ]
 
 app.add_middleware(

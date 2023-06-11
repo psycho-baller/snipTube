@@ -1,32 +1,39 @@
-import type { Snip } from "./types";
+import { useSnipsStore } from "~utils/stores";
+import type { Snip } from "./utils/types";
 import type { PlasmoCSConfig } from "plasmo"
+import { getSnips, setSnips } from "~utils/storage";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/*"],
   run_at: "document_end",
 }
 
-let currentVideo = "";
-let currentVideoSnips = [] as Snip[];
+let videoId = "";
+let videoIdSnips = [] as Snip[];
 let youtubePlayer: HTMLVideoElement;
-let firstRightButton;
+let firstRightButton: HTMLButtonElement;
 let defaultSnipLength = 20;
-let previewBar: HTMLUListElement | null;
+let previewBar: HTMLUListElement;
 
 
 const newVideoLoaded = async () => {
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
 
   // get the current video id if it doesn't exists
-  if (!currentVideo) {
+  if (!videoId) {
     const url = window.location.href;
     if (!url.includes("youtube.com/watch")) {
       return;
     }
     const queryParameters = url.split("?")[1];
     const urlParameters = new URLSearchParams(queryParameters);
-    currentVideo = urlParameters.get("v") as string;
+    videoId = urlParameters.get("v") as string;
   }
+
+  // useSnipsStore.setState({ videoId });
+  // save to storage the current video id
+  // chrome.storage.sync.clear();
+  chrome.storage.sync.set({ videoId });
 
   // section 1: add a snip button
   if (!snipButtonExists) {
@@ -41,7 +48,7 @@ const newVideoLoaded = async () => {
     snipBtn.style.justifyContent = "center";
 
     // get the first button in the right side of the video
-    firstRightButton = document.getElementsByClassName("ytp-right-controls")[0]?.getElementsByClassName("ytp-button")[0];
+    firstRightButton = document.getElementsByClassName("ytp-right-controls")[0]?.getElementsByClassName("ytp-button")[0] as HTMLButtonElement;
     youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
 
     // add it before the first button
@@ -53,54 +60,67 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 };
 
-async function fetchSnips(): Promise<Snip[]> {
-  // console.log("fetching snips", currentVideo);
-  return new Promise((resolve) => {
-    chrome.storage.sync.get([currentVideo], (obj) => {
-      resolve(obj[currentVideo] ? JSON.parse(obj[currentVideo]) : []);
-    });
-  });
-}
+// async function getSnips(): Promise<Snip[]> {
+//   console.log("fetching snips", videoId);
+//   console.log("videoId", useSnipsStore.getState().videoId);
+
+//   // clear storage
+//   // chrome.storage.sync.clear();
+//   // console.log("cleared storage");
+
+//   // return new Promise((resolve) => {
+//   //   chrome.storage.sync.get([videoId], (obj) => {
+//   //     console.log("obj", obj);
+//   //     if (!obj[videoId]) {
+//   //       chrome.storage.sync.set({ [videoId]: JSON.stringify([]) });
+//   //       resolve([]);
+//   //     }
+//   //     console.log(obj[videoId] ? (obj[videoId]) : []);
+//   //     resolve(obj[videoId].length > 0 ? JSON.parse(obj[videoId]) : []);
+//   //   });
+//   // });
+// }
 
 async function addNewSnipEventHandler() {
   const date = new Date();
   const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
   const startTime = currentTime - defaultSnipLength;
-  const summary: string = await fetch(`http://127.0.0.1:8000/summary/${currentVideo}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => data.summary)
+  // const summary: string = await fetch(`http://127.0.0.1:8000/summary/${videoId}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
+  //   method: "GET",
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => data.summary)
   const videoTitle = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0]?.textContent as string;
   const newSnip: Snip = {
     vidTitle: videoTitle as string,
-    title: summary,
+    title: 'summary',
     notes: "this is a note I wrote",
     // make it folder based instead of tag based
     tags: [{ "name": "tag1" }, { "name": "tag2" }],
     startTimestamp: startTime,
     endTimestamp: currentTime,
-    id: currentVideo + (date.getTime()).toString(),
-    videoId: currentVideo,
+    id: videoId + (date.getTime()).toString(),
+    videoId: videoId,
     createdAt: date.getTime(),
     updatedAt: date.getTime(),
   }
 
-  currentVideoSnips = await fetchSnips();
-  chrome.storage.sync.set({
-    [currentVideo]: JSON.stringify([...currentVideoSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
-  });
+  videoIdSnips = await getSnips();
+  // chrome.storage.sync.set({
+  //   [videoId]: JSON.stringify([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
+  // });
+  await setSnips([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
   await updateVideoSnips();
 }
 
 async function updateVideoSnips() {
-  // console.log("currentVideo", currentVideo);
+  // console.log("videoId", videoId);
 
-  currentVideoSnips = await fetchSnips() as Snip[];
+  videoIdSnips = await getSnips() as Snip[];
   previewBar = document.getElementById("snip-preview-bar") as HTMLUListElement | null;
   previewBar?.remove();
   previewBar = document.createElement("ul") as HTMLUListElement;
-  if (currentVideoSnips.length > 0) {
+  if (videoIdSnips.length > 0) {
     youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
     previewBar.id = "snip-preview-bar";
     previewBar.style.position = "absolute";
@@ -129,7 +149,7 @@ async function updateVideoSnips() {
     progressBar.appendChild(previewBar);
   }
 
-  currentVideoSnips.forEach((snip) => {
+  videoIdSnips.forEach((snip) => {
     // if the snip is already on the video, don't add it again
     // if (document.getElementById(`snip - ${ snip.id }`)) {
     //   return;
@@ -158,18 +178,18 @@ async function updateVideoSnips() {
 }
 
 chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
-  const { type, value, videoId } = obj;
+  const { type, value, vidId } = obj;
 
   if (type === "NEW") {
-    currentVideo = videoId;
+    videoId = vidId;
     await newVideoLoaded();
   } else if (type === "PLAY") {
     youtubePlayer.currentTime = value;
   } else if (type === "DELETE") {
-    currentVideoSnips = currentVideoSnips.filter((b) => b.endTimestamp != value);
-    chrome.storage.sync.set({ [currentVideo]: JSON.stringify(currentVideoSnips) });
+    videoIdSnips = videoIdSnips.filter((b) => b.endTimestamp != value);
+    // chrome.storage.sync.set({ [videoId]: JSON.stringify(videoIdSnips) });
 
-    response(currentVideoSnips);
+    response(videoIdSnips);
   }
 
   await newVideoLoaded();

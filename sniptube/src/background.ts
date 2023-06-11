@@ -1,4 +1,7 @@
+
+
 chrome.runtime.onInstalled.addListener(() => {
+
   // chrome.contextMenus.create({
   //   id: "youtube",
   //   title: "Add to Snip",
@@ -10,9 +13,11 @@ chrome.runtime.onInstalled.addListener(() => {
         // console.log("tabId", tabId);
         const queryParameters = tab.url.split("?")[1];
         const urlParameters = new URLSearchParams(queryParameters);
+        const vidId = urlParameters.get("v");
+
         chrome.tabs.sendMessage(tabId, { // new
           type: "NEW",
-          videoId: urlParameters.get("v"),
+          vidId
         });
         // returning
         // chrome.tabs.sendMessage(tabId, { // returning
