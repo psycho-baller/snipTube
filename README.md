@@ -6,6 +6,16 @@ To run the browser extension, run `yarn dev` in the sniptube folder (`cd sniptub
 
 To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd backend`)
 
+## Current Focus
+
+* **Work on the UI**
+  1. For YTSnip.tsx
+  2. For CurrentSnips.tsx (implement all features I currently want)
+  3. For AllSnips.tsx
+    a. Take what you have in CurrentSnips.tsx and make it work for AllSnips.tsx
+* **Better background n content scripts**
+  1. Check udemy course for how they do it
+
 ## TODO
 
 * [X] add sass and style the snips
@@ -21,4 +31,4 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
 * [X] Try out [plasmo](https://www.plasmo.com/)
 * [ ] Investigate different OSS LLMs to see which one is the best for this project
 * [ ] The snip summary now has context to the whole video instead of just the snip
-
+* [ ] Options?

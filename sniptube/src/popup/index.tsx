@@ -22,8 +22,6 @@ const Popup: FC<Props> = () => {
   }, [count]);
 
   useEffect(() => {
-    // clear storage
-
     // get the current video id
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs[0] as chrome.tabs.Tab;
