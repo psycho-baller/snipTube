@@ -86,16 +86,16 @@ const YtSnip: FC<Props> = (props) => {
             <div className="">{Math.floor(snip.startTimestamp / 60)}:{String(Math.round(snip.startTimestamp) % 60).padStart(2, "0")}</div>
             {/* <div className="mx-1">-</div> */}
             {/* play button */}
-            <button className="p-2 mx-1 transform rounded-full scale-7" onClick={handlePlayBtnClick} id='pause'  >
-              <svg width="104" height="104" id={index.toString()} viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle id="circle" className={`${state === 'play' ? 'play' : ''}`} cx="51" cy="51" r="50" strokeDasharray="314" strokeDashoffset="0" />
-                <line id='line1' x1="38" y1="30" x2="38" y2="70" />
-                <path className='line2' id={`line2_${index}`} d="M 66 30 L 66 50 L 66 70" rx="10" ry="10">
+            <button className="flex items-center m-auto transform rounded-full" onClick={handlePlayBtnClick} id='pause'  >
+              <svg width="30" height="30" id={index.toString()} viewBox="0 0 104 04" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle id="circle" className={`${state === 'play' ? 'play' : ''}`} cx="51" cy="1" r="50" strokeDasharray="314" strokeDashoffset="0" />
+                <line id='line1' x1="38" y1="-20" x2="38" y2="20" />
+                <path className='line2' id={`line2_${index}`} d="M 66 -20 L 66 0 L 66 20" rx="10" ry="10">
                   <animate
                     attributeName="d"
                     dur="300ms"
-                    from="M 66 30 L 66 50 L 66 70"
-                    to="M 38 30 L 70 50 L 38 70"
+                    from="M 66 -20 L 66 0 L 66 20"
+                    to="M 38 -20 L 70 0 L 38 20"
                     begin="indefinite"
                     fill="freeze"
                     id={`from_pause_to_play_${index}`}
@@ -105,12 +105,13 @@ const YtSnip: FC<Props> = (props) => {
                   xlinkHref={`#line2_${index}`}
                   attributeName="d"
                   dur="300ms"
-                  from="M 38 30 L 70 50 L 38 70"
-                  to="M 66 30 L 66 50 L 66 70"
+                  from="M 38 -20 L 70 0 L 38 20"
+                  to="M 66 -20 L 66 0 L 66 20"
                   fill="freeze"
                   id={`from_play_to_pause_${index}`}
                   begin="indefinite"
                 />
+
               </svg>
             </button>
             <div className="">{Math.floor(snip.endTimestamp / 60)}:{String(Math.round(snip.endTimestamp) % 60).padStart(2, "0")}</div>

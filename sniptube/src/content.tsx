@@ -1,7 +1,7 @@
 import { useSnipsStore } from "~utils/store";
 import type { Snip } from "./utils/types";
 import type { PlasmoCSConfig } from "plasmo"
-import { getSnips, getVideoId, setSnips } from "~utils/storage";
+import { getSnips, setSnips } from "~utils/storage";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/*"],
@@ -14,7 +14,6 @@ let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
 let defaultSnipLength = 20;
 let previewBar: HTMLUListElement;
-
 
 const newVideoLoaded = async () => {
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
