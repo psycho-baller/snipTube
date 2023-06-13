@@ -1,5 +1,5 @@
 
-import { useState, type FC, type MouseEvent } from 'react';
+import { useState, type FC, type MouseEvent, useEffect } from 'react';
 import type { Snip, Tag } from '~utils/types';
 import "~styles/play-pause-btn.css";
 import { useSnipsStore } from '~utils/store';
@@ -14,9 +14,14 @@ const YtSnip: FC<Props> = (props) => {
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
   const removeSnip = useSnipsStore((state) => state.removeSnip);
-
+  let animateElement: SVGAnimateElement;
 
   const [state, setState] = useState<'pause' | 'play'>('pause')
+
+  useEffect(() => {
+    animateElement = document.getElementById('from_play_to_pause_' + index) as unknown as SVGAnimateElement;
+    animateElement.beginElement();
+  }, [])
 
   const handlePlayBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -24,11 +29,11 @@ const YtSnip: FC<Props> = (props) => {
     // animate the play button
     if (state === 'pause') {
       setState('play');
-      var animateElement = document.getElementById('from_pause_to_play_' + index) as unknown as SVGAnimateElement;
+      animateElement = document.getElementById('from_pause_to_play_' + index) as unknown as SVGAnimateElement;
       animateElement.beginElement();
     } else {
       setState('pause');
-      var animateElement = document.getElementById('from_play_to_pause_' + index) as unknown as SVGAnimateElement;
+      animateElement = document.getElementById('from_play_to_pause_' + index) as unknown as SVGAnimateElement;
       animateElement.beginElement();
     }
 
@@ -52,7 +57,6 @@ const YtSnip: FC<Props> = (props) => {
 
   function deleteSnip(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    const vidID = snip.videoId;
     // const newSnips = snips.filter((s: Snip) => s.id !== snip.id) as Snip[];
     // setSnips(newSnips);
     removeSnip(snip.id);
@@ -77,6 +81,7 @@ const YtSnip: FC<Props> = (props) => {
         <div className="grid w-full grid-cols-3 gap-2">
           {/* tags */}
           <div className="flex items-center justify-start col-span-1">
+            {/* overflow scroll */}
             {snip.tags?.map((tag: Tag, i: number) => (
               <div key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag?.color ?? "slate"}-600`}>{tag.name}</div>
             ))}
@@ -98,7 +103,7 @@ const YtSnip: FC<Props> = (props) => {
                     to="M 38 -20 L 70 0 L 38 20"
                     begin="indefinite"
                     fill="freeze"
-                    id={`from_pause_to_play_${index}`}
+                    id={`from_play_to_pause_${index}`}
                   />
                 </path>
                 <animate
@@ -108,7 +113,7 @@ const YtSnip: FC<Props> = (props) => {
                   from="M 38 -20 L 70 0 L 38 20"
                   to="M 66 -20 L 66 0 L 66 20"
                   fill="freeze"
-                  id={`from_play_to_pause_${index}`}
+                  id={`from_pause_to_play_${index}`}
                   begin="indefinite"
                 />
 

@@ -1,6 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 
-const DropdownButton: React.FC = () => {
+
+interface Props {
+
+}
+
+const DropdownButton: FC<Props> = (props) => {
+  const { } = props;
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>('newest');
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -47,7 +54,6 @@ const DropdownButton: React.FC = () => {
         ><path d="M4 7l1.41 1.41L8 5.83V13h2V5.83l2.59 2.58L14 7 9 2 4 7zm16 10l-1.41-1.41L16 18.17V11h-2v7.17l-2.59-2.58L10 17l5 5 5-5z"></path></svg>
       </button>
 
-      {/* {isOpen && ( */}
       <div className={"absolute w-24 right-0 py-2 mt-2 bg-slate-800 rounded-md shadow-lg origin-top duration-200 z-10" +
         (isOpen ? " scale-100" : " scale-0")}>
         {options.map((option) => (
@@ -65,8 +71,6 @@ const DropdownButton: React.FC = () => {
           </a>
         ))}
       </div>
-      {/* ) */}
-      {/* } */}
     </div >
   );
 };
