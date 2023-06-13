@@ -73,6 +73,10 @@ const YtSnip: FC<Props> = (props) => {
     // });
   }
 
+  function editSnip(e: MouseEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+  }
+
   return (
     <li className="flex flex-row w-full mb-4 rounded-md bg-slate-800">
       <div className="flex flex-col justify-start w-full p-3">
@@ -123,6 +127,14 @@ const YtSnip: FC<Props> = (props) => {
           </div>
           {/* buttons */}
           <div className="flex items-center justify-end col-span-1 gap-2">
+            <button className="p-1 rounded-full bg-slate-600" onClick={editSnip}>
+              <svg className='w-6 text-slate-100' width="24" height="24" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                <rect fill="none" height="256" width="256" />
+                <polygon fill="none" points="128 160 96 160 96 128 192 32 224 64 128 160" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" x1="164" x2="196" y1="60" y2="92" />
+                <path d="M216,128.6V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h79.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+              </svg>
+            </button>
             <button className="p-1 rounded-full bg-slate-600">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 text-slate-100 " viewBox="0 0 26 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
             </button>
