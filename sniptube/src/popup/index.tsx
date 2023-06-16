@@ -30,8 +30,6 @@ const Popup: FC<Props> = () => {
       const urlParameters = new URLSearchParams(queryParameters);
       const currentVideo = urlParameters.get("v");
 
-      // get all the snips
-      getAllSnips().then((allSnips) => setAllVideoSnips(allSnips));
 
       if (url.includes("youtube.com/watch") && currentVideo) {
         setInYoutube(true);
@@ -62,7 +60,7 @@ const Popup: FC<Props> = () => {
   };
 
   return (
-    <main className="w-[30rem] min-h-max">
+    <main className="w-[30rem] overflow-hidden min-h-max dark:bg-slate-950 dark:text-white">
       {inYoutube ? (
         <Tabs />
 

@@ -52,16 +52,26 @@ export const getSnips = async () => {
 
 
 export const getAllSnips = async () => {
+  // clear storage
   return new Promise<Snip[]>((resolve, reject) => {
     chrome.storage.sync.get(null, (result) => {
       const snips: Snip[] = [];
-      for (const key in result) {
-        if (Object.prototype.hasOwnProperty.call(result, key)) { // check if key is not inherited
-          const element = result[key];
-          snips.push(...JSON.parse(element));
+      Object.keys(result).forEach((key) => {
+        if (key !== "videoId") {
+          snips.push(...JSON.parse(result[key]));
         }
-      }
+      });
       resolve(snips);
     });
   });
+}
+
+export const setAllSnips = async (snips: Snip[]) => {
+  const videoIds = snips.map((s) => s.id.split("-")[0]);
+  const uniqueVideoIds = [...new Set(videoIds)];
+
+  const snipsByVideoId = uniqueVideoIds.map((vidId) => {
+    return snips.filter((s) => s.id.split("-")[0] === vidId);
+  }
+  );
 }

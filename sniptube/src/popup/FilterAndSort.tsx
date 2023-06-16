@@ -16,7 +16,7 @@ const Component: FC<Props> = (props) => {
       <div className="flex overflow-x-auto">
         <div className="flex pl-4"></div>
         {tags.map((tag: Tag, i: number) => (
-          <div key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ? tag.color : "slate"}-700`}>{tag.name}</div>
+          <button key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ? tag.color : "slate"}-700`}>{tag.name}</button>
         ))}
       </div>
       {/* sort at the right corner */}

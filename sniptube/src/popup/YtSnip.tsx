@@ -78,8 +78,8 @@ const YtSnip: FC<Props> = (props) => {
   }
 
   function editSnip(e: MouseEvent<HTMLButtonElement>): void {
-    setShowNote((prev) => !prev);
     e.preventDefault();
+    setShowNote((prev) => !prev);
   }
 
   function updateData(): void {
@@ -94,7 +94,7 @@ const YtSnip: FC<Props> = (props) => {
   }
 
   return (
-    <li className="flex flex-col justify-start w-full gap-1 p-3 mb-4 bg-gray-800 shadow-md rounded-3xl">
+    <li className="flex flex-col justify-start w-full gap-1 p-3 mb-4 bg-gray-800 shadow-md rounded-2xl">
       <div className="font-bold">{snip.title}</div>
       {/* grid of 3 equal sized columns in 1 row */}
       <div className="grid w-full grid-cols-3 gap-2">
@@ -106,11 +106,11 @@ const YtSnip: FC<Props> = (props) => {
           ))}
         </div>
         {/* timestamps */}
-        <div className="flex items-center justify-center col-span-1 text-slate-400">
+        <div className="flex items-center justify-center col-span-1 gap-2 text-slate-400">
           <div className="">{Math.floor(snip.startTimestamp / 60)}:{String(Math.round(snip.startTimestamp) % 60).padStart(2, "0")}</div>
           {/* <div className="mx-1">-</div> */}
           {/* play button */}
-          <button className="flex items-center m-auto transform rounded-full" onClick={handlePlayBtnClick} id='pause'  >
+          <button className="flex items-center transform rounded-full" onClick={handlePlayBtnClick} id='pause'>
             <svg width="30" height="30" id={index.toString()} viewBox="0 0 104 04" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle id="circle" className={`${state === 'play' ? 'play' : ''}`} cx="51" cy="1" r="50" strokeDasharray="314" strokeDashoffset="0" />
               <line id='line1' x1="38" y1="-20" x2="38" y2="20" />

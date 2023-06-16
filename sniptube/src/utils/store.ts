@@ -40,9 +40,9 @@ export const useAllSnipsStore = create<State & Actions>((set) => ({
     setSnips(snips, vidId);
     return { snips };
   }),
-  // setSnips: (snips) => set((state) => {
-  //   setSnips(snips);
-  //   return { snips };
-  // }),
+  setSnips: (snips) => set((state) => {
+    // setAllSnips(snips);
+    return { snips };
+  }),
 
 }));

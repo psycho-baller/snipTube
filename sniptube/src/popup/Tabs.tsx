@@ -16,7 +16,7 @@ const Tabs: FC<Props> = (props) => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   return (
-    <section className="flex flex-col items-center justify-center flex-nowrap dark:bg-slate-950 dark:text-slate-100 ">
+    <section className="flex flex-col items-center justify-center flex-nowrap">
       <ul className="flex items-center justify-center w-full pt-2 text-lg px-auto flex-nowrap dark:bg-gradient-to-t dark:from-slate-950 dark:via-slate-800 dark:to-slate-800">
         <li className="self-end flex-grow border-b"></li>
         {tabs.map((tab, index) => (
