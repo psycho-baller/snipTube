@@ -45,7 +45,7 @@ const AllSnips: React.FC<Props> = (props) => {
           <FilterAndSort tags={tags} />
           <ul className="w-full">
             {snips.map((snip: Snip, i): JSX.Element => (
-              <YtSnip key={i} snip={snip} index={i} />
+              <OutsideSnip key={i} snip={snip} index={i} />
             ))}
           </ul>
         </>
@@ -55,9 +55,6 @@ const AllSnips: React.FC<Props> = (props) => {
           <p className="text-lg text-center">Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.</p>
         </div>
       )}
-      {snips.map((snip: Snip, i): JSX.Element => (
-        <OutsideSnip key={i} snip={snip} index={i} />
-      ))}
     </ >
   );
 };

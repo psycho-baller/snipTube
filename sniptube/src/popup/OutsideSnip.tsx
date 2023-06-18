@@ -51,7 +51,7 @@ const OutsideSnip: FC<Props> = (props) => {
         <div className="flex flex-col justify-between w-full gap-2 p-2 bg-gray-800 rounded-r-xl">
           <div className="font-bold">{title}</div>
           <div className="grid w-full grid-cols-2 gap-2">
-            <TimeStamps start={startTimestamp} end={endTimestamp} id={id} />
+            <TimeStamps start={startTimestamp} end={endTimestamp} id={id} tab={1} />
             <ActionButtons editSnip={editSnip} deleteSnip={deleteSnip} width='w-5' />
           </div>
         </div>

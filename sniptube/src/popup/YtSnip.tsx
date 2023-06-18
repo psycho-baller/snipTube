@@ -2,7 +2,6 @@
 import { useState, type FC, type MouseEvent } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import type { Snip, Tag } from '~utils/types';
-import "~styles/play-pause-btn.css";
 import { useSnipsStore } from '~utils/store';
 import TimeStamps from './TimeStamps';
 import ActionButtons from './ActionButtons';
