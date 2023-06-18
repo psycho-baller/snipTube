@@ -16,30 +16,30 @@ const Tabs: FC<Props> = (props) => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   return (
-    <section className="flex flex-col items-center justify-center flex-nowrap">
-      <ul className="flex items-center justify-center w-full pt-2 text-lg px-auto flex-nowrap dark:bg-gradient-to-t dark:from-slate-950 dark:via-slate-800 dark:to-slate-800">
-        <li className="self-end flex-grow border-b"></li>
+    <div className="flex flex-col items-center justify-center flex-nowrap">
+      <header className="flex items-center justify-center w-full pt-2 text-lg px-auto flex-nowrap dark:bg-gradient-to-t dark:from-slate-950 dark:via-slate-800 dark:to-slate-800">
+        <div className="self-end flex-grow border-b"></div>
         {tabs.map((tab, index) => (
-          <li key={index} className={`flex items-center flex-shrink-0 px-3.5 py-2 space-x-2 ${index === activeTab ? "border border-b-0 rounded-t-xl" : "border-b"}`}
+          <div key={index} className={`flex items-center flex-shrink-0 px-3.5 py-2 space-x-2 ${index === activeTab ? "border border-b-0 rounded-t-xl" : "border-b"}`}
             aria-label="tab"
             onClick={() => setActiveTab(index)}
           >
             <button className="px-4 py-2 mx-2 font-semibold transition-colors duration-200 transform rounded-md focus:outline-none" aria-label="tab">{tab}</button>
-          </li>
+          </div>
         ))}
         <li className="self-end flex-grow border-b"></li>
         {/* <div className="border-b"></div> */}
         {/* </li> */}
-      </ul>
-      <div className="w-full px-4">
+      </header>
+      <section className="w-full px-4">
         {(activeTab === 0) ? (
           <CurrentSnips />
         ) : (
           <AllSnips />
         )}
-      </div>
+      </section>
 
-    </section>
+    </div>
   );
 };
 

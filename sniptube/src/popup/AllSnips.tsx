@@ -16,12 +16,10 @@ const AllSnips: React.FC<Props> = (props) => {
   const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
 
   useEffect(() => {
-
     // get all the snips
     getAllSnips().then((allSnips) => { console.log(allSnips); setAllVideoSnips(allSnips) });
-    console.log("snips", snips);
-  }, []);
 
+  }, []);
 
   // a list of all the tags for the current video
   const tags = useMemo<Tag[]>(() => {
@@ -55,7 +53,7 @@ const AllSnips: React.FC<Props> = (props) => {
           <p className="text-lg text-center">Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.</p>
         </div>
       )}
-    </ >
+    </>
   );
 };
 
