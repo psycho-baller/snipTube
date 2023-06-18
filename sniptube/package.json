@@ -3,7 +3,7 @@
   "displayName": "Sniptube",
   "version": "0.0.1",
   "description": "Save the most important parts of a YouTube video with built-in AI for summarization",
-  "author": "Rami",
+  "author": "Rami <rami.rami@ucalgary.ca>",
   "license": "MIT",
   "scripts": {
     "dev": "plasmo dev",
@@ -15,7 +15,6 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-textarea-autosize": "^8.4.1",
-    "tailwindcss": "3.3.2",
     "zustand": "^4.3.8"
   },
   "devDependencies": {
@@ -24,6 +23,7 @@
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "postcss": "8.4.23",
+    "tailwindcss": "3.3.2",
     "prettier": "2.8.8",
     "typescript": "5.0.4"
   },

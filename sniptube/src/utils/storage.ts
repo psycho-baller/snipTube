@@ -30,7 +30,11 @@ export const setSnips = async (snips: Snip[], vidId: string = undefined) => {
   let videoId: string = vidId ? vidId : await getVideoId();
 
   return new Promise<void>((resolve, reject) => {
-    if (!videoId) reject("No video id");
+    if (!videoId) {
+      reject("No video id");
+      return;
+    }
+
     chrome.storage.sync.set({ [videoId]: JSON.stringify(snips) }, () => {
       resolve();
     });

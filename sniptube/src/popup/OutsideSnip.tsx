@@ -7,11 +7,10 @@ import { useSnipsStore } from '~utils/store';
 
 interface Props {
   snip: Snip;
-  index: number;
 }
 
 const OutsideSnip: FC<Props> = (props) => {
-  const { snip, index } = props;
+  const { snip } = props;
   const { title, videoId, startTimestamp, endTimestamp, id } = snip;
 
   const snips = useSnipsStore((state) => state.snips);

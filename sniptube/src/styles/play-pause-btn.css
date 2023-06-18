@@ -18,9 +18,9 @@ svg #circle.play {
 }
 
 svg #line1 {
-  stroke-width:4px;stroke:white;stroke-linecap: round;
+  strokeWidth:4px;stroke:white;strokeLinecap: round;
 }
 
 svg .line2 {
-  stroke-width:4px;stroke:white;fill:white;stroke-linejoin: round;stroke-linecap: round;
+  strokeWidth:4px;stroke:white;fill:white;strokeLinejoin: round;strokeLinecap: round;
 }

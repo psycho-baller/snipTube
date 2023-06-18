@@ -14,9 +14,9 @@ const ActionButtons: FC<Props> = (props) => {
       <button className="p-1 rounded-full bg-slate-600" onClick={editSnip}>
         <svg className={`${width} text-slate-100`} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
           <rect fill="none" height="256" width="256" />
-          <polygon fill="none" points="128 160 96 160 96 128 192 32 224 64 128 160" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
-          <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" x1="164" x2="196" y1="60" y2="92" />
-          <path d="M216,128.6V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h79.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+          <polygon fill="none" points="128 160 96 160 96 128 192 32 224 64 128 160" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
+          <line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" x1="164" x2="196" y1="60" y2="92" />
+          <path d="M216,128.6V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h79.4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
         </svg>
       </button>
       <button className="p-1 rounded-full bg-slate-600">

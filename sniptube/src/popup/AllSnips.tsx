@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from "react";
 import type { Snip, Tag } from "../utils/types";
 import { useAllSnipsStore } from "~utils/store";
 import FilterAndSort from "./FilterAndSort";
-import YtSnip from "./YtSnip";
 import { getAllSnips } from "~utils/storage";
 import OutsideSnip from "./OutsideSnip";
 
@@ -43,7 +42,7 @@ const AllSnips: React.FC<Props> = (props) => {
           <FilterAndSort tags={tags} />
           <ul className="w-full">
             {snips.map((snip: Snip, i): JSX.Element => (
-              <OutsideSnip key={i} snip={snip} index={i} />
+              <OutsideSnip key={i} snip={snip} />
             ))}
           </ul>
         </>

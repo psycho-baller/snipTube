@@ -51,7 +51,7 @@ const YtSnip: FC<Props> = (props) => {
         <div className="flex items-center justify-start col-span-1">
           {/* overflow scroll */}
           {tags?.map((tag: Tag, i: number) => (
-            <div key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag?.color ?? "slate"}-600`}>{tag.name}</div>
+            <div key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ?? "slate"}-600`}>{tag.name}</div>
           ))}
         </div>
         <TimeStamps start={startTimestamp} end={endTimestamp} id={id} />
