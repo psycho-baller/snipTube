@@ -18,7 +18,10 @@ export const getVideoId = async () => {
     // console.log("vidId", vidId);
     chrome.storage.sync.get(['videoId'], (result) => {
       console.log("result vidId", result.videoId);
-      if (!result.videoId) reject("No video id");
+      if (!result.videoId) {
+        reject("Not a youtube video");
+        return;
+      }
       resolve(result.videoId);
     });
     // reject("Not a youtube video");
@@ -46,7 +49,10 @@ export const getSnips = async () => {
   const videoId = await getVideoId();
   console.log("videoId in getSnips", videoId);
   return new Promise<Snip[]>((resolve, reject) => {
-    if (!videoId) reject("No video id");
+    if (!videoId) {
+      reject("No video id");
+      return;
+    }
     chrome.storage.sync.get([videoId], (result) => {
       console.log("result in getSnips", JSON.parse(result[videoId]));
       resolve(JSON.parse(result[videoId] || "[]"));

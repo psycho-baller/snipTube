@@ -11,12 +11,12 @@ interface Props {
 
 const OutsideSnip: FC<Props> = (props) => {
   const { snip } = props;
-  const { title, videoId, startTimestamp, endTimestamp, id } = snip;
+  const { id, startTimestamp, endTimestamp, title, videoId, notes = '' } = snip;
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
   const [showNote, setShowNote] = useState<boolean>(false);
-  const [textareaValue, setTextareaValue] = useState<string>(snip?.notes ?? '');
+  const [textareaValue, setTextareaValue] = useState<string>(notes);
 
   const removeSnip = useSnipsStore((state) => state.removeSnip);
 
