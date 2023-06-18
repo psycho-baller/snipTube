@@ -32,4 +32,9 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
 * [ ] Investigate different OSS LLMs to see which one is the best for this project
 * [ ] The snip summary now has context to the whole video instead of just the snip
 * [ ] Options?
-* [ ] Light mode
+* [ ] Settings page
+  * [ ] Change default snip length
+  * [ ] Change default snip title length
+  * [ ] Light mode
+* [ ] When a snip is clicked, it will expand and show all info about the snip
+* [ ] Use framer motion for animations

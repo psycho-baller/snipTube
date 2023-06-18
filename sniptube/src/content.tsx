@@ -126,18 +126,18 @@ async function updateVideoSnips() {
 
   getSnips().then((snips) => {
     snips.forEach((snip) => {
+      const { startTimestamp, endTimestamp, tags = [], id } = snip;
       // if the snip is already on the video, don't add it again
-      // if (document.getElementById(`snip - ${ snip.id }`)) {
+      // if (document.getElementById(`snip - ${ id }`)) {
       //   return;
       // }
       const snipElement = document.createElement("li");
-      const tags = snip.tags || [];
       const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
-      snipElement.id = `snip - ${snip.id}} `;
+      snipElement.id = `snip - ${id}} `;
       snipElement.style.position = "absolute";
       snipElement.style.top = "0px";
-      snipElement.style.left = `${(snip.startTimestamp / youtubePlayer.duration) * 100}% `;
-      snipElement.style.width = `${((snip.endTimestamp - snip.startTimestamp) / youtubePlayer.duration) * 100}% `;
+      snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}% `;
+      snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}% `;
       snipElement.style.height = "100%";
       snipElement.style.backgroundColor = firstTag?.color || "yellow";
       snipElement.style.zIndex = "1000";
@@ -145,7 +145,7 @@ async function updateVideoSnips() {
       snipElement.title = "Click to jump to this snip";
 
       // snipElement.addEventListener("click", () => {
-      //   youtubePlayer.currentTime = snip.startTimestamp;
+      //   youtubePlayer.currentTime = startTimestamp;
       // });
       previewBar?.appendChild(snipElement);
     });

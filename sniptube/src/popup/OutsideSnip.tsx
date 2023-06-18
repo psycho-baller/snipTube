@@ -1,19 +1,18 @@
-
 import { useState, type FC, type MouseEvent } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import type { Snip, Tag } from '~utils/types';
-import "~styles/play-pause-btn.css";
-import { useSnipsStore } from '~utils/store';
+import type { Snip } from '~utils/types';
 import TimeStamps from './TimeStamps';
 import ActionButtons from './ActionButtons';
+import { useSnipsStore } from '~utils/store';
+
 interface Props {
   snip: Snip;
   index: number;
 }
 
-const YtSnip: FC<Props> = (props) => {
+const OutsideSnip: FC<Props> = (props) => {
   const { snip, index } = props;
-  const { id, startTimestamp, endTimestamp, title, tags } = snip;
+  const { title, videoId, startTimestamp, endTimestamp, id } = snip;
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
@@ -43,23 +42,21 @@ const YtSnip: FC<Props> = (props) => {
     setSnips(newSnips);
   }
 
-  return (
-    <li className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl">
-      <div className="overflow-hidden font-bold text-slate-100 overflow-ellipsis whitespace-nowrap">{title}</div>
-      {/* grid of 3 equal sized columns in 1 row */}
-      <div className="grid w-full grid-cols-3 gap-2">
-        {/* tags */}
-        <div className="flex items-center justify-start col-span-1">
-          {/* overflow scroll */}
-          {tags?.map((tag: Tag, i: number) => (
-            <div key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag?.color ?? "slate"}-600`}>{tag.name}</div>
-          ))}
-        </div>
-        <TimeStamps start={startTimestamp} end={endTimestamp} id={id} />
-        <ActionButtons deleteSnip={deleteSnip} editSnip={editSnip} />
-      </div>
 
-      <div className={`${showNote ? 'block' : 'hidden'} transition-all duration-300 -mb-1`}>
+  return (
+    <li className="flex flex-col mb-4 rounded-xl bg-slate-800">
+
+      <div className="flex flex-row">
+        <img className={`w-1/3 h-full transition-all ${showNote ? 'rounded-tl-xl' : 'rounded-l-xl'}`} src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} alt="thumbnail" />
+        <div className="flex flex-col justify-between w-full gap-2 p-2 bg-gray-800 rounded-r-xl">
+          <div className="font-bold">{title}</div>
+          <div className="grid w-full grid-cols-2 gap-2">
+            <TimeStamps start={startTimestamp} end={endTimestamp} id={id} />
+            <ActionButtons editSnip={editSnip} deleteSnip={deleteSnip} width='w-5' />
+          </div>
+        </div>
+      </div>
+      <div className={`${showNote ? 'block' : 'hidden'} transition-all duration-300 w-full p-3 pb-1.5`}>
         <TextareaAutosize
           className="w-full p-2 rounded-md resize-none text-slate-100 bg-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:bg-slate-800 placeholder-slate-400 "
           placeholder="Add a note..."
@@ -74,4 +71,4 @@ const YtSnip: FC<Props> = (props) => {
   );
 };
 
-export default YtSnip;
+export default OutsideSnip;

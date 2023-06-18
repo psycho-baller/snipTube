@@ -4,6 +4,7 @@ import { useAllSnipsStore } from "~utils/store";
 import FilterAndSort from "./FilterAndSort";
 import YtSnip from "./YtSnip";
 import { getAllSnips } from "~utils/storage";
+import OutsideSnip from "./OutsideSnip";
 
 interface Props {
 }
@@ -54,23 +55,9 @@ const AllSnips: React.FC<Props> = (props) => {
           <p className="text-lg text-center">Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.</p>
         </div>
       )}
-      <li className="flex flex-row mb-4 border border-gray-300 rounded-md">
-        <img className="h-full" src="https://i.ytimg.com/vi/3qYbVjg5Z7k/hqdefault.jpg" alt="thumbnail" />
-        <div className="flex flex-col justify-start w-full p-3">
-          <div className="font-bold">{"snip.title"}</div>
-          <div className="flex flex-row justify-between">
-            <div className="text-gray-500">{60}:{String(Math.round(60))}</div>
-            <div className="text-gray-500">{60}:{String(Math.round(60))}</div>
-
-          </div>
-        </div>
-        {/* <div className="flex">
-                    {snip?.tags?.map((tag: Tag, i: number) => (
-                      <div key={i} className={`bg-${tag.color ?? "gray"}-300 rounded-full px-2 py-1 text-xs mr-2 border border-${tag.color ?? "gray"}-400`}>{tag.name}</div>
-                    ))}
-                  </div> */}
-        {/* <div className="mt-2">{snip?.notes ?? ""}</div> */}
-      </li>
+      {snips.map((snip: Snip, i): JSX.Element => (
+        <OutsideSnip key={i} snip={snip} index={i} />
+      ))}
     </ >
   );
 };
