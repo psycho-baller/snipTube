@@ -6,15 +6,22 @@
   "author": "Rami <rami.rami@ucalgary.ca>",
   "license": "MIT",
   "scripts": {
-    "dev": "plasmo dev",
-    "build": "plasmo build",
-    "package": "plasmo package"
+    "start": "next start",
+    "dev": "run-p dev:*",
+    "dev:plasmo": "plasmo dev",
+    "dev:next": "next dev --port 1947",
+    "build": "run-p build:*",
+    "build:plasmo": "plasmo build",
+    "build:next": "next build"
   },
   "dependencies": {
-    "plasmo": "0.74.2",
+    "get-youtube-chapters": "^2.0.0",
+    "next": "^13.4.6",
+    "plasmo": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-textarea-autosize": "^8.4.1",
+    "youtube-caption-extractor": "^1.4.3",
     "zustand": "^4.3.8"
   },
   "devDependencies": {
@@ -22,9 +29,10 @@
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
+    "npm-run-all": "^4.1.5",
     "postcss": "8.4.23",
-    "tailwindcss": "3.3.2",
     "prettier": "2.8.8",
+    "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
   },
   "manifest": {

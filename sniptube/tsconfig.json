@@ -5,8 +5,10 @@
   ],
   "include": [
     ".plasmo/index.d.ts",
+    "next-env.d.ts",
     "./**/*.ts",
-    "./**/*.tsx"
+    "./**/*.tsx",
+    ".next/types/**/*.ts"
   ],
   "compilerOptions": {
     "paths": {
@@ -15,5 +17,11 @@
       ]
     },
     "baseUrl": ".",
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   }
 }

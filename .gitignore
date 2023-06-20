@@ -29,6 +29,7 @@ yarn-error.log*
 out/
 build/
 dist/
+.next/
 
 # plasmo - https://www.plasmo.com
 .plasmo

@@ -63,6 +63,7 @@ def query(payload):
 	response = requests.post(API_URL, headers=headers, json=payload)
 	return response.json()
 
+@app.get("/transcript/{video_id}")
 def getText(video_id: str, start_time: int = None, end_time: int = None):
     transcript: list[StudentData] = YouTubeTranscriptApi.get_transcript(video_id)
     if start_time and end_time: # format 2
@@ -157,6 +158,25 @@ CONCISE SUMMARIZED TITLE FROM TEXT:"""
     
     print(summary)
     return {"summary": wrapped_summary}
+
+"""
+given a youtube transcript, return the video's summary"""
+@app.get("/summarize?transcript={transcript}")
+async def summarize(transcript: str):
+    # set up model
+    model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
+    llm = GPT4All(model=model_path)
+    # parse transcript
+    text = " ".join([line["text"].replace("\n", " ") for line in transcript])
+    chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=False)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+    text_document = text_splitter.split_documents([Document(page_content=text)])
+
+    summary = chain.run(text_document)
+    wrapped_summary = textwrap.fill(summary, width=100)
+    
+    return {"summary": wrapped_summary}
+
 
 """
 same as summary, but using HuggingFace

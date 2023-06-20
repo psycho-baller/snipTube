@@ -18,7 +18,9 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
 
 ## TODO
 
-* [X] add sass and style the snips
+### Frontend
+
+* [X] add css and style the snips
 * [X] make everything get updated instantly (e.g: when we make a new snip, reflect that in the video bar)
 * [X] build the popup.tsx file
 * [ ] style the tags in the popup and put them in tab 2 too
@@ -38,3 +40,8 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
   * [ ] Light mode
 * [ ] When a snip is clicked, it will expand and show all info about the snip
 * [ ] Use framer motion for animations
+* [ ] Add a js backend to get transcript and video details and separate the storage stuff from the backend
+
+### Backend
+
+* [ ] 

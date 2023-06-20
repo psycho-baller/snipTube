@@ -1,7 +1,7 @@
 import { useSnipsStore } from "~utils/store";
 import type { Snip } from "./utils/types";
 import type { PlasmoCSConfig } from "plasmo"
-import { getSnips, setSnips } from "~utils/storage";
+import { getFullSummary, getSnips, getTranscript, setSnips } from "~utils/storage";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/*"],
@@ -14,6 +14,8 @@ let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
 let defaultSnipLength = 20;
 let previewBar: HTMLUListElement;
+let transcript: string;
+let fullSummary: string;
 
 const newVideoLoaded = async () => {
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
@@ -33,6 +35,8 @@ const newVideoLoaded = async () => {
   // save to storage the current video id
   // chrome.storage.sync.clear();
   chrome.storage.sync.set({ videoId });
+
+
 
   // section 1: add a snip button
   if (!snipButtonExists) {
@@ -57,6 +61,11 @@ const newVideoLoaded = async () => {
 
   // section 2: add the snips to the video
   await updateVideoSnips();
+
+  //check local storage for for transcript
+  // transcript = await getTranscript(videoId);
+  // console.log("transcript", transcript);
+  // fullSummary = await getFullSummary(transcript, videoId);
 };
 
 async function addNewSnipEventHandler() {
@@ -65,6 +74,9 @@ async function addNewSnipEventHandler() {
   const startTime = currentTime - defaultSnipLength;
   // const summary: string = await fetch(`http://127.0.0.1:8000/summary/${videoId}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
   //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
   // })
   //   .then((response) => response.json())
   //   .then((data) => data.summary)
