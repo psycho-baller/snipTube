@@ -62,9 +62,8 @@ const newVideoLoaded = async () => {
   // section 2: add the snips to the video
   await updateVideoSnips();
 
-  //check local storage for for transcript
-  // transcript = await getTranscript(videoId);
-  // console.log("transcript", transcript);
+  transcript = await getTranscript(videoId);
+  console.log("transcript", transcript);
   // fullSummary = await getFullSummary(transcript, videoId);
 };
 

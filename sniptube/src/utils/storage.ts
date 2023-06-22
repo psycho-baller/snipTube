@@ -23,11 +23,19 @@ export const getTranscript = async (videoId: string) => {
   // const res = await getSubtitles({ videoID: videoId, lang: 'en' });
   try {
     const res = await fetch(
-      `/api/youtube?videoID=${videoId}`) as Response;
+      `http://localhost:1947/youtube?videoID=${videoId}`, {
+      mode: "no-cors",
+      // headers: {
+      //   "Access-Control-Allow-Origin": "*",
+      //   "Content-Type": "application/json",
+      // },
+    }) as Response;
+    console.log("res", res);
     if (!res.ok) {
       return "";
     }
     const data = await res.json() as Res;
+    console.log("data", data);
     const transcriptText = data.transcript.map((d) => d.text).join(" ");
     localStorage.setItem(videoId, JSON.stringify(data));
     // return data.text;

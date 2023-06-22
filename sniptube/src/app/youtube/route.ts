@@ -15,8 +15,16 @@ export async function GET(req: NextRequest) {
     // const title = res.title;
 
     const chapters: Chapter[] = parseYouTubeChapters(description) || [];
-
-    return NextResponse.json({ transcript, chapters })
+    const data = { transcript, chapters };
+    console.log("data", data);
+    const res2 = NextResponse.json(data, {
+      // headers: {
+      //   "Access-Control-Allow-Origin": "*",
+      //   "Content-Type": "application/json",
+      // },
+    });
+    console.log("res2", res2.json());
+    return res2;
   } catch (e) {
     return NextResponse.error()
   }
