@@ -7,11 +7,10 @@ import TimeStamps from './TimeStamps';
 import ActionButtons from './ActionButtons';
 interface Props {
   snip: Snip;
-  index: number;
 }
 
 const YtSnip: FC<Props> = (props) => {
-  const { snip, index } = props;
+  const { snip } = props;
   const { id, startTimestamp, endTimestamp, title, tags, notes = '' } = snip;
 
   const snips = useSnipsStore((state) => state.snips);

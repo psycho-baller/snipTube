@@ -1,20 +1,11 @@
 "use client";
-import type { Chapter } from 'get-youtube-chapters';
 import { useEffect, type FC, useState } from 'react';
+import type { Res } from '~utils/types';
 
 interface Props {
 
 }
-interface Subtitle {
-  start: string;
-  dur: string;
-  text: string;
-}
 
-interface Res {
-  transcript: Subtitle[];
-  chapters: Chapter[];
-}
 const Home: FC<Props> = (props) => {
   const { } = props;
 
@@ -22,10 +13,8 @@ const Home: FC<Props> = (props) => {
 
   useEffect(() => {
     try {
-      fetch(
-        `http://localhost:1947/youtube?videoID=${"J4pdHM-oG-s"}`, {
-        // mode: "no-cors",
-
+      fetch(`http://localhost:1947/youtube?videoID=${"J4pdHM-oG-s"}`, {
+        method: "GET",
       }).then((res) => {
         console.log(res);
         return res.json();

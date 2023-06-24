@@ -1,16 +1,4 @@
-import type { Snip } from './types';
-import { type VideoDetails } from 'youtube-caption-extractor';
-import parseYouTubeChapters, { type Chapter } from 'get-youtube-chapters';
-interface Subtitle {
-  start: string;
-  dur: string;
-  text: string;
-}
-
-interface Res {
-  transcript: Subtitle[];
-  chapters: Chapter[];
-}
+import type { Res, Snip } from './types';
 
 export const getTranscript = async (videoId: string) => {
   // check local storage for transcript
@@ -25,10 +13,6 @@ export const getTranscript = async (videoId: string) => {
     const res = await fetch(
       `http://localhost:1947/youtube?videoID=${videoId}`, {
       method: "GET",
-      // headers: {
-      //   "Content-Type": "application/json",
-      //   "Access-Control-Allow-Origin": "https://www.youtube.com",
-      // },
     });
     if (!res.ok) {
       return "";

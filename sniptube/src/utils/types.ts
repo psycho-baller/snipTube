@@ -1,3 +1,6 @@
+import type { Chapter } from 'get-youtube-chapters';
+
+
 export type Snip = {
   startTimestamp: number;
   endTimestamp: number;
@@ -15,3 +18,14 @@ export type Tag = {
   name: string;
   color?: string;
 };
+
+export type Subtitle = {
+  start: string;
+  dur: string;
+  text: string;
+}
+
+export type Res = {
+  transcript: Subtitle[];
+  chapters: Chapter[];
+}

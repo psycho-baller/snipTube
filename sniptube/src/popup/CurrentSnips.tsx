@@ -35,7 +35,7 @@ const CurrentSnips: FC<Props> = (props) => {
           <FilterAndSort tags={tags} />
           <ul className="w-full">
             {snips.map((snip: Snip, i): JSX.Element => (
-              <YtSnip key={i} snip={snip} index={i} />
+              <YtSnip key={i} snip={snip} />
             ))}
           </ul>
         </>

@@ -16,8 +16,7 @@ export async function GET(req: NextRequest) {
 
     const chapters: Chapter[] = parseYouTubeChapters(description) || [];
     return NextResponse.json({ transcript, chapters }, {
-      // allow my chrome extension to access this endpoint
-      headers: {  // chrome extension will not work without this
+      headers: {
         "Access-Control-Allow-Origin": "https://www.youtube.com",
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Methods": "GET",
