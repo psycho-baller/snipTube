@@ -16,29 +16,26 @@ export const getTranscript = async (videoId: string) => {
   // check local storage for transcript
   const transcript = localStorage.getItem(videoId);
   if (transcript) {
-    const data = JSON.parse(transcript) as { start: number, dur: number, text: string }[];
-    return data.map((d) => d.text).join(" ");
+    const data = JSON.parse(transcript) as Res;
+    return data.transcript.map((d) => d.text).join("");
   }
   // const res = await fetch(`http://127.0.0.1:8000/transcript/${videoId}?format=json`);
   // const res = await getSubtitles({ videoID: videoId, lang: 'en' });
   try {
     const res = await fetch(
       `http://localhost:1947/youtube?videoID=${videoId}`, {
-      mode: "no-cors",
+      method: "GET",
       // headers: {
-      //   "Access-Control-Allow-Origin": "*",
       //   "Content-Type": "application/json",
+      //   "Access-Control-Allow-Origin": "https://www.youtube.com",
       // },
-    }) as Response;
-    console.log("res", res);
+    });
     if (!res.ok) {
       return "";
     }
     const data = await res.json() as Res;
-    console.log("data", data);
-    const transcriptText = data.transcript.map((d) => d.text).join(" ");
+    const transcriptText = data.transcript.map((d) => d.text).join("");
     localStorage.setItem(videoId, JSON.stringify(data));
-    // return data.text;
     return transcriptText;
 
   } catch (e) {

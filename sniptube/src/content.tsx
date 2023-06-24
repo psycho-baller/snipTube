@@ -63,7 +63,6 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 
   transcript = await getTranscript(videoId);
-  console.log("transcript", transcript);
   // fullSummary = await getFullSummary(transcript, videoId);
 };
 

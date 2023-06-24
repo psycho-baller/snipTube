@@ -15,16 +15,15 @@ export async function GET(req: NextRequest) {
     // const title = res.title;
 
     const chapters: Chapter[] = parseYouTubeChapters(description) || [];
-    const data = { transcript, chapters };
-    console.log("data", data);
-    const res2 = NextResponse.json(data, {
-      // headers: {
-      //   "Access-Control-Allow-Origin": "*",
-      //   "Content-Type": "application/json",
-      // },
+    return NextResponse.json({ transcript, chapters }, {
+      // allow my chrome extension to access this endpoint
+      headers: {  // chrome extension will not work without this
+        "Access-Control-Allow-Origin": "https://www.youtube.com",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET",
+        "Content-Type": "application/json",
+      },
     });
-    console.log("res2", res2.json());
-    return res2;
   } catch (e) {
     return NextResponse.error()
   }

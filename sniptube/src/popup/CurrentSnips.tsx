@@ -12,7 +12,6 @@ const CurrentSnips: FC<Props> = (props) => {
 
   const snips: Snip[] = useSnipsStore((state) => state.snips);
 
-
   // a list of all the tags for the current video
   const tags = useMemo<Tag[]>(() => {
     return snips.reduce((acc: Tag[], snip: Snip) => {

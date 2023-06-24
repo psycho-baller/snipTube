@@ -44,4 +44,4 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
 
 ### Backend
 
-* [ ] 
+* [ ] Move the backend to the nextjs app
