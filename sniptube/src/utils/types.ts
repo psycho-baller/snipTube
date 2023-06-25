@@ -25,7 +25,8 @@ export type Subtitle = {
   text: string;
 }
 
-export type Res = {
+export type VidDetails = {
   transcript: Subtitle[];
   chapters: Chapter[];
+  title: string;
 }

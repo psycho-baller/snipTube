@@ -40,8 +40,18 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
   * [ ] Light mode
 * [ ] When a snip is clicked, it will expand and show all info about the snip
 * [ ] Use framer motion for animations
-* [ ] Add a js backend to get transcript and video details and separate the storage stuff from the backend
+* [X] Add a js backend to get transcript and video details and separate the storage stuff from the backend
+* [ ] 
 
 ### Backend
 
-* [ ] Move the backend to the nextjs app
+* [X] Move the backend to the nextjs app
+* [ ] handle the case where the backend has not yet completed summarizing the whole video (do we even want that feature??? How would others do it to get the best summary possible?)
+* [ ] What is stopping me from moving the FastAPI backend to the NextJS backend?
+  * pros:
+    * Probably faster
+    * Easier to deploy
+  * cons:
+    * Python is easier to work with
+    * Python has more libraries
+    * LangChain is more mature in python

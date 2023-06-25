@@ -1,3 +1,4 @@
+from  base64 import b64encode, b64decode
 import textwrap
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -59,6 +60,35 @@ app.add_middleware(
 #     "question": "USA",
 # })
 
+full_summary_template = """You are a youtube video summarizer. You will be given it's video transcript and title and you will need to concisely summarize it, writing about the main points in a clear and concise manner. Write in a way that is easy to understand and read and in the same style as the original text. So if the original text is formal, write formally. If the original text is informal, write informally. If the original text is in first person, write in first person. If the original text is in third person, write in third person, etc.
+
+TITLE:
+{title}
+
+TRANSCRIPT:
+{text}
+
+CONCISE SUMMARY FROM TITLE AND TRANSCRIPT:
+"""
+snip_summary_template = """You are a youtube section summarizer. Which means you will be given 3 things:
+1: the title of a youtube video
+2: the summary of the whole youtube video
+3: the transcript of a section of a youtube video
+
+What you need to do is summarize the section of the youtube video into a concise title. Write in a way that is easy to understand and read and in the same style as the original text. So if the original text is formal, write formally. If the original text is informal, write informally. If the original text is in first person, write in first person. If the original text is in third person, write in third person, etc.
+
+VIDEO TITLE:
+{title}
+
+SUMMARIZED TRANSCRIPT OF WHOLE VIDEO:
+{summary}
+
+FULL TRANSCRIPT OF SECTION OF VIDEO TO CONCISELY SUMMARIZE:
+{text}
+
+CONCISE SUMMARIZED TITLE FROM VIDEO TITLE, SUMMARY, AND TRANSCRIPT:
+"""
+
 def query(payload):
 	response = requests.post(API_URL, headers=headers, json=payload)
 	return response.json()
@@ -116,47 +146,43 @@ async def summary_openAI(video_id: str, start_time: int = None, end_time: int = 
     print(summary)
     return {"summary": summary}
 
-@app.get("/summary/{video_id}")
-async def summary(video_id: str, start_time: int = None, end_time: int = None):
+@app.get("/summary")
+async def summary(title: str, transcript: str, summary: str = None):
     # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
     # transcript = loader.load()
 
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
-    llm = GPT4All(model=model_path)
+    llm = GPT4All(model=model_path, temp=0.9)
     # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
+    # decode title and transcript from base64
+    title = b64decode(title).decode("utf-8")
+    text = b64decode(transcript).decode("utf-8")
 
-    res = getText(video_id, start_time, end_time)
+    # res = getText(video_id, start_time, end_time)
     
     # handle different types of responses
-    if res["type"] == "error":
-        return res["text"]
-    elif res["type"] == "snip": # format 2
-        text = res["text"]
-        prompt_template = """Write a concise title that summarizes this text in 1-2 sentences:
-{text}
+    # if res["type"] == "error":
+    #     return res["text"]
+    # elif res["type"] == "snip": # format 2
+    #     text = res["text"]
+    if summary: # format 2
+        PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, summary=summary, text='{text}'), input_variables=["text"])
+        # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
+        chain = load_summarize_chain(llm, chain_type="stuff", verbose=False, prompt=PROMPT_SNIP_SUMMARY)
+        # TODO: are metadata necessary?
+        text_document = [Document(page_content=text, metadata={"title": title, "summary": summary, "transcript": text})]
 
-CONCISE SUMMARIZED TITLE FROM TEXT:"""
-
-        BULLET_POINT_PROMPT = PromptTemplate(template=prompt_template,
-                        input_variables=["text"])
-        chain = load_summarize_chain(llm, chain_type="stuff", verbose=False, prompt=BULLET_POINT_PROMPT)
-        text_document = [Document(page_content=text, metadata={"video_id": video_id})]
-
-    elif res["type"] == "full": # format 1
-        text = res["text"]
-        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=False)
+    else: # format 1
+        PROMPT_FULL_SUMMARY = PromptTemplate(template=full_summary_template.format(title=title, text='{text}'), input_variables=["text"])
+        print(PROMPT_FULL_SUMMARY)
+        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=False, return_intermediate_steps=False, map_prompt=PROMPT_FULL_SUMMARY, combine_prompt=PROMPT_FULL_SUMMARY)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
-        text_document = text_splitter.split_documents([Document(page_content=text, metadata={"video_id": video_id})])
+        text_document = text_splitter.split_documents([Document(page_content=text, metadata={"title": title, "transcript": text})])
         
-
-    print(text_document)
-
-    summary = chain.run(text_document)
-    
+    summary = chain({'input_documents': text_document}, return_only_outputs=True)['output_text'].strip()
     wrapped_summary = textwrap.fill(summary, width=100)
     
-    print(summary)
     return {"summary": wrapped_summary}
 
 """

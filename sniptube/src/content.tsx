@@ -1,7 +1,10 @@
 import { useSnipsStore } from "~utils/store";
-import type { Snip } from "./utils/types";
+import type { Snip, VidDetails } from "./utils/types";
 import type { PlasmoCSConfig } from "plasmo"
-import { getFullSummary, getSnips, getTranscript, setSnips } from "~utils/storage";
+import { getSnips, setSnips } from "~utils/storage";
+import { getVideoDetails, getFullSummary } from "~utils/youtube";
+import { get } from "http";
+import { getSnipTranscript } from "~utils/youtube";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/*"],
@@ -14,8 +17,9 @@ let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
 let defaultSnipLength = 20;
 let previewBar: HTMLUListElement;
-let transcript: string;
-let fullSummary: string;
+let vidTranscript: string;
+let vidSummary: string;
+let vidTitle: string;
 
 const newVideoLoaded = async () => {
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
@@ -62,8 +66,11 @@ const newVideoLoaded = async () => {
   // section 2: add the snips to the video
   await updateVideoSnips();
 
-  transcript = await getTranscript(videoId);
-  // fullSummary = await getFullSummary(transcript, videoId);
+  const { transcript, title } = await getVideoDetails(videoId) as VidDetails;
+  vidTranscript = transcript.map((d) => d.text).join("");
+  vidTitle = title;
+
+  vidSummary = await getFullSummary(vidTranscript, vidTitle, videoId);
 };
 
 async function addNewSnipEventHandler() {
@@ -78,10 +85,21 @@ async function addNewSnipEventHandler() {
   // })
   //   .then((response) => response.json())
   //   .then((data) => data.summary)
+  const snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
+  const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
+  const encodedTitle = Buffer.from(vidTitle).toString("base64");
+  const encodedSummary = Buffer.from(vidSummary).toString("base64");
+  const summary = await fetch(`http://127.0.0.1:8000/summary?summary=${encodedSummary}&title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((response) => response.json())
+    .then((data) => data.summary)
   const videoTitle = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0]?.textContent as string;
   const newSnip: Snip = {
     vidTitle: videoTitle as string,
-    title: 'summary',
+    title: summary,
     notes: "this is a note I wrote",
     // make it folder based instead of tag based
     tags: [{ "name": "tag1" }, { "name": "tag2" }],

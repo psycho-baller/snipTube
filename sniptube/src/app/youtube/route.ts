@@ -12,10 +12,10 @@ export async function GET(req: NextRequest) {
     const res = await getVideoDetails({ videoID, lang }) as VideoDetails; // call this if you need the subtitles and the video details
     const transcript = res.subtitles;
     const description = res.description;
-    // const title = res.title;
+    const title = res.title;
 
     const chapters: Chapter[] = parseYouTubeChapters(description) || [];
-    return NextResponse.json({ transcript, chapters }, {
+    return NextResponse.json({ transcript, chapters, title }, {
       headers: {
         "Access-Control-Allow-Origin": "https://www.youtube.com",
         "Access-Control-Allow-Headers": "Content-Type",
