@@ -1,9 +1,7 @@
-import { useSnipsStore } from "~utils/store";
 import type { Snip, VidDetails } from "./utils/types";
 import type { PlasmoCSConfig } from "plasmo"
 import { getSnips, setSnips } from "~utils/storage";
 import { getVideoDetails, getFullSummary } from "~utils/youtube";
-import { get } from "http";
 import { getSnipTranscript } from "~utils/youtube";
 
 export const config: PlasmoCSConfig = {

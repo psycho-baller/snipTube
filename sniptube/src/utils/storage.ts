@@ -1,4 +1,4 @@
-import type { VidDetails, Snip } from './types';
+import type { Snip } from './types';
 
 // export const getChapters = async () => {
 //   return new Promise<Chapter[]>((resolve, reject) => {

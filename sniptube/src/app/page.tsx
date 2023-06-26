@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, type FC, useState } from 'react';
-import type { Res } from '~utils/types';
+import type { VidDetails } from '~utils/types';
 
 interface Props {
 
@@ -9,7 +9,7 @@ interface Props {
 const Home: FC<Props> = (props) => {
   const { } = props;
 
-  const [data, setData] = useState<Res | null>(null);
+  const [data, setData] = useState<VidDetails | null>(null);
 
   useEffect(() => {
     try {

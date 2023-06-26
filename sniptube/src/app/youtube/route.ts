@@ -1,4 +1,4 @@
-import { getSubtitles, getVideoDetails, type VideoDetails } from 'youtube-caption-extractor';
+import { getVideoDetails, type VideoDetails } from 'youtube-caption-extractor';
 import { type NextRequest, NextResponse } from 'next/server'
 import parseYouTubeChapters, { type Chapter } from 'get-youtube-chapters';
 
