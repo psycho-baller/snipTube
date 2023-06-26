@@ -55,3 +55,4 @@ To run the backend, run `uvicorn main:app --reload` in the backend folder (`cd b
     * Python is easier to work with
     * Python has more libraries
     * LangChain is more mature in python
+* [ ] What LLM am I using? Cohere looks promising but it's not open source and idk bout using it for commercial purposes and if it can handle multiple users and also long videos. CHatGPT seems like the fastest and best option but also HG looks good too but I gotta do some more prompting to get it to acc work.
