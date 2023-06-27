@@ -1,8 +1,9 @@
-from  base64 import b64encode, b64decode
+from  base64 import b64decode
 import textwrap
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from langchain import PromptTemplate
+from math import ceil
 
 import requests
 import os
@@ -11,9 +12,11 @@ from typing import TypedDict
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # from langchain.document_loaders import YoutubeLoader
-from langchain.llms import GPT4All, Cohere
+from langchain.llms import GPT4All, Cohere, OpenLLM, HuggingFaceHub
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
+
+from prompts import full_summary_template, snip_summary_template_with_context, snip_summary_template
 
 # from transformers import AutoTokenizer, AutoModelForCausalLM
 # import transformers
@@ -23,7 +26,7 @@ from langchain.docstore.document import Document
 # FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
 # OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 # COHERE_API_KEY: str = os.getenv("COHERE_API_KEY")
-# HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
+HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
 # API_URL = "http://localhost:3000/api/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
     
 # API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
@@ -59,35 +62,6 @@ app.add_middleware(
 #     return query({
 #     "question": "USA",
 # })
-
-full_summary_template = """You are a youtube video summarizer. You will be given it's video transcript and title and you will need to concisely summarize it, writing about the main points in a clear and concise manner. Write in a way that is easy to understand and read and in the same style as the original text. So if the original text is formal, write formally. If the original text is informal, write informally. If the original text is in first person, write in first person. If the original text is in third person, write in third person, etc.
-
-TITLE:
-{title}
-
-TRANSCRIPT:
-{text}
-
-CONCISE SUMMARY FROM TITLE AND TRANSCRIPT:
-"""
-snip_summary_template = """You are a youtube section summarizer. Which means you will be given 3 things:
-1: the title of a youtube video
-2: the summary of the whole youtube video
-3: the transcript of a section of a youtube video
-
-What you need to do is summarize the section of the youtube video into a concise title. Write in a way that is easy to understand and read and in the same style as the original text. So if the original text is formal, write formally. If the original text is informal, write informally. If the original text is in first person, write in first person. If the original text is in third person, write in third person, etc.
-
-VIDEO TITLE:
-{title}
-
-SUMMARIZED TRANSCRIPT OF WHOLE VIDEO:
-{summary}
-
-FULL TRANSCRIPT OF SECTION OF VIDEO TO CONCISELY SUMMARIZE:
-{text}
-
-CONCISE SUMMARIZED TITLE FROM VIDEO TITLE, SUMMARY, AND TRANSCRIPT:
-"""
 
 def query(payload):
 	response = requests.post(API_URL, headers=headers, json=payload)
@@ -147,17 +121,23 @@ async def summary_openAI(video_id: str, start_time: int = None, end_time: int = 
     return {"summary": summary}
 
 @app.get("/summary")
-async def summary(title: str, transcript: str, summary: str = None):
+async def summary(title: str, transcript: str, summary: str = None, encoded: bool = True):
     # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
     # transcript = loader.load()
 
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
-    llm = GPT4All(model=model_path, temp=0.9)
+    # llm = OpenLLM(server_url='http://localhost:3000', llm_kwargs={"temperature": 0.1})
+    # llm = GPT4All(model=model_path, temp=0.1)
+    
     # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
-    # decode title and transcript from base64
-    title = b64decode(title).decode("utf-8")
-    text = b64decode(transcript).decode("utf-8")
+    if encoded:
+        # decode title and transcript from base64
+        title = b64decode(title).decode("utf-8")
+        text = b64decode(transcript).decode("utf-8")
+        summary = b64decode(summary).decode("utf-8") if summary else None
+    else:
+        text = transcript #b64decode(transcript).decode("utf-8")
 
     # res = getText(video_id, start_time, end_time)
     
@@ -167,17 +147,22 @@ async def summary(title: str, transcript: str, summary: str = None):
     # elif res["type"] == "snip": # format 2
     #     text = res["text"]
     if summary: # format 2
+        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 250 }, huggingfacehub_api_token=HUGGINGFACE_API_KEY)
         PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, summary=summary, text='{text}'), input_variables=["text"])
         # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
-        chain = load_summarize_chain(llm, chain_type="stuff", verbose=False, prompt=PROMPT_SNIP_SUMMARY)
+        chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_SNIP_SUMMARY)
         # TODO: are metadata necessary?
         text_document = [Document(page_content=text, metadata={"title": title, "summary": summary, "transcript": text})]
 
     else: # format 1
+        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 }, huggingfacehub_api_token=HUGGINGFACE_API_KEY)
         PROMPT_FULL_SUMMARY = PromptTemplate(template=full_summary_template.format(title=title, text='{text}'), input_variables=["text"])
-        print(PROMPT_FULL_SUMMARY)
-        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=False, return_intermediate_steps=False, map_prompt=PROMPT_FULL_SUMMARY, combine_prompt=PROMPT_FULL_SUMMARY)
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+        # chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_FULL_SUMMARY)
+
+        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True, return_intermediate_steps=False, map_prompt=PROMPT_FULL_SUMMARY, combine_prompt=PROMPT_FULL_SUMMARY)
+        # get optimal chunk size given the max number of tokens can be 6000 but we want to split it equally in the least number of chunks
+        chunk_size = calculate_chunk_size(len(text))
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=200)
         text_document = text_splitter.split_documents([Document(page_content=text, metadata={"title": title, "transcript": text})])
         
     summary = chain({'input_documents': text_document}, return_only_outputs=True)['output_text'].strip()
@@ -218,3 +203,8 @@ async def summary_HG(video_id: str, start_time: int = None, end_time: int = None
     
     return {"summary": output}
     
+def calculate_chunk_size(string_length):
+    max_chunk_size = 6000
+    num_chunks = ceil(string_length / max_chunk_size)
+    chunk_size = ceil(string_length / num_chunks)
+    return chunk_size

@@ -40,15 +40,15 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   const res = await fetch(`http://127.0.0.1:8000/summary?title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
     method: "GET",
     // mode: "no-cors",
-    // headers: {
-    //   "Content-Type": "application/json",
-    // },
+    // // headers: {
+    // //   "Content-Type": "application/json",
+    // // },
   });
-  const data = await res.json();
-  if (data.error) {
-    console.log("error", data.error);
+  if (!res.ok) {
+    console.log("error", res);
     return "";
   }
+  const data = await res.json() as { summary: string };
   if (data.summary) {
     localStorage.setItem(`${videoId}-summary`, data.summary);
     return data.summary;
@@ -94,7 +94,7 @@ export const getSnipTranscript = (videoId: string, start: number, end: number) =
       (start <= from_time && end >= from_time) ||
       (start <= to_time && end >= to_time)
     ) {
-      text += line.text.replace('\n', '');
+      text += line.text.replace('\n', ' ');
     } else if (to_time > end) {
       return text;
     }

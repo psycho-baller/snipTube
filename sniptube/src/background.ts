@@ -2,7 +2,7 @@ import { setSnips } from "~utils/storage";
 
 chrome.runtime.onInstalled.addListener(() => {
   // predefine the snip store
-  setSnips([]);
+  // setSnips([]);
 
   // chrome.contextMenus.create({
   //   id: "youtube",

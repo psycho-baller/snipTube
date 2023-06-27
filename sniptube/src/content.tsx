@@ -13,7 +13,7 @@ let videoId = "";
 let videoIdSnips = [] as Snip[];
 let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
-let defaultSnipLength = 20;
+let defaultSnipLength = 30;
 let previewBar: HTMLUListElement;
 let vidTranscript: string;
 let vidSummary: string;
@@ -65,7 +65,7 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 
   const { transcript, title } = await getVideoDetails(videoId) as VidDetails;
-  vidTranscript = transcript.map((d) => d.text).join("");
+  vidTranscript = transcript.map((d) => d.text).join(" ");
   vidTitle = title;
 
   vidSummary = await getFullSummary(vidTranscript, vidTitle, videoId);
@@ -93,10 +93,9 @@ async function addNewSnipEventHandler() {
       "Content-Type": "application/json",
     },
   }).then((response) => response.json())
-    .then((data) => data.summary)
-  const videoTitle = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0]?.textContent as string;
+    .then((data) => data.summary);
   const newSnip: Snip = {
-    vidTitle: videoTitle as string,
+    vidTitle: vidTitle as string,
     title: summary,
     notes: "this is a note I wrote",
     // make it folder based instead of tag based
@@ -112,7 +111,7 @@ async function addNewSnipEventHandler() {
   // chrome.storage.sync.set({
   //   [videoId]: JSON.stringify([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
   // });
-  getSnips().then((snips) => setSnips([...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp)).then(() => updateVideoSnips()));
+  getSnips().then((snips) => setSnips([...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp), videoId).then(() => updateVideoSnips()));
 }
 
 async function updateVideoSnips() {

@@ -65,7 +65,7 @@ export const getSnips = async () => {
       return;
     }
     chrome.storage.sync.get([videoId], (result) => {
-      console.log("result in getSnips", JSON.parse(result[videoId]));
+      console.log("result in getSnips", JSON.parse(result[videoId] || "[]"));
       resolve(JSON.parse(result[videoId] || "[]"));
     });
   });
