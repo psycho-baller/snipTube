@@ -10,7 +10,7 @@ export const getVideoDetails = async (videoId: string) => {
   // const res = await getSubtitles({ videoID: videoId, lang: 'en' });
   try {
     const res = await fetch(
-      `http://localhost:1947/youtube?videoID=${videoId}`, {
+      `http://localhost:1947/api/youtube?videoID=${videoId}`, {
       method: "GET",
     });
     if (!res.ok) {
@@ -36,13 +36,15 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   }
   // encode transcript and title to base64
   const encodedTranscript = Buffer.from(transcript).toString("base64");
-  const encodedTitle = Buffer.from(title).toString("base64");
-  const res = await fetch(`http://127.0.0.1:8000/summary?title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
+  // remove things that don't work with base64 encoding like emojis
+  const cleanedTitle = title.replace(/[\uD800-\uDFFF]./g, "");
+  const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
+  const res = await fetch(`http://localhost:4200/llm-api/summary?title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
     method: "GET",
     // mode: "no-cors",
-    // // headers: {
-    // //   "Content-Type": "application/json",
-    // // },
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
   if (!res.ok) {
     console.log("error", res);
@@ -84,6 +86,9 @@ export const getSnipTranscript = (videoId: string, start: number, end: number) =
     return "";
   }
 
+  // increase time range by 2 seconds
+  start = start - 2;
+  end = end + 2;
   // 2: get transcript text
   let text = '';
   for (let line of transcript) {

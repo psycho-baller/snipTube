@@ -13,7 +13,7 @@ const Home: FC<Props> = (props) => {
 
   useEffect(() => {
     try {
-      fetch(`http://localhost:1947/youtube?videoID=${"J4pdHM-oG-s"}`, {
+      fetch(`http://localhost:1947/api/youtube?videoID=${"J4pdHM-oG-s"}`, {
         method: "GET",
       }).then((res) => {
         console.log(res);

@@ -9,7 +9,7 @@
     "./**/*.ts",
     "./**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "next.config.mjs"  ],
   "compilerOptions": {
     "paths": {
       "~*": [

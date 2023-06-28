@@ -27,6 +27,7 @@ const TimeStamps: FC<Props> = (props) => {
       setState('play');
       animateElement = document.getElementById('from_pause_to_play_' + id + tab) as unknown as SVGAnimateElement;
       animateElement.beginElement();
+
     } else {
       setState('pause');
       animateElement = document.getElementById('from_play_to_pause_' + id + tab) as unknown as SVGAnimateElement;

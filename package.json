@@ -9,7 +9,8 @@
     "start": "next start",
     "dev": "run-p dev:*",
     "dev:plasmo": "plasmo dev",
-    "dev:next": "next dev --port 1947",
+    "dev:next": "next dev --port 4200",
+    "dev:fastapi": "cd llm-api && source .venv/bin/activate && uvicorn main:app --reload",
     "build": "run-p build:*",
     "build:plasmo": "plasmo build",
     "build:next": "next build"

@@ -12,7 +12,7 @@ from typing import TypedDict
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # from langchain.document_loaders import YoutubeLoader
-from langchain.llms import GPT4All, Cohere, OpenLLM, HuggingFaceHub
+from langchain.llms import GPT4All, Cohere, HuggingFaceHub
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 
@@ -38,7 +38,12 @@ class StudentData(TypedDict):
     duration: float
 
 # headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
-app = FastAPI()
+app = FastAPI(docs_url="/docs", openapi_url="/openapi.json")
+
+@app.get("/llm-api/healthchecker")
+def healthchecker():
+    return {"status": "success", "message": "Integrate FastAPI Framework with Next.js and chrome extension successfully!"}
+
 # CORS configuration
 origins = [
     "https://www.youtube.com",
@@ -120,7 +125,7 @@ async def summary_openAI(video_id: str, start_time: int = None, end_time: int = 
     print(summary)
     return {"summary": summary}
 
-@app.get("/summary")
+@app.get("/llm-api/summary")
 async def summary(title: str, transcript: str, summary: str = None, encoded: bool = True):
     # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
     # transcript = loader.load()

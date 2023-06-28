@@ -1,6 +1,5 @@
 import { type FC, Fragment, useState } from 'react';
 import type { Snip } from '../utils/types';
-import React from 'react';
 import AllSnips from './AllSnips';
 import CurrentSnips from './CurrentSnips';
 import { useSnipsStore } from '~utils/store';
