@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, type FC, useState } from 'react';
 import type { VidDetails } from '~utils/types';
-
+import { URL } from '~utils/constants';
 interface Props {
 
 }
@@ -13,7 +13,7 @@ const Home: FC<Props> = (props) => {
 
   useEffect(() => {
     try {
-      fetch(`http://localhost:1947/api/youtube?videoID=${"J4pdHM-oG-s"}`, {
+      fetch(`${URL}/youtube?videoID=${"1zDd3qXs3yo"}`, {
         method: "GET",
       }).then((res) => {
         console.log(res);

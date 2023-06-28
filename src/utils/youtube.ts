@@ -1,4 +1,5 @@
 import type { VidDetails } from "./types";
+import { URL } from "./constants";
 
 export const getVideoDetails = async (videoId: string) => {
   // check local storage for transcript
@@ -10,7 +11,7 @@ export const getVideoDetails = async (videoId: string) => {
   // const res = await getSubtitles({ videoID: videoId, lang: 'en' });
   try {
     const res = await fetch(
-      `http://localhost:1947/api/youtube?videoID=${videoId}`, {
+      `${URL}/youtube?videoID=${videoId}`, {
       method: "GET",
     });
     if (!res.ok) {
@@ -39,7 +40,7 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   // remove things that don't work with base64 encoding like emojis
   const cleanedTitle = title.replace(/[\uD800-\uDFFF]./g, "");
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
-  const res = await fetch(`http://localhost:4200/llm-api/summary?title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
+  const res = await fetch(`${URL}/summary?title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
     method: "GET",
     // mode: "no-cors",
     headers: {

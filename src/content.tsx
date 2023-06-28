@@ -89,7 +89,7 @@ async function addNewSnipEventHandler() {
   const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
   const encodedSummary = Buffer.from(vidSummary).toString("base64");
-  const summary = await fetch(`http://localhost:4200/llm-api/summary?summary=${encodedSummary}&title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
+  const summary = await fetch(`${URL}/summary?summary=${encodedSummary}&title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

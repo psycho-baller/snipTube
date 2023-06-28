@@ -7,7 +7,7 @@ from math import ceil
 
 import requests
 import os
-from youtube_transcript_api import YouTubeTranscriptApi
+# from youtube_transcript_api import YouTubeTranscriptApi
 from typing import TypedDict
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -26,7 +26,7 @@ from prompts import full_summary_template, snip_summary_template_with_context, s
 # FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
 # OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 # COHERE_API_KEY: str = os.getenv("COHERE_API_KEY")
-HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
+HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY") or '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'
 # API_URL = "http://localhost:3000/api/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
     
 # API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
@@ -38,9 +38,9 @@ class StudentData(TypedDict):
     duration: float
 
 # headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
-app = FastAPI(docs_url="/docs", openapi_url="/openapi.json")
+app = FastAPI(docs_url="api/docs", openapi_url="/openapi.json")
 
-@app.get("/llm-api/healthchecker")
+@app.get("/api/healthchecker")
 def healthchecker():
     return {"status": "success", "message": "Integrate FastAPI Framework with Next.js and chrome extension successfully!"}
 
@@ -55,7 +55,7 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET"],
-    allow_headers=["*"],
+    allow_headers=["application/json"],
 )
 
 # def query(payload):
@@ -125,7 +125,7 @@ async def summary_openAI(video_id: str, start_time: int = None, end_time: int = 
     print(summary)
     return {"summary": summary}
 
-@app.get("/llm-api/summary")
+@app.get("/api/summary")
 async def summary(title: str, transcript: str, summary: str = None, encoded: bool = True):
     # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
     # transcript = loader.load()

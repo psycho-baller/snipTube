@@ -9,7 +9,7 @@
     "start": "next start",
     "dev": "run-p dev:*",
     "dev:plasmo": "plasmo dev",
-    "dev:next": "next dev --port 4200",
+    "dev:next": "next dev --port 3000",
     "dev:fastapi": "cd llm-api && source .venv/bin/activate && uvicorn main:app --reload",
     "build": "run-p build:*",
     "build:plasmo": "plasmo build",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "get-youtube-chapters": "^2.0.0",
-    "next": "^13.4.6",
+    "next": "^13.4.7",
     "plasmo": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
