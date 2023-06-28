@@ -26,7 +26,7 @@ from prompts import full_summary_template, snip_summary_template_with_context, s
 # FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
 # OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 # COHERE_API_KEY: str = os.getenv("COHERE_API_KEY")
-HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY") or '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'
+HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
 # API_URL = "http://localhost:3000/api/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
     
 # API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
@@ -38,7 +38,7 @@ class StudentData(TypedDict):
     duration: float
 
 # headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
-app = FastAPI(docs_url="api/docs", openapi_url="/openapi.json")
+app = FastAPI(docs_url="/api/docs", openapi_url="/openapi.json")
 
 @app.get("/api/healthchecker")
 def healthchecker():
