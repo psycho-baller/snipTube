@@ -1,5 +1,8 @@
 from  base64 import b64decode
 import textwrap
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from langchain import PromptTemplate
@@ -26,8 +29,8 @@ from prompts import full_summary_template, snip_summary_template_with_context, s
 # FLOWISE_API_KEY: str = os.getenv("FLOWISE_API_KEY")
 # OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 # COHERE_API_KEY: str = os.getenv("COHERE_API_KEY")
-HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
-# API_URL = "http://localhost:3000/api/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
+# HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
+# API_URL = "http://localhost:3000/api/llm/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
     
 # API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
 # headers = {"Authorization": "Bearer " + HUGGINGFACE_API_KEY}
@@ -47,6 +50,7 @@ def healthchecker():
 # CORS configuration
 origins = [
     "https://www.youtube.com",
+    "http://localhost:3000",
     # "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
 ]
 
@@ -152,7 +156,7 @@ async def summary(title: str, transcript: str, summary: str = None, encoded: boo
     # elif res["type"] == "snip": # format 2
     #     text = res["text"]
     if summary: # format 2
-        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 250 }, huggingfacehub_api_token=HUGGINGFACE_API_KEY)
+        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 250 })
         PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, summary=summary, text='{text}'), input_variables=["text"])
         # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
         chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_SNIP_SUMMARY)
@@ -160,7 +164,7 @@ async def summary(title: str, transcript: str, summary: str = None, encoded: boo
         text_document = [Document(page_content=text, metadata={"title": title, "summary": summary, "transcript": text})]
 
     else: # format 1
-        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 }, huggingfacehub_api_token=HUGGINGFACE_API_KEY)
+        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
         PROMPT_FULL_SUMMARY = PromptTemplate(template=full_summary_template.format(title=title, text='{text}'), input_variables=["text"])
         # chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_FULL_SUMMARY)
 

@@ -3,7 +3,7 @@ import type { PlasmoCSConfig } from "plasmo"
 import { getSnips, setSnips } from "~utils/storage";
 import { getVideoDetails, getFullSummary } from "~utils/youtube";
 import { getSnipTranscript } from "~utils/youtube";
-
+import { URL } from "~utils/constants";
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/*"],
   run_at: "document_end",
@@ -89,11 +89,12 @@ async function addNewSnipEventHandler() {
   const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
   const encodedSummary = Buffer.from(vidSummary).toString("base64");
-  const summary = await fetch(`${URL}/summary?summary=${encodedSummary}&title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
+  const summary = await fetch(`${URL}/llm/summary?summary=${encodedSummary}&title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
+    // mode: "no-cors",
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    // headers: {
+    //   "Content-Type": "application/json",
+    // },
   }).then((response) => response.json())
     .then((data) => data.summary);
   const newSnip: Snip = {
