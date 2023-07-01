@@ -54,7 +54,7 @@ const YtSnip: FC<Props> = (props) => {
             <div key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ?? "slate"}-600`}>{tag.name}</div>
           ))}
         </div>
-        <TimeStamps start={startTimestamp} end={endTimestamp} id={id} />
+        <TimeStamps inYoutube start={startTimestamp} end={endTimestamp} id={id} />
         <ActionButtons deleteSnip={deleteSnip} editSnip={editSnip} />
       </div>
 

@@ -7,10 +7,11 @@ interface Props {
   end: number;
   id: string;
   tab?: number;
+  inYoutube?: boolean;
 }
 
 const TimeStamps: FC<Props> = (props) => {
-  const { start, end, id, tab = 0 } = props;
+  const { start, end, id, tab = 0, inYoutube = false } = props;
   let animateElement: SVGAnimateElement;
 
   const [state, setState] = useState<'pause' | 'play'>('play')
@@ -23,48 +24,28 @@ const TimeStamps: FC<Props> = (props) => {
   const handlePlayBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    // animate the play button
-    // if (state === 'pause') {
-    // setState('play');
-    // animateElement = document.getElementById('from_pause_to_play_' + id + tab) as unknown as SVGAnimateElement;
-    // animateElement.beginElement();
-    // send message to content script to play the snip
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const tab = tabs[0];
-      if (tab.id) {
-        chrome.tabs.sendMessage(
-          tab.id,
-          {
-            type: "PLAY_SNIP",
-            value: start,
-          },
-          (response) => {
-            console.log(response);
-          }
-        );
-      }
-    })
-    // } else {
-    // setState('pause');
-    // animateElement = document.getElementById('from_play_to_pause_' + id + tab) as unknown as SVGAnimateElement;
-    // animateElement.beginElement();
-
-    // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    //   const tab = tabs[0];
-    //   if (tab.id) {
-    //     chrome.tabs.sendMessage(
-    //       tab.id,
-    //       {
-    //         type: "PLAY_SNIP",
-    //         payload: snip,
-    //       },
-    //       (response) => {
-    //         console.log(response);
-    //       }
-    //     );
-    //   }
-    // }
-    // );
+    if (inYoutube) {
+      // send message to content script to play the snip
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tab = tabs[0];
+        if (tab.id) {
+          chrome.tabs.sendMessage(
+            tab.id,
+            {
+              type: "PLAY_SNIP",
+              value: start,
+            },
+            (response) => {
+              console.log(response);
+            }
+          );
+        }
+      })
+    } else {
+      // TODO: play the video/audio in the popup itself (thumbnail becomes the video player)
+      // for now open a new tab with the youtube video
+      chrome.tabs.create({ url: `https://www.youtube.com/watch?v=${id}&t=${start}` });
+    }
   };
 
   return (
