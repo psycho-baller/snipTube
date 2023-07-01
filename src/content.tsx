@@ -89,12 +89,17 @@ async function addNewSnipEventHandler() {
   const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
   const encodedSummary = Buffer.from(vidSummary).toString("base64");
-  const summary = await fetch(`${URL}/llm/summary?summary=${encodedSummary}&title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
+  const summary = await fetch(`${URL}/llm/summarize/snip`, {
     // mode: "no-cors",
-    method: "GET",
-    // headers: {
-    //   "Content-Type": "application/json",
-    // },
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      transcript: encodedTranscript,
+      title: encodedTitle,
+      summary: encodedSummary
+    }),
   }).then((response) => response.json())
     .then((data) => data.summary);
   const newSnip: Snip = {
@@ -106,7 +111,7 @@ async function addNewSnipEventHandler() {
     startTimestamp: startTime,
     endTimestamp: currentTime,
     // join the video id with the current time to make a unique id
-    id: `${videoId}-${currentTime}`,
+    id: `${videoId} - ${currentTime}`,
     videoId: videoId,
     createdAt: date.getTime(),
     updatedAt: date.getTime(),

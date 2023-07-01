@@ -40,9 +40,16 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   // remove things that don't work with base64 encoding like emojis
   const cleanedTitle = title.replace(/[\uD800-\uDFFF]./g, "");
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
-  const res = await fetch(`${URL}/llm/summary?title=${encodedTitle}&transcript=${encodedTranscript}&format=json`, {
-    method: "GET",
+  const res = await fetch(`${URL}/llm/summarize/full`, {
+    method: "POST",
     // mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      transcript: encodedTranscript,
+      title: encodedTitle,
+    }),
   });
   if (!res.ok) {
     console.log("error", res);

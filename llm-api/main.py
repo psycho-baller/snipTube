@@ -9,8 +9,7 @@ from langchain import PromptTemplate
 from math import ceil
 
 import requests
-import os
-# from youtube_transcript_api import YouTubeTranscriptApi
+from pydantic import BaseModel
 from typing import TypedDict
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -35,17 +34,26 @@ from prompts import full_summary_template, snip_summary_template_with_context, s
 # API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
 # headers = {"Authorization": "Bearer " + HUGGINGFACE_API_KEY}
 
-class StudentData(TypedDict):
-    text: str
-    start: float
-    duration: float
+# class StudentData(TypedDict):
+#     text: str
+#     start: float
+#     duration: float
+    
+class SummarizeFull(BaseModel):
+    title: str
+    transcript: str
+    encoded: bool = True
+    
+class SummarizeSnip(BaseModel):
+    title: str
+    summary: str
+    transcript: str
+    encoded: bool = True
+
 
 # headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
-app = FastAPI(docs_url="/api/docs", openapi_url="/openapi.json")
+app = FastAPI(docs_url="/docs", openapi_url="/openapi.json")
 
-@app.get("/api/healthchecker")
-def healthchecker():
-    return {"status": "success", "message": "Integrate FastAPI Framework with Next.js and chrome extension successfully!"}
 
 # CORS configuration
 origins = [
@@ -58,10 +66,13 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET"],
-    allow_headers=["application/json"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["content-type"]
 )
 
+@app.get("/api/healthchecker")
+def healthchecker():
+    return {"status": "success", "message": "Integrated FastAPI Framework with Next.js and chrome extension successfully!"}
 # def query(payload):
 #     response = requests.post(API_URL, headers=headers, json=payload)
 #     return response.json()
@@ -129,56 +140,62 @@ async def summary_openAI(video_id: str, start_time: int = None, end_time: int = 
     print(summary)
     return {"summary": summary}
 
-@app.get("/api/summary")
-async def summary(title: str, transcript: str, summary: str = None, encoded: bool = True):
-    # loader = YoutubeLoader.from_youtube_url(f"https://www.youtube.com/watch?v={video_id}", add_video_info=True)
-    # transcript = loader.load()
-
+@app.post("/api/summarize/full")
+async def summarizeFull(item: SummarizeFull):
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
-    # llm = OpenLLM(server_url='http://localhost:3000', llm_kwargs={"temperature": 0.1})
     # llm = GPT4All(model=model_path, temp=0.1)
-    
+    llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
     # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
-    if encoded:
-        # decode title and transcript from base64
-        title = b64decode(title).decode("utf-8")
-        text = b64decode(transcript).decode("utf-8")
-        summary = b64decode(summary).decode("utf-8") if summary else None
+    if item.encoded:
+        # decode from base64
+        title = b64decode(item.title).decode("utf-8")
+        text = b64decode(item.transcript).decode("utf-8")
     else:
-        text = transcript #b64decode(transcript).decode("utf-8")
+        title = item.title
+        text = item.transcript #b64decode(transcript).decode("utf-8")
 
-    # res = getText(video_id, start_time, end_time)
-    
-    # handle different types of responses
-    # if res["type"] == "error":
-    #     return res["text"]
-    # elif res["type"] == "snip": # format 2
-    #     text = res["text"]
-    if summary: # format 2
-        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 250 })
-        PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, summary=summary, text='{text}'), input_variables=["text"])
-        # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
-        chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_SNIP_SUMMARY)
-        # TODO: are metadata necessary?
-        text_document = [Document(page_content=text, metadata={"title": title, "summary": summary, "transcript": text})]
-
-    else: # format 1
-        llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
-        PROMPT_FULL_SUMMARY = PromptTemplate(template=full_summary_template.format(title=title, text='{text}'), input_variables=["text"])
-        # chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_FULL_SUMMARY)
-
-        chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True, return_intermediate_steps=False, map_prompt=PROMPT_FULL_SUMMARY, combine_prompt=PROMPT_FULL_SUMMARY)
-        # get optimal chunk size given the max number of tokens can be 6000 but we want to split it equally in the least number of chunks
-        chunk_size = calculate_chunk_size(len(text))
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=200)
-        text_document = text_splitter.split_documents([Document(page_content=text, metadata={"title": title, "transcript": text})])
+    PROMPT_FULL_SUMMARY = PromptTemplate(template=full_summary_template.format(title=title, text='{text}'), input_variables=["text"])
+    # chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_FULL_SUMMARY)
+    chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True, return_intermediate_steps=False, map_prompt=PROMPT_FULL_SUMMARY, combine_prompt=PROMPT_FULL_SUMMARY)
+    # get optimal chunk size given the max number of tokens can be 6000 but we want to split it equally in the least number of chunks
+    chunk_size = calculate_chunk_size(len(text))
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=200 if chunk_size > 200 else 0)
+    text_document = text_splitter.split_documents([Document(page_content=text, metadata={"title": title, "transcript": text})])
         
     summary = chain({'input_documents': text_document}, return_only_outputs=True)['output_text'].strip()
     wrapped_summary = textwrap.fill(summary, width=100)
     
     return {"summary": wrapped_summary}
 
+@app.post("/api/summarize/snip")
+async def summarizeSnip(item: SummarizeSnip):
+    # set up model
+    model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
+    # llm = GPT4All(model=model_path, temp=0.1)
+    # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
+    
+    if item.encoded:
+        # decode from base64
+        title = b64decode(item.title).decode("utf-8")
+        text = b64decode(item.transcript).decode("utf-8")
+        summary = b64decode(item.summary).decode("utf-8")
+    else:
+        title = item.title
+        text = item.transcript
+        summary = item.summary
+        
+    llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 250 })
+    PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, summary=summary, text='{text}'), input_variables=["text"])
+    # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
+    chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_SNIP_SUMMARY)
+    # TODO: are metadata necessary?
+    text_document = [Document(page_content=text, metadata={"title": title, "summary": summary, "transcript": text})]
+        
+    summary = chain({'input_documents': text_document}, return_only_outputs=True)['output_text'].strip()
+    wrapped_summary = textwrap.fill(summary, width=100)
+    
+    return {"summary": wrapped_summary}
 """
 given a youtube transcript, return the video's summary"""
 @app.get("/summarize?transcript={transcript}")
