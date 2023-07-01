@@ -84,6 +84,9 @@ async function addNewSnipEventHandler() {
   //   .then((response) => response.json())
   //   .then((data) => data.summary)
   const snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
+  if (!snipTranscript) {
+    return;
+  }
   const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
   // remove things that don't work with base64 encoding like emojis
   const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");

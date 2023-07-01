@@ -11,6 +11,36 @@ const ActionButtons: FC<Props> = (props) => {
 
   return (
     <div className="flex items-center justify-end col-span-1 gap-2">
+      <button className="p-1 rounded-full bg-slate-600">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={`${width} text-slate-100`}
+          data-name="Flat Line"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M15 3h6v6"
+            style={{
+              fill: "none",
+              stroke: "currentColor",
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              strokeWidth: 2,
+            }}
+          />
+          <path
+            d="M11 13 21 3M21 13v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7"
+            data-name="primary"
+            style={{
+              fill: "none",
+              stroke: "currentColor",
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              strokeWidth: 2,
+            }}
+          />
+        </svg>
+      </button>
       <button className="p-1 rounded-full bg-slate-600" onClick={editSnip}>
         <svg className={`${width} text-slate-100`} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
           <rect fill="none" height="256" width="256" />

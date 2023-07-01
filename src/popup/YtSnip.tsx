@@ -15,11 +15,11 @@ const YtSnip: FC<Props> = (props) => {
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
+  const removeSnip = useSnipsStore((state) => state.removeSnip);
 
   const [showNote, setShowNote] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(notes);
 
-  const removeSnip = useSnipsStore((state) => state.removeSnip);
 
   function deleteSnip(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
