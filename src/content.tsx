@@ -39,7 +39,6 @@ const newVideoLoaded = async () => {
   chrome.storage.sync.set({ videoId });
 
 
-
   // section 1: add a snip button
   if (!snipButtonExists) {
     // create an svg element
@@ -55,6 +54,7 @@ const newVideoLoaded = async () => {
     // get the first button in the right side of the video
     firstRightButton = document.getElementsByClassName("ytp-right-controls")[0]?.getElementsByClassName("ytp-button")[0] as HTMLButtonElement;
     youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
+
 
     // add it before the first button
     firstRightButton?.parentElement?.insertBefore(snipBtn, firstRightButton);
@@ -193,7 +193,7 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
   if (type === "NEW") {
     videoId = vidId;
     await newVideoLoaded();
-  } else if (type === "PLAY") {
+  } else if (type === "PLAY_SNIP") {
     youtubePlayer.currentTime = value;
   } else if (type === "DELETE") {
     videoIdSnips = videoIdSnips.filter((b) => b.endTimestamp != value);
