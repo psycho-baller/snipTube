@@ -13,36 +13,38 @@ type Actions = {
   setSnips?: (snips: Snip[]) => void;
 };
 
-export const useSnipsStore = create<State & Actions>((set) => ({
+export const useSnipsStore = create<State & Actions>((set, get) => ({
   snips: [],
-  addSnip: (snip) => set((state) => {
-    const snips = [...state.snips, snip] as Snip[];
-    setSnips(snips);
-    return { snips };
-  }),
-  removeSnip: (snipId) => set((state) => {
-    const snips = state.snips.filter((s: Snip) => s.id !== snipId) as Snip[];
-    setSnips(snips);
-    return { snips };
-  }),
-  setSnips: (snips) => set((state) => {
-    setSnips(snips);
-    return { snips };
-  }),
+  addSnip: async (snip) => {
+    const snips = [...get().snips, snip] as Snip[];
+    await setSnips(snips);
+    set({ snips });
+  },
+  removeSnip: async (snipId) => {
+    const snips = get().snips.filter((s: Snip) => s.id !== snipId) as Snip[];
+    await setSnips(snips);
+    set({ snips });
+  },
+  setSnips: async (snips) => {
+    await setSnips(snips);
+    set({ snips });
+  },
   // updateSnip: (snip) => set((state) => ({ snips: state.snips.map((s) => (s.id === snip.id ? snip : s)) })),
 }));
 
-export const useAllSnipsStore = create<State & Actions>((set) => ({
+export const useAllSnipsStore = create<State & Actions>((set, get) => ({
   snips: [],
-  removeSnip: (snipId) => set((state) => {
+  removeSnip: async (snipId) => {
     const vidId = snipId.split("-")[0];
-    const snips = state.snips.filter((s: Snip) => s.id !== snipId) as Snip[];
-    setSnips(snips, vidId);
-    return { snips };
-  }),
-  setSnips: (snips) => set((state) => {
-    // setAllSnips(snips);
-    return { snips };
-  }),
+    console.log("vidId", vidId);
+    const snips = get().snips.filter((s: Snip) => s.id !== snipId) as Snip[];
+    await setSnips(snips, vidId);
+    set({ snips });
+  },
+  setSnips: async (snips) => {
+    await setSnips(snips)
+    set({ snips });
+  },
 
+  // setAllSnips(snips);
 }));
