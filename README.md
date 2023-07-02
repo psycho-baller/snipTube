@@ -4,6 +4,7 @@
 
 - run `yarn` in the root folder to install all the node dependencies.
 - run `cd llm-api` to go to the `llm-api` folder and create a virtual environment with `python3 -m venv venv` and activate it with `source venv/bin/activate` then run `pip install -r requirements.txt` to install all the python dependencies.
+- use `.env.example` to create a `.env` file in the root folder and fill in the values.
 
 ## Development
 
