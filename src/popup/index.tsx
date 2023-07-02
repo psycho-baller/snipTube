@@ -2,8 +2,7 @@ import { useEffect, useState, type FC } from "react";
 import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
 import "~styles/tailwind.css"
-import { useSnipsStore } from "~utils/store";
-import { getSnips } from "~utils/storage";
+import { useAllSnipsStore, useSnipsStore } from "~utils/store";
 
 interface Props { }
 
@@ -12,6 +11,7 @@ const Popup: FC<Props> = () => {
   const [inYoutube, setInYoutube] = useState<boolean>(false);
   // const [currentURL, setCurrentURL] = useState<string>();
   const setCurrentVideoSnips = useSnipsStore((state) => state.setSnips);
+  const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
   useEffect(() => {
     chrome.action.setBadgeText({ text: count.toString() });
   }, [count]);
@@ -25,15 +25,7 @@ const Popup: FC<Props> = () => {
       const urlParameters = new URLSearchParams(queryParameters);
       const currentVideo = urlParameters.get("v");
 
-
-      if (url.includes("youtube.com/watch") && currentVideo) {
-        setInYoutube(true);
-
-        // get the snips for the current video
-        getSnips().then((snips) => setCurrentVideoSnips(snips));
-      } else {
-        setInYoutube(false);
-      }
+      setInYoutube((url.includes("youtube.com/watch") && currentVideo) ? true : false);
     });
   }, []);
 

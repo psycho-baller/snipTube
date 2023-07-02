@@ -114,7 +114,7 @@ async function addNewSnipEventHandler() {
     startTimestamp: startTime,
     endTimestamp: currentTime,
     // join the video id with the current time to make a unique id
-    id: `${videoId} - ${currentTime}`,
+    id: videoId + '-' + currentTime,
     videoId: videoId,
     createdAt: date.getTime(),
     updatedAt: date.getTime(),

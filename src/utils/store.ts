@@ -36,9 +36,8 @@ export const useAllSnipsStore = create<State & Actions>((set, get) => ({
   snips: [],
   removeSnip: async (snipId) => {
     const vidId = snipId.split("-")[0];
-    console.log("vidId", vidId);
     const snips = get().snips.filter((s: Snip) => s.id !== snipId) as Snip[];
-    await setSnips(snips, vidId);
+    await setSnips(snips, vidId)
     set({ snips });
   },
   setSnips: async (snips) => {

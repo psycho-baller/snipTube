@@ -1,8 +1,9 @@
-import { useMemo, type FC } from "react";
+import { useMemo, type FC, use, useEffect } from "react";
 import type { Snip, Tag } from "~utils/types";
 import FilterAndSort from "./FilterAndSort";
 import YtSnip from "./YtSnip";
 import { useSnipsStore } from "~utils/store";
+import { getSnips } from "~utils/storage";
 
 interface Props {
 }
@@ -11,6 +12,11 @@ const CurrentSnips: FC<Props> = (props) => {
   const { } = props;
 
   const snips: Snip[] = useSnipsStore((state) => state.snips);
+  const setCurrentVideoSnips = useSnipsStore((state) => state.setSnips);
+
+  useEffect(() => {
+    getSnips().then((snips) => setCurrentVideoSnips(snips));
+  }, []);
 
   // a list of all the tags for the current video
   const tags = useMemo<Tag[]>(() => {

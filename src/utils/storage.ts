@@ -41,23 +41,25 @@ export const getVideoId = async () => {
 
 
 export const setSnips = async (snips: Snip[], vidId: string = undefined) => {
-  let videoId: string = vidId ? vidId : await getVideoId();
+  const videoId: string = vidId ? vidId : await getVideoId();
 
   return new Promise<void>((resolve, reject) => {
     if (!videoId) {
+      console.log("No video id");
       reject("No video id");
       return;
     }
 
-    chrome.storage.sync.set({ [videoId]: JSON.stringify(snips) }, () => {
+    chrome.storage.sync.set({ [videoId]: JSON.stringify(snips) }, async () => {
+      console.log("snips set meow", await getAllSnips());
       resolve();
     });
   })
 };
 
 
-export const getSnips = async () => {
-  const videoId = await getVideoId();
+export const getSnips = async (vidId: string = undefined) => {
+  const videoId: string = vidId ? vidId : await getVideoId();
   console.log("videoId in getSnips", videoId);
   return new Promise<Snip[]>((resolve, reject) => {
     if (!videoId) {
@@ -73,7 +75,6 @@ export const getSnips = async () => {
 
 
 export const getAllSnips = async () => {
-  // clear storage
   return new Promise<Snip[]>((resolve, reject) => {
     chrome.storage.sync.get(null, (result) => {
       const snips: Snip[] = [];

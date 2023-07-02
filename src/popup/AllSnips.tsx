@@ -15,9 +15,7 @@ const AllSnips: React.FC<Props> = (props) => {
   const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
 
   useEffect(() => {
-    // get all the snips
-    getAllSnips().then((allSnips) => { console.log(allSnips); setAllVideoSnips(allSnips) });
-
+    getAllSnips().then((allSnips) => setAllVideoSnips(allSnips));
   }, []);
 
   // a list of all the tags for the current video

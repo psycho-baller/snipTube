@@ -3,7 +3,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import type { Snip } from '~utils/types';
 import TimeStamps from './TimeStamps';
 import ActionButtons from './ActionButtons';
-import { useSnipsStore } from '~utils/store';
+import { useAllSnipsStore, useSnipsStore } from '~utils/store';
 
 interface Props {
   snip: Snip;
@@ -13,12 +13,11 @@ const OutsideSnip: FC<Props> = (props) => {
   const { snip } = props;
   const { id, startTimestamp, endTimestamp, title, videoId, notes = '' } = snip;
 
-  const snips = useSnipsStore((state) => state.snips);
+  const snips = useAllSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
+  const removeSnip = useAllSnipsStore((state) => state.removeSnip);
   const [showNote, setShowNote] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(notes);
-
-  const removeSnip = useSnipsStore((state) => state.removeSnip);
 
   function deleteSnip(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
