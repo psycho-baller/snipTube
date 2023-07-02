@@ -1,4 +1,4 @@
-import { useMemo, type FC, use, useEffect } from "react";
+import { useMemo, type FC, useEffect } from "react";
 import type { Snip, Tag } from "~utils/types";
 import FilterAndSort from "./FilterAndSort";
 import YtSnip from "./YtSnip";

@@ -1,6 +1,5 @@
 import { useState, type FC, useEffect, type MouseEvent } from 'react';
 import "~styles/play-pause-btn.css";
-import { useSnipsStore } from '~utils/store';
 
 interface Props {
   start: number;

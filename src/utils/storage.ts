@@ -1,17 +1,5 @@
 import type { Snip } from './types';
 
-// export const getChapters = async () => {
-//   return new Promise<Chapter[]>((resolve, reject) => {
-//     chrome.storage.sync.get(['chapters'], (result) => {
-//       if (!result.chapters) {
-//         // set default chapters
-//         defineChapters(resolve, reject);
-//       }
-//       resolve(JSON.parse(result['chapters']));
-//     });
-//   });
-// };
-
 export const getVideoId = async () => {
   return new Promise<string>((resolve, reject) => {
     // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -87,6 +75,19 @@ export const getAllSnips = async () => {
     });
   });
 }
+
+
+// export const getChapters = async () => {
+//   return new Promise<Chapter[]>((resolve, reject) => {
+//     chrome.storage.sync.get(['chapters'], (result) => {
+//       if (!result.chapters) {
+//         // set default chapters
+//         defineChapters(resolve, reject);
+//       }
+//       resolve(JSON.parse(result['chapters']));
+//     });
+//   });
+// };
 
 // export const setAllSnips = async (snips: Snip[]) => {
 //   const videoIds = snips.map((s) => s.id.split("-")[0]);

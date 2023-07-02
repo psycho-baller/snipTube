@@ -1,17 +1,13 @@
 import { useEffect, useState, type FC } from "react";
 import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
-import "~styles/tailwind.css"
-import { useAllSnipsStore, useSnipsStore } from "~utils/store";
+import "~styles/tailwind.css";
 
 interface Props { }
 
 const Popup: FC<Props> = () => {
   const [count, setCount] = useState<number>(0);
   const [inYoutube, setInYoutube] = useState<boolean>(false);
-  // const [currentURL, setCurrentURL] = useState<string>();
-  const setCurrentVideoSnips = useSnipsStore((state) => state.setSnips);
-  const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
   useEffect(() => {
     chrome.action.setBadgeText({ text: count.toString() });
   }, [count]);
