@@ -11,25 +11,14 @@ interface Props {
 
 const YtSnip: FC<Props> = (props) => {
   const { snip } = props;
-  const { id, startTimestamp, endTimestamp, title, tags, notes = '' } = snip;
+  const { id, startTimestamp, endTimestamp, title, tags, vidTitle, videoId, note = '' } = snip;
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
   const removeSnip = useSnipsStore((state) => state.removeSnip);
 
   const [showNote, setShowNote] = useState<boolean>(false);
-  const [textareaValue, setTextareaValue] = useState<string>(notes);
-
-
-  function deleteSnip(e: MouseEvent<HTMLButtonElement>): void {
-    e.preventDefault();
-    removeSnip(id);
-  }
-
-  function editSnip(e: MouseEvent<HTMLButtonElement>): void {
-    e.preventDefault();
-    setShowNote((prev) => !prev);
-  }
+  const [textareaValue, setTextareaValue] = useState<string>(note);
 
   function updateData(): void {
     setShowNote((prev) => !prev);
@@ -55,7 +44,7 @@ const YtSnip: FC<Props> = (props) => {
           ))}
         </div>
         <TimeStamps inYoutube start={startTimestamp} end={endTimestamp} id={id} />
-        <ActionButtons deleteSnip={deleteSnip} editSnip={editSnip} />
+        <ActionButtons setShowNote={setShowNote} snip={snip} />
       </div>
 
       <div className={`${showNote ? 'block' : 'hidden'} transition-all duration-300 -mb-1`}>

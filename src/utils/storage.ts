@@ -45,7 +45,6 @@ export const setSnips = async (snips: Snip[], vidId: string = undefined) => {
   })
 };
 
-
 export const getSnips = async (vidId: string = undefined) => {
   const videoId: string = vidId ? vidId : await getVideoId();
   console.log("videoId in getSnips", videoId);

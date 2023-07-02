@@ -11,23 +11,12 @@ interface Props {
 
 const OutsideSnip: FC<Props> = (props) => {
   const { snip } = props;
-  const { id, startTimestamp, endTimestamp, title, videoId, notes = '' } = snip;
+  const { id, startTimestamp, endTimestamp, title, videoId, note = '' } = snip;
 
   const snips = useAllSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
-  const removeSnip = useAllSnipsStore((state) => state.removeSnip);
   const [showNote, setShowNote] = useState<boolean>(false);
-  const [textareaValue, setTextareaValue] = useState<string>(notes);
-
-  function deleteSnip(e: MouseEvent<HTMLButtonElement>): void {
-    e.preventDefault();
-    removeSnip(id);
-  }
-
-  function editSnip(e: MouseEvent<HTMLButtonElement>): void {
-    e.preventDefault();
-    setShowNote((prev) => !prev);
-  }
+  const [textareaValue, setTextareaValue] = useState<string>(note);
 
   function updateData(): void {
     setShowNote((prev) => !prev);
@@ -40,7 +29,6 @@ const OutsideSnip: FC<Props> = (props) => {
     setSnips(newSnips);
   }
 
-
   return (
     <li className="flex flex-col mb-4 rounded-xl bg-slate-800">
 
@@ -50,7 +38,7 @@ const OutsideSnip: FC<Props> = (props) => {
           <p className="overflow-hidden font-bold whitespace-nowrap overflow-ellipsis">{title}</p>
           <div className="grid w-full grid-cols-2 gap-2">
             <TimeStamps start={startTimestamp} end={endTimestamp} id={id} tab={1} />
-            <ActionButtons editSnip={editSnip} deleteSnip={deleteSnip} width='w-5' />
+            <ActionButtons setShowNote={setShowNote} snip={snip} />
           </div>
         </div>
       </div>

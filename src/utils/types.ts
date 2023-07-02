@@ -8,8 +8,8 @@ export type Snip = {
   id: string;
   vidTitle: string;
   title: string; // AI generated title that can be edited
-  notes?: string;
-  tags?: Tag[];
+  note: string;
+  tags: Tag[];
   createdAt: number;
   updatedAt: number;
 };

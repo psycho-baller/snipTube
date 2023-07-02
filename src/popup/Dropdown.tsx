@@ -42,11 +42,13 @@ const DropdownButton: FC<Props> = (props) => {
     };
   }, []);
 
+  // TODO: improve design, esp color palette
+  // TODO: actually sort the snips lol
   return (
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
-        className="flex items-center justify-center px-2 py-1 space-x-2 text-base text-blue-500 rounded-md focus:outline-none"
+        className="flex items-center justify-center py-1 pr-4 space-x-2 text-base text-blue-500 rounded-md focus:outline-none"
       >
         Sort
         <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" fill='currentColor'

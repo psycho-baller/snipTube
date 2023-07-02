@@ -38,7 +38,6 @@ const newVideoLoaded = async () => {
   // chrome.storage.sync.clear();
   chrome.storage.sync.set({ videoId });
 
-
   // section 1: add a snip button
   if (!snipButtonExists) {
     // create an svg element
@@ -108,7 +107,7 @@ async function addNewSnipEventHandler() {
   const newSnip: Snip = {
     vidTitle: vidTitle as string,
     title: summary,
-    notes: "this is a note I wrote",
+    note: "this is a note I wrote",
     // make it folder based instead of tag based
     tags: [{ "name": "tag1" }, { "name": "tag2" }],
     startTimestamp: startTime,
