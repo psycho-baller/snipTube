@@ -12,7 +12,7 @@ export function exportSnip(snip: Snip) {
     
     ${note}
 
-    ${snip.tags?.map((tag) => `${tag.name}`).join(', ').slice(0, -2) ?? ''}`); // remove last comma and space
+    ${snip.tags?.map((tag) => `${tag.name}`).join(', ') ?? ''}`);
 }
 
 // TODO: structure the data better
@@ -25,7 +25,7 @@ export function exportSnips(snips: Snip[]) {
     
     ${note}
 
-    ${snip.tags?.map((tag) => `${tag.name}`).join(', ').slice(0, -2) ?? ''}`; // remove last comma and space
+    ${snip.tags?.map((tag) => `${tag.name}`).join(', ') ?? ''}`;
   }).join('\n\n');
 
   navigator.clipboard.writeText(text);

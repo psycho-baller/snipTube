@@ -5,9 +5,10 @@ import { getVideoDetails, getFullSummary } from "~utils/youtube";
 import { getSnipTranscript } from "~utils/youtube";
 import { URL } from "~utils/constants";
 import { createRoot } from "react-dom/client"
-
+import { useState } from "react";
+import cssText from "data-text:~styles/tailwind.css";
 export const config: PlasmoCSConfig = {
-  matches: ["*"],
+  matches: ["https://*.youtube.com/watch*"]
   // run_at: "document_end",
 }
 
@@ -20,20 +21,23 @@ let previewBar: HTMLUListElement;
 let vidTranscript: string;
 let vidSummary: string;
 let vidTitle: string;
+let showOverlay = false;
+
+export const getStyle = () => {
+  const style = document.createElement("style");
+  style.textContent = cssText;
+  return style;
+}
 
 const PlasmoOverlay = () => {
+  const [show, setShow] = useState(showOverlay);
   return (
-    <div className="fixed z-50 flex top-32 right-8">
-      balls in ma face bruh
+    <div className={`w-screen h-screen ${show ? 'block' : 'hidden'}`}>
+      <div className="absolute transform -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2">
+        balls in ma face bruh
+      </div>
     </div>
   )
-}
-export const render: PlasmoRender<PlasmoCSUIJSXContainer> = async ({
-  createRootContainer
-}) => {
-  const rootContainer = await createRootContainer()
-  const root = createRoot(rootContainer)
-  root.render(<PlasmoOverlay />)
 }
 
 export default PlasmoOverlay;
@@ -105,6 +109,8 @@ async function addNewSnipEventHandler() {
   if (!snipTranscript) {
     return;
   }
+  showOverlay = true;
+
   const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
   // remove things that don't work with base64 encoding like emojis
   const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
