@@ -5,8 +5,8 @@ import { getVideoDetails, getFullSummary } from "~utils/youtube";
 import { getSnipTranscript } from "~utils/youtube";
 import { URL } from "~utils/constants";
 import { createRoot } from "react-dom/client"
-import { useState } from "react";
-import cssText from "data-text:~styles/tailwind.css";
+import { use, useState } from "react";
+import { useSettingsStore, useContentScriptStore } from "~utils/store";
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/watch*"]
   // run_at: "document_end",
@@ -16,31 +16,48 @@ let videoId = "";
 let videoIdSnips = [] as Snip[];
 let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
-let defaultSnipLength = 30;
+let defaultSnipLength = useSettingsStore.getState().defaultLength;
 let previewBar: HTMLUListElement;
 let vidTranscript: string;
 let vidSummary: string;
 let vidTitle: string;
-let showOverlay = false;
+let note: string = "";
 
-export const getStyle = () => {
-  const style = document.createElement("style");
-  style.textContent = cssText;
-  return style;
-}
 
+// ask user for note and tags
 const PlasmoOverlay = () => {
-  const [show, setShow] = useState(showOverlay);
+  const show = useContentScriptStore(state => state.showOverlay);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const note = formData.get("note") as string;
+    const tags = formData.get("tags") as string;
+    const tabsArr = tags.split(",").map((tag) => tag.trim());
+    console.log("4.5", note, tabsArr);
+    useContentScriptStore.setState({
+      showOverlay: false,
+      snipNote: note,
+      snipTags: tabsArr,
+    })
+  }
+  if (!useSettingsStore.getState().addDetailsAfterSnipping) {
+    return null;
+  }
+  // TODO: color? put overlay right above the snip in the video?
   return (
-    <div className={`w-screen h-screen ${show ? 'block' : 'hidden'}`}>
-      <div className="absolute transform -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2">
-        balls in ma face bruh
-      </div>
-    </div>
+    <main className={`w-screen h-screen ${show ? 'block' : 'hidden'}`}>
+      <form className="absolute transform -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2" onSubmit={handleSubmit}>
+        <label htmlFor="note" className="block mb-2">Note</label>
+        <input type="text" name="note" id="note" className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg" />
+        <label htmlFor="tags" className="block mb-2">Tags</label>
+        <input type="text" name="tags" id="tags" className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg" />
+        <button type="submit" className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Submit</button>
+      </form>
+    </main>
   )
 }
 
-export default PlasmoOverlay;
 
 const newVideoLoaded = async () => {
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
@@ -97,19 +114,11 @@ async function addNewSnipEventHandler() {
   const date = new Date();
   const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
   const startTime = currentTime - defaultSnipLength;
-  // const summary: string = await fetch(`http://127.0.0.1:8000/summary/${videoId}?start_time=${startTime}&end_time=${currentTime}&format=json`, {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => data.summary)
   const snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
   if (!snipTranscript) {
     return;
   }
-  showOverlay = true;
+
 
   const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
   // remove things that don't work with base64 encoding like emojis
@@ -129,12 +138,40 @@ async function addNewSnipEventHandler() {
     }),
   }).then((response) => response.json())
     .then((data) => data.summary);
+
+  // show the overlay and wait for the user to add details
+  const { snipNote, snipTags } = await new Promise((resolve) => {
+    // if user doesn't want to add details after snipping, resolve with empty strings
+    if (!useSettingsStore.getState().addDetailsAfterSnipping) {
+      resolve({
+        snipNote: "",
+        snipTags: [],
+      });
+    } else {
+      // otherwise, show the overlay and wait for the user to add details
+      useContentScriptStore.setState({ showOverlay: true });
+      console.log("3");
+      useContentScriptStore.subscribe(
+        (showOverlay) => {
+          console.log("5");
+          resolve({
+            snipNote: useContentScriptStore.getState().snipNote,
+            snipTags: useContentScriptStore.getState().snipTags,
+          });
+          console.log("6");
+        }
+      );
+    }
+  }) as { snipNote: string, snipTags: string[] };
+
+  console.log("7", snipNote, snipTags);
+
   const newSnip: Snip = {
     vidTitle: vidTitle as string,
     title: summary,
-    note: "this is a note I wrote",
+    note: snipNote,
     // make it folder based instead of tag based
-    tags: [{ "name": "tag1" }, { "name": "tag2" }],
+    tags: snipTags.map((tag) => ({ name: tag })),
     startTimestamp: startTime,
     endTimestamp: currentTime,
     // join the video id with the current time to make a unique id
@@ -231,3 +268,11 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
 
   await newVideoLoaded();
 });
+
+import cssText from "data-text:~styles/tailwind.css";
+export const getStyle = () => {
+  const style = document.createElement("style");
+  style.textContent = cssText;
+  return style;
+};
+export default PlasmoOverlay;

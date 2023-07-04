@@ -13,6 +13,26 @@ type Actions = {
   setSnips?: (snips: Snip[]) => void;
 };
 
+type SettingsState = {
+  defaultLength: number;
+  addDetailsAfterSnipping: boolean;
+};
+
+type SettingsActions = {
+  setDefaultLength: (length: number) => void;
+  setAddDetailsAfterSnipping: (addDetails: boolean) => void;
+};
+
+type contentScriptState = {
+  showOverlay: boolean;
+  snipNote: string;
+  snipTags: string[];
+};
+
+type contentScriptActions = {
+  setShowOverlay: (showOverlay: boolean) => void;
+};
+
 export const useSnipsStore = create<State & Actions>((set, get) => ({
   snips: [],
   addSnip: async (snip) => {
@@ -44,4 +64,18 @@ export const useAllSnipsStore = create<State & Actions>((set, get) => ({
     set({ snips });
   },
 
+}));
+
+export const useSettingsStore = create<SettingsState & SettingsActions>((set, get) => ({
+  defaultLength: 30,
+  addDetailsAfterSnipping: true,
+  setDefaultLength: (length) => set({ defaultLength: length }),
+  setAddDetailsAfterSnipping: (addDetails) => set({ addDetailsAfterSnipping: addDetails }),
+}));
+
+export const useContentScriptStore = create<contentScriptState & contentScriptActions>((set, get) => ({
+  showOverlay: false,
+  setShowOverlay: (showOverlay) => set({ showOverlay }),
+  snipNote: "",
+  snipTags: [],
 }));
