@@ -1,4 +1,3 @@
-import { title } from "process";
 import type { Snip } from "./types";
 
 
@@ -16,6 +15,7 @@ export function exportSnip(snip: Snip) {
     ${snip.tags?.map((tag) => `${tag.name}`).join(', ').slice(0, -2) ?? ''}`); // remove last comma and space
 }
 
+// TODO: structure the data better
 export function exportSnips(snips: Snip[]) {
   const text = snips.map((snip) => {
     const { startTimestamp, endTimestamp, videoId, vidTitle, title, note } = snip;

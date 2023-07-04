@@ -1,12 +1,14 @@
 import type { Snip, VidDetails } from "./utils/types";
-import type { PlasmoCSConfig } from "plasmo"
+import type { PlasmoCSConfig, PlasmoCSUIJSXContainer, PlasmoRender } from "plasmo"
 import { getSnips, setSnips } from "~utils/storage";
 import { getVideoDetails, getFullSummary } from "~utils/youtube";
 import { getSnipTranscript } from "~utils/youtube";
 import { URL } from "~utils/constants";
+import { createRoot } from "react-dom/client"
+
 export const config: PlasmoCSConfig = {
-  matches: ["https://*.youtube.com/*"],
-  run_at: "document_end",
+  matches: ["*"],
+  // run_at: "document_end",
 }
 
 let videoId = "";
@@ -18,6 +20,23 @@ let previewBar: HTMLUListElement;
 let vidTranscript: string;
 let vidSummary: string;
 let vidTitle: string;
+
+const PlasmoOverlay = () => {
+  return (
+    <div className="fixed z-50 flex top-32 right-8">
+      balls in ma face bruh
+    </div>
+  )
+}
+export const render: PlasmoRender<PlasmoCSUIJSXContainer> = async ({
+  createRootContainer
+}) => {
+  const rootContainer = await createRootContainer()
+  const root = createRoot(rootContainer)
+  root.render(<PlasmoOverlay />)
+}
+
+export default PlasmoOverlay;
 
 const newVideoLoaded = async () => {
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];

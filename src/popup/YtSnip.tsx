@@ -1,5 +1,5 @@
 
-import { useState, type FC, type MouseEvent } from 'react';
+import { useState, type FC } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import type { Snip, Tag } from '~utils/types';
 import { useSnipsStore } from '~utils/store';
@@ -11,11 +11,10 @@ interface Props {
 
 const YtSnip: FC<Props> = (props) => {
   const { snip } = props;
-  const { id, startTimestamp, endTimestamp, title, tags, vidTitle, videoId, note = '' } = snip;
+  const { id, startTimestamp, endTimestamp, title, tags, note = '' } = snip;
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
-  const removeSnip = useSnipsStore((state) => state.removeSnip);
 
   const [showNote, setShowNote] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(note);
