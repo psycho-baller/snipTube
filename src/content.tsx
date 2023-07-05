@@ -34,7 +34,6 @@ const PlasmoOverlay = () => {
     const note = formData.get("note") as string;
     const tags = formData.get("tags") as string;
     const tabsArr = tags.split(",").map((tag) => tag.trim());
-    console.log("4.5", note, tabsArr);
     useContentScriptStore.setState({
       showOverlay: false,
       snipNote: note,
@@ -44,17 +43,18 @@ const PlasmoOverlay = () => {
   if (!useSettingsStore.getState().addDetailsAfterSnipping) {
     return null;
   }
-  // TODO: color? put overlay right above the snip in the video?
+  // TODO: color? put overlay right above the snip in the video? Make sure it's small but also easily expandable to suit a small note and a large note
   return (
-    <main className={`w-screen h-screen ${show ? 'block' : 'hidden'}`}>
-      <form className="absolute transform -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2" onSubmit={handleSubmit}>
-        <label htmlFor="note" className="block mb-2">Note</label>
-        <input type="text" name="note" id="note" className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg" />
-        <label htmlFor="tags" className="block mb-2">Tags</label>
-        <input type="text" name="tags" id="tags" className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg" />
-        <button type="submit" className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Submit</button>
+    <main className={`flex items-center justify-center w-screen h-screen ${show ? 'block' : 'hidden'}`}>
+      <form className="p-6 m-auto bg-gray-800 w-96 rounded-xl" onSubmit={handleSubmit}>
+        <label htmlFor="note" className="block mb-2 text-slate-100">Note</label>
+        <input type="text" name="note" id="note" className="w-full px-4 py-2 mb-4 border border-gray-700 rounded-lg" />
+        <label htmlFor="tags" className="block mb-2 text-slate-100">Tags</label>
+        <input type="text" name="tags" id="tags" className="w-full px-4 py-2 mb-4 border border-gray-700 rounded-lg" />
+        <button type="submit" className="px-4 py-2 font-bold bg-gray-800 rounded text-slate-100 hover:bg-gray-700">Submit</button>
       </form>
     </main>
+
   )
 }
 
@@ -140,7 +140,7 @@ async function addNewSnipEventHandler() {
     .then((data) => data.summary);
 
   // show the overlay and wait for the user to add details
-  const { snipNote, snipTags } = await new Promise((resolve) => {
+  const { snipNote, snipTags } = await new Promise<{ snipNote: string, snipTags: string[] }>((resolve) => {
     // if user doesn't want to add details after snipping, resolve with empty strings
     if (!useSettingsStore.getState().addDetailsAfterSnipping) {
       resolve({
@@ -150,21 +150,16 @@ async function addNewSnipEventHandler() {
     } else {
       // otherwise, show the overlay and wait for the user to add details
       useContentScriptStore.setState({ showOverlay: true });
-      console.log("3");
       useContentScriptStore.subscribe(
         (showOverlay) => {
-          console.log("5");
           resolve({
             snipNote: useContentScriptStore.getState().snipNote,
             snipTags: useContentScriptStore.getState().snipTags,
           });
-          console.log("6");
         }
       );
     }
-  }) as { snipNote: string, snipTags: string[] };
-
-  console.log("7", snipNote, snipTags);
+  });
 
   const newSnip: Snip = {
     vidTitle: vidTitle as string,
@@ -183,10 +178,10 @@ async function addNewSnipEventHandler() {
   // chrome.storage.sync.set({
   //   [videoId]: JSON.stringify([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
   // });
-  getSnips().then((snips) => setSnips([...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp), videoId).then(() => updateVideoSnips()));
+  getSnips().then((snips) => setSnips([...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp), videoId).then((newSnips) => updateVideoSnips(newSnips)));
 }
 
-async function updateVideoSnips() {
+async function updateVideoSnips(snips?: Snip[]) {
   // console.log("videoId", videoId);
 
   // videoIdSnips = await getSnips() as Snip[];
@@ -202,6 +197,11 @@ async function updateVideoSnips() {
   previewBar.style.height = "100%";
   previewBar.style.zIndex = "1000";
   previewBar.style.transform = "scaleY(0.6)";
+  // on hover transform scale to 1
+  // previewBar
+  previewBar.style.transition = "transform 0.2s ease-in-out";
+  // previewBar.style.transformOrigin = "top left";
+
   previewBar.style.pointerEvents = "none";
   previewBar.style.display = "flex";
   previewBar.style.flexDirection = "row";
@@ -220,35 +220,34 @@ async function updateVideoSnips() {
   const progressBar = document.getElementsByClassName("ytp-progress-bar")[0];
   progressBar.appendChild(previewBar);
 
+  if (!snips) {
+    snips = await getSnips();
+  }
+  snips.forEach((snip) => {
+    const { startTimestamp, endTimestamp, tags = [], id } = snip;
+    // if the snip is already on the video, don't add it again
+    // if (document.getElementById(`snip-${ id }`)) {
+    //   return;
+    // }
+    const snipElement = document.createElement("li");
+    const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
+    snipElement.id = `snip-${id}} `;
+    snipElement.style.position = "absolute";
+    snipElement.style.top = "0px";
+    snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}% `;
+    snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}% `;
+    snipElement.style.height = "100%";
+    snipElement.style.backgroundColor = firstTag?.color || "yellow";
+    snipElement.style.zIndex = "1000";
+    snipElement.style.cursor = "pointer";
+    snipElement.title = "Click to jump to this snip";
 
-  getSnips().then((snips) => {
-    snips.forEach((snip) => {
-      const { startTimestamp, endTimestamp, tags = [], id } = snip;
-      // if the snip is already on the video, don't add it again
-      // if (document.getElementById(`snip - ${ id }`)) {
-      //   return;
-      // }
-      const snipElement = document.createElement("li");
-      const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
-      snipElement.id = `snip - ${id}} `;
-      snipElement.style.position = "absolute";
-      snipElement.style.top = "0px";
-      snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}% `;
-      snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}% `;
-      snipElement.style.height = "100%";
-      snipElement.style.backgroundColor = firstTag?.color || "yellow";
-      snipElement.style.zIndex = "1000";
-      snipElement.style.cursor = "pointer";
-      snipElement.title = "Click to jump to this snip";
-
-      // snipElement.addEventListener("click", () => {
-      //   youtubePlayer.currentTime = startTimestamp;
-      // });
-      previewBar?.appendChild(snipElement);
-    });
+    // snipElement.addEventListener("click", () => {
+    //   youtubePlayer.currentTime = startTimestamp;
+    // });
+    previewBar?.appendChild(snipElement);
   });
   // if
-
 }
 
 chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
