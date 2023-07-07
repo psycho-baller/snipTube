@@ -30,17 +30,17 @@ const ActionButtons: FC<Props> = (props) => {
       <ExportButton snip={snip} className={width} />
 
       <button className="relative flex justify-center p-1 rounded-full group bg-slate-600" onClick={editSnip}>
-        <svg className={`${width} text-white`} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+        <svg className={width} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
           <rect fill="none" height="256" width="256" />
-          <polygon fill="none" points="128 160 96 160 96 128 192 32 224 64 128 160" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
-          <line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" x1="164" x2="196" y1="60" y2="92" />
-          <path d="M216,128.6V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h79.4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
+          <polygon fill="none" points="128 160 96 160 96 128 192 32 224 64 128 160" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="20" />
+          <line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="20" x1="164" x2="196" y1="60" y2="92" />
+          <path d="M216,128.6V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h79.4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="20" />
         </svg>
         <span className="absolute z-50 w-auto p-1 text-xs capitalize transition-all duration-100 origin-bottom scale-0 bg-white rounded-md shadow-md dark:bg-slate-900 dark:text-slate-100 text-slate-800 tooltip min-w-max bottom-7 group-hover:delay-300 group-hover:scale-100">Edit note</span>
       </button>
 
       <button className="relative flex justify-center p-1 rounded-full group bg-slate-600">
-        <svg xmlns="http://www.w3.org/2000/svg" className={`${width} text-white`} viewBox="0 0 26 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" className={width} viewBox="0 0 26 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
         <span className="absolute z-50 w-auto p-1 text-xs capitalize transition-all duration-100 origin-bottom scale-0 bg-white rounded-md shadow-md dark:bg-slate-900 dark:text-slate-100 text-slate-800 tooltip min-w-max bottom-7 group-hover:delay-300 group-hover:scale-100">Share snip</span>
       </button>
 

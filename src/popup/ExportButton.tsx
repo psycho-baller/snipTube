@@ -29,7 +29,7 @@ const ExportButton: FC<Props> = (props) => {
     <button className="relative flex self-center justify-center p-1 rounded-full group bg-slate-600" onClick={exportSnipHandleClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className={`${className} text-white`}
+        className={className}
         data-name="Flat Line"
         viewBox="0 0 24 24"
       >
@@ -40,7 +40,7 @@ const ExportButton: FC<Props> = (props) => {
             stroke: "currentColor",
             strokeLinecap: "round",
             strokeLinejoin: "round",
-            strokeWidth: 1.5,
+            strokeWidth: 1.8,
           }}
         />
         <path
@@ -51,7 +51,7 @@ const ExportButton: FC<Props> = (props) => {
             stroke: "currentColor",
             strokeLinecap: "round",
             strokeLinejoin: "round",
-            strokeWidth: 1.5,
+            strokeWidth: 1.8,
           }}
         />
       </svg>

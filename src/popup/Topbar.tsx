@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { type Snip, type Tag } from '../utils/types';
 import Dropdown from './Dropdown';
 import ExportButton from './ExportButton';
+import SettingsButton from './SettingsButton';
 
 interface Props {
   tags: Tag[];
@@ -22,16 +23,15 @@ const Header: FC<Props> = (props) => {
         ))}
       </div>
       {/* sort at the right corner */}
-      {(allSnips?.length > 0 || snips?.length > 4) ? (
-        <div className="flex gap-2">
+      <div className={`flex gap-2 ${allSnips?.length > 4 || snips?.length > 4 ? '' : 'pr-4'}`}>
+        <ExportButton snips={allSnips ?? snips} />
+        <SettingsButton />
+        {(allSnips?.length > 4 || snips?.length > 4) && <Dropdown />}
+      </div>
+      {/* <div className="flex pr-4">
           <ExportButton snips={allSnips ?? snips} />
-          <Dropdown />
-        </div>
-      ) : (
-        <div className="flex pr-4">
-          <ExportButton snips={allSnips ?? snips} />
-        </div>
-      )}
+          <SettingsButton />
+        </div> */}
     </div>
   );
 };
