@@ -1,17 +1,16 @@
-
-import { useState, type FC } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
-import type { Snip, Tag } from '~utils/types';
-import { useSnipsStore } from '~utils/store';
-import TimeStamps from './TimeStamps';
-import ActionButtons from './ActionButtons';
+import { useState, type FC } from "react";
+import TextareaAutosize from "react-textarea-autosize";
+import type { Snip, Tag } from "~utils/types";
+import { useSnipsStore } from "~utils/store";
+import TimeStamps from "./TimeStamps";
+import ActionButtons from "./ActionButtons";
 interface Props {
   snip: Snip;
 }
 
 const YtSnip: FC<Props> = (props) => {
   const { snip } = props;
-  const { id, startTimestamp, endTimestamp, title, tags, note = '' } = snip;
+  const { id, startTimestamp, endTimestamp, title, tags, note = "" } = snip;
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
@@ -39,21 +38,36 @@ const YtSnip: FC<Props> = (props) => {
         <div className="flex items-center justify-start col-span-1">
           {/* overflow scroll */}
           {tags?.map((tag: Tag, i: number) => (
-            <div key={i} className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ?? "slate"}-600`}>{tag.name}</div>
+            <div
+              key={i}
+              className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${
+                tag.color ?? "slate"
+              }-600`}
+            >
+              {tag.name}
+            </div>
           ))}
         </div>
-        <TimeStamps inYoutube start={startTimestamp} end={endTimestamp} id={id} />
-        <ActionButtons setShowNote={setShowNote} snip={snip} />
+        <TimeStamps
+          inYoutube
+          start={startTimestamp}
+          end={endTimestamp}
+          id={id}
+        />
+        <ActionButtons
+          setShowNote={setShowNote}
+          snip={snip}
+        />
       </div>
 
-      <div className={`${showNote ? 'block' : 'hidden'} transition-all duration-300 -mb-1`}>
+      <div className={`${showNote ? "block" : "hidden"} transition-all duration-300 -mb-1`}>
         <TextareaAutosize
           className="w-full p-2 rounded-md resize-none text-slate-100 bg-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:bg-slate-800 placeholder-slate-400 "
           placeholder="Add a note..."
           value={textareaValue}
           maxRows={5}
           minRows={1}
-          onChange={e => setTextareaValue(e.target.value)}
+          onChange={(e) => setTextareaValue(e.target.value)}
           onBlur={updateData}
         />
       </div>
