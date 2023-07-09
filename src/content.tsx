@@ -1,34 +1,35 @@
 import type { Snip, VidDetails } from "./utils/types";
-import type { PlasmoCSConfig, PlasmoCSUIJSXContainer, PlasmoRender } from "plasmo"
-import { getSnips, setSnips } from "~utils/storage";
+import type { PlasmoCSConfig, PlasmoCSUIJSXContainer, PlasmoRender } from "plasmo";
+import { getDefaultSnipLength, getSnips, setDefaultSnipLength, setSnips } from "~utils/storage";
 import { getVideoDetails, getFullSummary } from "~utils/youtube";
 import { getSnipTranscript } from "~utils/youtube";
 import { URL } from "~utils/constants";
-import { createRoot } from "react-dom/client"
-import { use, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { useState, type FormEvent, type KeyboardEvent } from "react";
 import { useSettingsStore, useContentScriptStore } from "~utils/store";
 export const config: PlasmoCSConfig = {
-  matches: ["https://*.youtube.com/watch*"]
+  matches: ["https://*.youtube.com/watch*"],
   // run_at: "document_end",
-}
-
+};
 let videoId = "";
 let videoIdSnips = [] as Snip[];
 let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
-let defaultSnipLength = useSettingsStore.getState().defaultLength;
 let previewBar: HTMLUListElement;
 let vidTranscript: string;
 let vidSummary: string;
 let vidTitle: string;
 let note: string = "";
 
-
 // ask user for note and tags
 const PlasmoOverlay = () => {
-  const show = useContentScriptStore(state => state.showOverlay);
+  if (!useSettingsStore.getState().addDetailsAfterSnipping) {
+    return null;
+  }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const show = useContentScriptStore((state) => state.showOverlay);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const note = formData.get("note") as string;
@@ -38,28 +39,64 @@ const PlasmoOverlay = () => {
       showOverlay: false,
       snipNote: note,
       snipTags: tabsArr,
-    })
-  }
-  if (!useSettingsStore.getState().addDetailsAfterSnipping) {
-    return null;
-  }
+    });
+  };
+
+  const stopPropagation = (e: KeyboardEvent<HTMLInputElement>) => {
+    // prevent from interacting with the video
+    e.stopPropagation();
+  };
+
   // TODO: color? put overlay right above the snip in the video? Make sure it's small but also easily expandable to suit a small note and a large note
   return (
-    <main className={`flex items-center justify-center w-screen h-screen ${show ? 'block' : 'hidden'}`}>
-      <form className="p-6 m-auto bg-gray-800 w-96 rounded-xl" onSubmit={handleSubmit}>
-        <label htmlFor="note" className="block mb-2 text-slate-100">Note</label>
-        <input type="text" name="note" id="note" className="w-full px-4 py-2 mb-4 border border-gray-700 rounded-lg" />
-        <label htmlFor="tags" className="block mb-2 text-slate-100">Tags</label>
-        <input type="text" name="tags" id="tags" className="w-full px-4 py-2 mb-4 border border-gray-700 rounded-lg" />
-        <button type="submit" className="px-4 py-2 font-bold bg-gray-800 rounded text-slate-100 hover:bg-gray-700">Submit</button>
+    <main
+      className={`flex items-center justify-center w-screen h-screen ${show ? "block" : "hidden"}`}
+    >
+      <form
+        className="p-6 m-auto bg-gray-800 w-96 rounded-xl"
+        onSubmit={handleSubmit}
+      >
+        <label
+          htmlFor="note"
+          className="block mb-2 text-gray-100"
+        >
+          Note
+        </label>
+        <input
+          type="text"
+          name="note"
+          id="note"
+          className="w-full px-4 py-2 mb-4 border border-gray-700 rounded-lg"
+          onKeyDown={stopPropagation}
+        />
+        <label
+          htmlFor="tags"
+          className="block mb-2 text-gray-100"
+        >
+          Tags
+        </label>
+        <input
+          type="text"
+          name="tags"
+          id="tags"
+          className="w-full px-4 py-2 mb-4 border border-gray-700 rounded-lg"
+          onKeyDown={stopPropagation}
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 font-bold text-gray-100 bg-gray-800 rounded hover:bg-gray-700"
+        >
+          Submit
+        </button>
       </form>
     </main>
-
-  )
-}
-
+  );
+};
 
 const newVideoLoaded = async () => {
+  // const len = await getDefaultSnipLength();
+  // useSettingsStore.setState({ defaultLength: len });
+  // console.log(useSettingsStore.getState().defaultLength, "meow", len);
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
 
   // get the current video id if it doesn't exists
@@ -76,7 +113,7 @@ const newVideoLoaded = async () => {
   // useSnipsStore.setState({ videoId });
   // save to storage the current video id
   // chrome.storage.sync.clear();
-  chrome.storage.sync.set({ videoId });
+  await chrome.storage.sync.set({ videoId });
 
   // section 1: add a snip button
   if (!snipButtonExists) {
@@ -91,9 +128,10 @@ const newVideoLoaded = async () => {
     snipBtn.style.justifyContent = "center";
 
     // get the first button in the right side of the video
-    firstRightButton = document.getElementsByClassName("ytp-right-controls")[0]?.getElementsByClassName("ytp-button")[0] as HTMLButtonElement;
-    youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
-
+    firstRightButton = document
+      .getElementsByClassName("ytp-right-controls")[0]
+      ?.getElementsByClassName("ytp-button")[0] as HTMLButtonElement;
+    youtubePlayer = document.getElementsByClassName("video-stream")[0] as HTMLVideoElement;
 
     // add it before the first button
     firstRightButton?.parentElement?.insertBefore(snipBtn, firstRightButton);
@@ -103,7 +141,7 @@ const newVideoLoaded = async () => {
   // section 2: add the snips to the video
   await updateVideoSnips();
 
-  const { transcript, title } = await getVideoDetails(videoId) as VidDetails;
+  const { transcript, title } = (await getVideoDetails(videoId)) as VidDetails;
   vidTranscript = transcript.map((d) => d.text).join(" ");
   vidTitle = title;
 
@@ -112,13 +150,12 @@ const newVideoLoaded = async () => {
 
 async function addNewSnipEventHandler() {
   const date = new Date();
-  const currentTime = ~~(youtubePlayer.currentTime); // ~~ is a faster Math.floor
-  const startTime = currentTime - defaultSnipLength;
+  const currentTime = ~~youtubePlayer.currentTime; // ~~ is a faster Math.floor
+  const startTime = currentTime - (await getDefaultSnipLength());
   const snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
   if (!snipTranscript) {
     return;
   }
-
 
   const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
   // remove things that don't work with base64 encoding like emojis
@@ -134,32 +171,33 @@ async function addNewSnipEventHandler() {
     body: JSON.stringify({
       transcript: encodedTranscript,
       title: encodedTitle,
-      summary: encodedSummary
+      summary: encodedSummary,
     }),
-  }).then((response) => response.json())
+  })
+    .then((response) => response.json())
     .then((data) => data.summary);
 
   // show the overlay and wait for the user to add details
-  const { snipNote, snipTags } = await new Promise<{ snipNote: string, snipTags: string[] }>((resolve) => {
-    // if user doesn't want to add details after snipping, resolve with empty strings
-    if (!useSettingsStore.getState().addDetailsAfterSnipping) {
-      resolve({
-        snipNote: "",
-        snipTags: [],
-      });
-    } else {
-      // otherwise, show the overlay and wait for the user to add details
-      useContentScriptStore.setState({ showOverlay: true });
-      useContentScriptStore.subscribe(
-        (showOverlay) => {
+  const { snipNote, snipTags } = await new Promise<{ snipNote: string; snipTags: string[] }>(
+    (resolve) => {
+      // if user doesn't want to add details after snipping, resolve with empty strings
+      if (!useSettingsStore.getState().addDetailsAfterSnipping) {
+        resolve({
+          snipNote: "",
+          snipTags: [],
+        });
+      } else {
+        // otherwise, show the overlay and wait for the user to add details
+        useContentScriptStore.setState({ showOverlay: true });
+        useContentScriptStore.subscribe((showOverlay) => {
           resolve({
             snipNote: useContentScriptStore.getState().snipNote,
             snipTags: useContentScriptStore.getState().snipTags,
           });
-        }
-      );
+        });
+      }
     }
-  });
+  );
 
   const newSnip: Snip = {
     vidTitle: vidTitle as string,
@@ -170,15 +208,20 @@ async function addNewSnipEventHandler() {
     startTimestamp: startTime,
     endTimestamp: currentTime,
     // join the video id with the current time to make a unique id
-    id: videoId + '-' + currentTime,
+    id: videoId + "-" + currentTime,
     videoId: videoId,
     createdAt: date.getTime(),
     updatedAt: date.getTime(),
-  }
+  };
   // chrome.storage.sync.set({
   //   [videoId]: JSON.stringify([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
   // });
-  getSnips().then((snips) => setSnips([...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp), videoId).then((newSnips) => updateVideoSnips(newSnips)));
+  getSnips().then((snips) =>
+    setSnips(
+      [...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp),
+      videoId
+    ).then((newSnips) => updateVideoSnips(newSnips))
+  );
 }
 
 async function updateVideoSnips(snips?: Snip[]) {
@@ -188,7 +231,7 @@ async function updateVideoSnips(snips?: Snip[]) {
   previewBar = document.getElementById("snip-preview-bar") as HTMLUListElement | null;
   previewBar?.remove();
   previewBar = document.createElement("ul") as HTMLUListElement;
-  youtubePlayer = document.getElementsByClassName('video-stream')[0] as HTMLVideoElement;
+  youtubePlayer = document.getElementsByClassName("video-stream")[0] as HTMLVideoElement;
   previewBar.id = "snip-preview-bar";
   previewBar.style.position = "absolute";
   previewBar.style.top = "0px";
@@ -230,12 +273,14 @@ async function updateVideoSnips(snips?: Snip[]) {
     //   return;
     // }
     const snipElement = document.createElement("li");
-    const firstTag = (tags && tags.length > 0) ? tags[0] : undefined;
+    const firstTag = tags && tags.length > 0 ? tags[0] : undefined;
     snipElement.id = `snip-${id}} `;
     snipElement.style.position = "absolute";
     snipElement.style.top = "0px";
     snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}% `;
-    snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}% `;
+    snipElement.style.width = `${
+      ((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100
+    }% `;
     snipElement.style.height = "100%";
     snipElement.style.backgroundColor = firstTag?.color || "yellow";
     snipElement.style.zIndex = "1000";

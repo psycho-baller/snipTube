@@ -1,4 +1,4 @@
-import type { Snip } from './types';
+import type { Snip } from "./types";
 
 export const getVideoId = async () => {
   return new Promise<string>((resolve, reject) => {
@@ -15,7 +15,7 @@ export const getVideoId = async () => {
     // });
     // const vidId = window.location.href.split("?")[1]?.split("&").find((p) => p.startsWith("v="))?.split("=")[1];
     // console.log("vidId", vidId);
-    chrome.storage.sync.get(['videoId'], (result) => {
+    chrome.storage.sync.get(["videoId"], (result) => {
       console.log("result vidId", result.videoId);
       if (!result.videoId) {
         reject("Not a youtube video");
@@ -26,7 +26,6 @@ export const getVideoId = async () => {
     // reject("Not a youtube video");
   });
 };
-
 
 export const setSnips = async (snips: Snip[], vidId: string = undefined) => {
   const videoId: string = vidId ? vidId : await getVideoId();
@@ -40,7 +39,7 @@ export const setSnips = async (snips: Snip[], vidId: string = undefined) => {
     chrome.storage.sync.set({ [videoId]: JSON.stringify(snips) }, async () => {
       resolve(snips);
     });
-  })
+  });
 };
 
 export const getSnips = async (vidId: string = undefined) => {
@@ -56,8 +55,7 @@ export const getSnips = async (vidId: string = undefined) => {
       resolve(JSON.parse(result[videoId] || "[]"));
     });
   });
-}
-
+};
 
 export const getAllSnips = async () => {
   return new Promise<Snip[]>((resolve, reject) => {
@@ -71,8 +69,23 @@ export const getAllSnips = async () => {
       resolve(snips);
     });
   });
-}
+};
 
+export const setDefaultSnipLength = async (length: number) => {
+  return new Promise<number>((resolve, reject) => {
+    chrome.storage.sync.set({ defaultSnipLength: length }, () => {
+      resolve(length);
+    });
+  });
+};
+
+export const getDefaultSnipLength = async () => {
+  return new Promise<number>((resolve, reject) => {
+    chrome.storage.sync.get(["defaultSnipLength"], (result) => {
+      resolve(result.defaultSnipLength || 30);
+    });
+  });
+};
 
 // export const getChapters = async () => {
 //   return new Promise<Chapter[]>((resolve, reject) => {

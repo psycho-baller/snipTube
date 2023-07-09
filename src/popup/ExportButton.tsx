@@ -1,6 +1,6 @@
-import { useState, type FC, type MouseEvent } from 'react';
-import type { Snip } from '~utils/types';
-import { exportSnip, exportSnips } from '~utils/exportSnips';
+import { useState, type FC, type MouseEvent } from "react";
+import type { Snip } from "~utils/types";
+import { exportSnip, exportSnips } from "~utils/exportSnips";
 interface Props {
   className?: string;
   snips?: Snip[];
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ExportButton: FC<Props> = (props) => {
-  const { className = 'w-5', snips = undefined, snip = undefined } = props;
+  const { className = "w-5", snips = undefined, snip = undefined } = props;
 
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -24,9 +24,11 @@ const ExportButton: FC<Props> = (props) => {
     setTimeout(() => setCopied(false), 2000);
   }
 
-
   return (
-    <button className="relative flex self-center justify-center p-1 rounded-full group bg-slate-600" onClick={exportSnipHandleClick}>
+    <button
+      className="relative flex self-center justify-center p-1 bg-gray-700 rounded-full group"
+      onClick={exportSnipHandleClick}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}
@@ -55,7 +57,9 @@ const ExportButton: FC<Props> = (props) => {
           }}
         />
       </svg>
-      <span className="absolute z-50 w-auto p-1 text-xs capitalize transition-all duration-100 origin-bottom scale-0 bg-white rounded-md shadow-md dark:bg-slate-900 dark:text-slate-100 text-slate-800 min-w-max bottom-7 group-hover:delay-300 group-hover:scale-100">{copied ? 'Copied!' : `Export ${snips ? ' all snips' : 'snip'}`}</span>
+      <span className="absolute z-50 w-auto p-1 text-xs text-gray-800 capitalize transition-all duration-100 origin-bottom scale-0 bg-white rounded-md shadow-md dark:bg-gray-900 dark:text-gray-100 min-w-max bottom-7 group-hover:delay-300 group-hover:scale-100">
+        {copied ? "Copied!" : `Export ${snips ? " all snips" : "snip"}`}
+      </span>
     </button>
   );
 };

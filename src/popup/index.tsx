@@ -44,7 +44,7 @@ const Popup: FC<Props> = () => {
 
   return (
 
-    <main className="w-[30rem] overflow-hidden min-h-max dark:bg-slate-950 dark:text-white">
+    <main className="w-[30rem] overflow-hidden min-h-max dark:bg-gray-950 dark:text-white">
       {inYoutube ? (
         <Tabs />
 

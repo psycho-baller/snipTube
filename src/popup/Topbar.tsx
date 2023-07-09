@@ -12,7 +12,9 @@ interface Props {
 }
 
 const Header: FC<Props> = (props) => {
-  const { tags, allSnips = undefined, snips = undefined } = props;
+  const { tags, allSnips, snips } = props;
+
+  const hasMoreThanFour = allSnips?.length > 4 || snips?.length > 4;
 
   return (
     <div className="flex my-4 -mx-4">
@@ -22,7 +24,7 @@ const Header: FC<Props> = (props) => {
           <button
             key={i}
             className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${
-              tag.color ? tag.color : "slate"
+              tag.color ? tag.color : "gray"
             }-700`}
           >
             {tag.name}
@@ -30,14 +32,10 @@ const Header: FC<Props> = (props) => {
         ))}
       </div>
       {/* sort at the right corner */}
-      <div
-        className={`flex gap-2 ${
-          allSnips?.length > 4 || snips?.length > 4 ? "" : "pr-4"
-        }`}
-      >
+      <div className={`flex gap-2 ${hasMoreThanFour ? "" : "pr-4"}`}>
         <ExportButton snips={allSnips ?? snips} />
-        <SettingsButton />
-        {(allSnips?.length > 4 || snips?.length > 4) && <Dropdown />}
+        <SettingsButton stickRight={!hasMoreThanFour} />
+        {hasMoreThanFour && <Dropdown />}
       </div>
       {/* <div className="flex pr-4">
           <ExportButton snips={allSnips ?? snips} />

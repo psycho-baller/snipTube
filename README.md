@@ -18,23 +18,24 @@ To run the browser extension, run `yarn dev` in the root folder, then you will f
 
 ### Frontend
 
-- [X] add css and style the snips
-- [X] make everything get updated instantly (e.g: when we make a new snip, reflect that in the video bar)
-- [X] build the popup.tsx file
-- [ ] style the tags in the popup and put them in tab 2 too
+- [x] add css and style the snips
+- [x] make everything get updated instantly (e.g: when we make a new snip, reflect that in the video bar)
+- [x] build the popup.tsx file
+- [x] style the tags in the popup and put them in tab 2 too
 - [ ] make the tags clickable in the popup and make them filter the snips
-- [X] add notes and play button for both tabs
-- [X] add a delete button for the snips
+- [x] add notes and play button for both tabs
+- [x] add a delete button for the snips
 - [ ] add a way users can change the name (AI generated title) of the snip
   - [ ] before submitting the snip
   - [ ] after submitting the snip (in the popup)
-- [X] Try out [plasmo](https://www.plasmo.com/)
-- [X] Investigate different OSS LLMs to see which one is the best for this project
-- [X] The snip summary now has context to the whole video instead of just the snip
+- [x] Try out [plasmo](https://www.plasmo.com/)
+- [x] Investigate different OSS LLMs to see which one is the best for this project
+- [x] The snip summary now has context to the whole video instead of just the snip
 - [ ] Options?
 - [ ] Settings page
-  - [ ] Change default snip duration
+  - [x] Change default snip duration
   - [ ] Set if you want to edit your notes or tags before submitting the snip
+    - [ ] Set if you want to pause the video when you submit a snip
   - [ ] Users can choose which llm they want to use
     - [ ] If gpt3.5, monthly subscription
     - [ ] If open source llm, free
@@ -43,12 +44,12 @@ To run the browser extension, run `yarn dev` in the root folder, then you will f
   - [ ] Light mode
 - [ ] When a snip is clicked, it will expand and show all info about the snip
 - [ ] Use framer motion for animations
-- [X] Add a js backend to get transcript and video details and separate the storage stuff from the backend
-- [ ] You can now export your snips as json or md
+- [x] Add a js backend to get transcript and video details and separate the storage stuff from the backend
+- [ ] You can now export your snips as json
 
 ### Backend
 
-- [X] Move the backend to the nextjs app
+- [x] Move the backend to the nextjs app
 - [ ] handle the case where the backend has not yet completed summarizing the whole video (do we even want that feature??? How would others do it to get the best summary possible?)
 - [ ] What is stopping me from moving the FastAPI backend to the NextJS backend?
   - pros:

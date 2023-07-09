@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import type { Snip } from '~utils/types';
-import { setSnips } from './storage';
+import { create } from "zustand";
+import type { Snip } from "~utils/types";
+import { getDefaultSnipLength, setDefaultSnipLength, setSnips } from "./storage";
 
 type State = {
   snips: Snip[];
@@ -63,19 +63,23 @@ export const useAllSnipsStore = create<State & Actions>((set, get) => ({
     // await setSnips(snips)
     set({ snips });
   },
-
 }));
 
 export const useSettingsStore = create<SettingsState & SettingsActions>((set, get) => ({
   defaultLength: 30,
   addDetailsAfterSnipping: true,
-  setDefaultLength: (length) => set({ defaultLength: length }),
+  setDefaultLength: async (length) => {
+    await setDefaultSnipLength(length);
+    set({ defaultLength: length });
+  },
   setAddDetailsAfterSnipping: (addDetails) => set({ addDetailsAfterSnipping: addDetails }),
 }));
 
-export const useContentScriptStore = create<contentScriptState & contentScriptActions>((set, get) => ({
-  showOverlay: false,
-  setShowOverlay: (showOverlay) => set({ showOverlay }),
-  snipNote: "",
-  snipTags: [],
-}));
+export const useContentScriptStore = create<contentScriptState & contentScriptActions>(
+  (set, get) => ({
+    showOverlay: false,
+    setShowOverlay: (showOverlay) => set({ showOverlay }),
+    snipNote: "",
+    snipTags: [],
+  })
+);

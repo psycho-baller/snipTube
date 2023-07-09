@@ -31,7 +31,7 @@ const YtSnip: FC<Props> = (props) => {
 
   return (
     <li className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl">
-      <p className="font-bold text-slate-100">{title}</p>
+      <p className="font-bold text-gray-100">{title}</p>
       {/* grid of 3 equal sized columns in 1 row */}
       <div className="grid w-full grid-cols-3 gap-2">
         {/* tags */}
@@ -41,8 +41,8 @@ const YtSnip: FC<Props> = (props) => {
             <div
               key={i}
               className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${
-                tag.color ?? "slate"
-              }-600`}
+                tag.color ?? "gray"
+              }-700`}
             >
               {tag.name}
             </div>
@@ -62,7 +62,7 @@ const YtSnip: FC<Props> = (props) => {
 
       <div className={`${showNote ? "block" : "hidden"} transition-all duration-300 -mb-1`}>
         <TextareaAutosize
-          className="w-full p-2 rounded-md resize-none text-slate-100 bg-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:bg-slate-800 placeholder-slate-400 "
+          className="w-full p-2 text-gray-100 placeholder-gray-400 bg-gray-700 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800 "
           placeholder="Add a note..."
           value={textareaValue}
           maxRows={5}

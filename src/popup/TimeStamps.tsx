@@ -1,4 +1,4 @@
-import { useState, type FC, useEffect, type MouseEvent } from 'react';
+import { useState, type FC, useEffect, type MouseEvent } from "react";
 import "~styles/play-pause-btn.css";
 
 interface Props {
@@ -13,12 +13,14 @@ const TimeStamps: FC<Props> = (props) => {
   const { start, end, id, tab = 0, inYoutube = false } = props;
   let animateElement: SVGAnimateElement;
 
-  const [state, setState] = useState<'pause' | 'play'>('play')
+  const [state, setState] = useState<"pause" | "play">("play");
 
   useEffect(() => {
-    animateElement = document.getElementById('from_play_to_pause_' + id + tab) as unknown as SVGAnimateElement;
+    animateElement = document.getElementById(
+      "from_play_to_pause_" + id + tab
+    ) as unknown as SVGAnimateElement;
     animateElement.beginElement();
-  }, [])
+  }, []);
 
   const handlePlayBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ const TimeStamps: FC<Props> = (props) => {
             }
           );
         }
-      })
+      });
     } else {
       // TODO: play the video/audio in the popup itself (thumbnail becomes the video player)
       // for now open a new tab with the youtube video
@@ -48,15 +50,48 @@ const TimeStamps: FC<Props> = (props) => {
   };
 
   return (
-    <div className="flex items-center justify-center col-span-1 gap-2 text-slate-400">
-      <div className="">{Math.floor(start / 60)}:{String(Math.round(start) % 60).padStart(2, "0")}</div>
+    <div className="flex items-center justify-center col-span-1 gap-2 text-gray-400">
+      <div className="">
+        {Math.floor(start / 60)}:{String(Math.round(start) % 60).padStart(2, "0")}
+      </div>
       {/* <div className="mx-1">-</div> */}
       {/* play button */}
-      <button className="flex items-center transform rounded-full" onClick={handlePlayBtnClick} id='pause'>
-        <svg width="30" height="30" id={id.toString()} viewBox="0 0 104 04" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle id="circle" className={`${state === 'play' ? '' : ''}`} cx="51" cy="1" r="50" strokeDasharray="314" strokeDashoffset="0" />
-          <line id='line1' x1="38" y1="-20" x2="38" y2="20" />
-          <path className='line2' id={`line2_${id + tab}`} d="M 66 -20 L 66 0 L 66 20" rx="10" ry="10">
+      <button
+        className="flex items-center transform rounded-full"
+        onClick={handlePlayBtnClick}
+        id="pause"
+      >
+        <svg
+          width="30"
+          height="30"
+          id={id.toString()}
+          viewBox="0 0 104 04"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            id="circle"
+            className={`${state === "play" ? "" : ""}`}
+            cx="51"
+            cy="1"
+            r="50"
+            strokeDasharray="314"
+            strokeDashoffset="0"
+          />
+          <line
+            id="line1"
+            x1="38"
+            y1="-20"
+            x2="38"
+            y2="20"
+          />
+          <path
+            className="line2"
+            id={`line2_${id + tab}`}
+            d="M 66 -20 L 66 0 L 66 20"
+            rx="10"
+            ry="10"
+          >
             <animate
               attributeName="d"
               dur="300ms"
@@ -77,10 +112,11 @@ const TimeStamps: FC<Props> = (props) => {
             id={`from_pause_to_play_${id + tab}`}
             begin="indefinite"
           />
-
         </svg>
       </button>
-      <div className="">{Math.floor(end / 60)}:{String(Math.round(end) % 60).padStart(2, "0")}</div>
+      <div className="">
+        {Math.floor(end / 60)}:{String(Math.round(end) % 60).padStart(2, "0")}
+      </div>
     </div>
   );
 };
