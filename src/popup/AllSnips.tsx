@@ -5,11 +5,10 @@ import Topbar from "./Topbar";
 import { getAllSnips } from "~utils/storage";
 import OutsideSnip from "./OutsideSnip";
 
-interface Props {
-}
+interface Props {}
 
 const AllSnips: React.FC<Props> = (props) => {
-  const { } = props;
+  const {} = props;
 
   const snips: Snip[] = useAllSnipsStore((state) => state.snips);
   const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
@@ -32,22 +31,33 @@ const AllSnips: React.FC<Props> = (props) => {
       });
       return acc as Tag[];
     }, []);
-  }, [snips])
+  }, [snips]);
   return (
     <>
-      {(snips.length > 0) ? (
+      {snips.length > 0 ? (
         <>
-          <Topbar tags={tags} allSnips={snips} />
+          <Topbar
+            tags={tags}
+            allSnips={snips}
+          />
           <ul className="w-full">
-            {snips.map((snip: Snip, i): JSX.Element => (
-              <OutsideSnip key={i} snip={snip} />
-            ))}
+            {snips.map(
+              (snip: Snip, i): JSX.Element => (
+                <OutsideSnip
+                  key={i}
+                  snip={snip}
+                />
+              )
+            )}
           </ul>
         </>
       ) : (
         <div className="flex flex-col items-center justify-center w-full h-96">
           <h1 className="text-2xl font-semibold">No Snips Found</h1>
-          <p className="text-lg text-center">Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.</p>
+          <p className="text-lg text-center">
+            Add a snip to this video by clicking the "+" icon in the bottom right corner of the
+            video.
+          </p>
         </div>
       )}
     </>

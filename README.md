@@ -46,6 +46,7 @@ To run the browser extension, run `yarn dev` in the root folder, then you will f
 - [ ] Use framer motion for animations
 - [x] Add a js backend to get transcript and video details and separate the storage stuff from the backend
 - [ ] You can now export your snips as json
+- [ ] You can use a shortcut to create a snip
 
 ### Backend
 

@@ -31,7 +31,7 @@ const YtSnip: FC<Props> = (props) => {
 
   return (
     <li className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl">
-      <p className="font-bold text-gray-100">{title}</p>
+      <p className="text-lg font-medium text-gray-100">{title}</p>
       {/* grid of 3 equal sized columns in 1 row */}
       <div className="grid w-full grid-cols-3 gap-2">
         {/* tags */}

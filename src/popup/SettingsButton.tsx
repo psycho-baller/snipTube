@@ -1,6 +1,5 @@
 import { useState, type FC, useRef, useEffect, type ChangeEvent } from "react";
-import { getDefaultSnipLength, setDefaultSnipLength } from "~utils/storage";
-import { useSettingsStore, useSnipsStore } from "~utils/store";
+import SettingsForm from "./SettingsForm";
 
 interface Props {
   className?: string;
@@ -11,17 +10,6 @@ const SettingsButton: FC<Props> = (props) => {
   const { className = "w-5", stickRight } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const [length, setLength] = useState<number>(30);
-
-  const handleLengthChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setLength(parseInt(e.target.value));
-    await setDefaultSnipLength(parseInt(e.target.value));
-  };
-  const handleSave = async () => {
-    console.log("save", length);
-    await setDefaultSnipLength(length);
-  };
 
   const toggleDropdown = () => {
     setIsOpen((prevState) => !prevState);
@@ -34,24 +22,12 @@ const SettingsButton: FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    new Promise((resolve) => {
-      getDefaultSnipLength().then((length) => {
-        console.log("length", length);
-        setLength(length);
-        resolve(length);
-      });
-    }) as unknown as number;
-
     document.addEventListener("click", handleClickOutside);
     return () => {
-      // new Promise((resolve) => {
-      //   setDefaultSnipLength(length).then(() => {
-      //     resolve(length);
-      //   });
-      // }) as unknown as number;
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   return (
     <div
       className="relative flex self-center justify-center"
@@ -59,7 +35,12 @@ const SettingsButton: FC<Props> = (props) => {
     >
       <button
         onClick={toggleDropdown}
-        className="flex self-center justify-center p-1 bg-gray-700 rounded-full hover:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-600"
+        className={
+          "flex self-center justify-center p-1 rounded-full " +
+          (isOpen
+            ? " bg-gray-600 ring-1 ring-gray-500 outline-none"
+            : "bg-gray-700 hover:bg-gray-600")
+        }
       >
         <svg
           className={className}
@@ -94,86 +75,15 @@ const SettingsButton: FC<Props> = (props) => {
         </svg>
       </button>
 
-      <div
+      <SettingsForm
         className={
-          "absolute top-7 py-2 mt-2 bg-gray-800 rounded-md shadow-lg origin-top duration-200 z-10 max-w-md p-4 mx-auto " +
-          (stickRight ? " -right-3" : "") +
-          (isOpen ? " scale-100" : " scale-0")
+          "absolute space-y-6 w-72 top-7 py-2 mt-2 bg-gray-800 rounded-md shadow-2xl origin-top duration-200 z-10 max-w-md p-4 mx-auto border border-gray-600 ease-out" +
+          " " +
+          (stickRight ? "-right-3" : "-right-[4.25rem]") +
+          " " +
+          (isOpen ? "opacity-1 scale-100" : "opacity-0 scale-95")
         }
-      >
-        <div className="flex items-center justify-between mb-4">
-          {/* keep in single line:  overflow-ellipsis whitespace-nowrap  */}
-          <h2 className="overflow-hidden text-lg font-medium">Settings Form</h2>
-          <button
-            type="button"
-            className="text-gray-500 bg-transparent hover:text-gray-700"
-            aria-label="Add Note After Saving Snip Info"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              {/* Add your question mark icon here */}
-            </svg>
-          </button>
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="addNoteAfterSaving"
-            className="font-medium"
-          >
-            Add note after saving snip
-          </label>
-          <div className="flex items-center mt-2">
-            <input
-              id="addNoteAfterSaving"
-              type="checkbox"
-              className="w-5 h-5 text-green-500 form-checkbox"
-              // checked={addNoteAfterSaving}
-              // onChange={handleAddNoteAfterSavingToggle}
-            />
-            <label
-              htmlFor="addNoteAfterSaving"
-              className="ml-2"
-            >
-              Enable
-            </label>
-          </div>
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="defaultSnipLength"
-            className="font-medium"
-          >
-            Default Snip Length
-          </label>
-          <div className="flex items-center mt-2">
-            <input
-              type="number"
-              className="w-16 px-2 py-1 text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
-              value={length}
-              onChange={handleLengthChange}
-              onBlur={handleSave}
-            />
-            <button
-              type="button"
-              className="text-gray-500 bg-transparent hover:text-gray-700"
-              aria-label="Default Snip Length Info"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                {/* Add your question mark icon here */}
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
+      />
     </div>
   );
 };

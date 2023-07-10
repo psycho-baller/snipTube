@@ -32,7 +32,7 @@ const Header: FC<Props> = (props) => {
         ))}
       </div>
       {/* sort at the right corner */}
-      <div className={`flex gap-2 ${hasMoreThanFour ? "" : "pr-4"}`}>
+      <div className={`flex justify-end flex-1 gap-2 ${hasMoreThanFour ? "" : "pr-4"}`}>
         <ExportButton snips={allSnips ?? snips} />
         <SettingsButton stickRight={!hasMoreThanFour} />
         {hasMoreThanFour && <Dropdown />}

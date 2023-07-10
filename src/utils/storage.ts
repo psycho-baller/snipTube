@@ -82,8 +82,57 @@ export const setDefaultSnipLength = async (length: number) => {
 
 export const getDefaultSnipLength = async () => {
   return new Promise<number>((resolve, reject) => {
-    chrome.storage.sync.get(["defaultSnipLength"], (result) => {
-      resolve(result.defaultSnipLength || 30);
+    chrome.storage.sync.get(["defaultSnipLength"], async (result) => {
+      if (!result.defaultSnipLength) {
+        resolve(await setDefaultSnipLength(30));
+      } else {
+        resolve(result.defaultSnipLength);
+      }
+    });
+  });
+};
+
+export const setShowOverlayOnNewSnip = async (show: boolean) => {
+  return new Promise<boolean>((resolve, reject) => {
+    chrome.storage.sync.set({ showOverlayOnNewSnip: show }, async () => {
+      console.log("showOverlayOnNewSnip", show);
+      resolve(show);
+    });
+  });
+};
+
+export const getShowOverlayOnNewSnip = async () => {
+  return new Promise<boolean>((resolve, reject) => {
+    chrome.storage.sync.get(["showOverlayOnNewSnip"], async (result) => {
+      if (!result.showOverlayOnNewSnip) {
+        resolve(await setShowOverlayOnNewSnip(false));
+      } else {
+        resolve(result.showOverlayOnNewSnip);
+      }
+    });
+  });
+};
+
+export const setPauseVideoOnNewSnip = async (pause: boolean) => {
+  return new Promise<boolean>((resolve, reject) => {
+    // make sure it's called when overlay is true
+    if (!getShowOverlayOnNewSnip()) {
+      reject("Can't pause video if overlay is not shown");
+    }
+    chrome.storage.sync.set({ pauseVideoOnNewSnip: pause }, () => {
+      resolve(pause);
+    });
+  });
+};
+
+export const getPauseVideoOnNewSnip = async () => {
+  return new Promise<boolean>((resolve, reject) => {
+    chrome.storage.sync.get(["pauseVideoOnNewSnip"], async (result) => {
+      if (!result.pauseVideoOnNewSnip) {
+        resolve(await setPauseVideoOnNewSnip(false));
+      } else {
+        resolve(result.pauseVideoOnNewSnip);
+      }
     });
   });
 };

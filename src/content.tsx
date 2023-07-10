@@ -1,11 +1,18 @@
 import type { Snip, VidDetails } from "./utils/types";
 import type { PlasmoCSConfig, PlasmoCSUIJSXContainer, PlasmoRender } from "plasmo";
-import { getDefaultSnipLength, getSnips, setDefaultSnipLength, setSnips } from "~utils/storage";
+import {
+  getDefaultSnipLength,
+  getPauseVideoOnNewSnip,
+  getShowOverlayOnNewSnip,
+  getSnips,
+  setDefaultSnipLength,
+  setSnips,
+} from "~utils/storage";
 import { getVideoDetails, getFullSummary } from "~utils/youtube";
 import { getSnipTranscript } from "~utils/youtube";
 import { URL } from "~utils/constants";
 import { createRoot } from "react-dom/client";
-import { useState, type FormEvent, type KeyboardEvent } from "react";
+import { useState, type FormEvent, type KeyboardEvent, useEffect } from "react";
 import { useSettingsStore, useContentScriptStore } from "~utils/store";
 export const config: PlasmoCSConfig = {
   matches: ["https://*.youtube.com/watch*"],
@@ -20,17 +27,28 @@ let vidTranscript: string;
 let vidSummary: string;
 let vidTitle: string;
 let note: string = "";
-
 // ask user for note and tags
 const PlasmoOverlay = () => {
-  if (!useSettingsStore.getState().addDetailsAfterSnipping) {
+  if (getShowOverlayOnNewSnip()) {
     return null;
   }
 
   const show = useContentScriptStore((state) => state.showOverlay);
+  // const [pauseVideoOnNewSnip, setPauseVideoOnNewSnip] = useState<boolean>(true);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  // useEffect(() => {
+  //   new Promise<boolean>((resolve) => {
+  //     getPauseVideoOnNewSnip().then((pauseVideoOnNewSnip) => {
+  //       console.log("pauseVideoOnNewSnip", pauseVideoOnNewSnip);
+  //       setPauseVideoOnNewSnip(pauseVideoOnNewSnip);
+  //       resolve(pauseVideoOnNewSnip);
+  //     });
+  //   });
+  // }, []);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
     const note = formData.get("note") as string;
     const tags = formData.get("tags") as string;
@@ -98,6 +116,7 @@ const newVideoLoaded = async () => {
   // useSettingsStore.setState({ defaultLength: len });
   // console.log(useSettingsStore.getState().defaultLength, "meow", len);
   const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
+  chrome.storage.sync.clear();
 
   // get the current video id if it doesn't exists
   if (!videoId) {
@@ -149,6 +168,8 @@ const newVideoLoaded = async () => {
 };
 
 async function addNewSnipEventHandler() {
+  // TODO: figure out how I want the process to work
+
   const date = new Date();
   const currentTime = ~~youtubePlayer.currentTime; // ~~ is a faster Math.floor
   const startTime = currentTime - (await getDefaultSnipLength());
@@ -162,26 +183,27 @@ async function addNewSnipEventHandler() {
   const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
   const encodedSummary = Buffer.from(vidSummary).toString("base64");
-  const summary = await fetch(`${URL}/llm/summarize/snip`, {
-    // mode: "no-cors",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      transcript: encodedTranscript,
-      title: encodedTitle,
-      summary: encodedSummary,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => data.summary);
+  let summary = "";
 
   // show the overlay and wait for the user to add details
   const { snipNote, snipTags } = await new Promise<{ snipNote: string; snipTags: string[] }>(
-    (resolve) => {
+    async (resolve) => {
       // if user doesn't want to add details after snipping, resolve with empty strings
-      if (!useSettingsStore.getState().addDetailsAfterSnipping) {
+      if (!(await getShowOverlayOnNewSnip())) {
+        summary = await fetch(`${URL}/llm/summarize/snip`, {
+          // mode: "no-cors",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            transcript: encodedTranscript,
+            title: encodedTitle,
+            summary: encodedSummary,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => data.summary);
         resolve({
           snipNote: "",
           snipTags: [],
@@ -189,12 +211,35 @@ async function addNewSnipEventHandler() {
       } else {
         // otherwise, show the overlay and wait for the user to add details
         useContentScriptStore.setState({ showOverlay: true });
-        useContentScriptStore.subscribe((showOverlay) => {
+        // check if user wants to pause video on new snip
+        if (await getPauseVideoOnNewSnip()) {
+          youtubePlayer.pause();
+        }
+
+        useContentScriptStore.subscribe(async (showOverlay) => {
           resolve({
             snipNote: useContentScriptStore.getState().snipNote,
             snipTags: useContentScriptStore.getState().snipTags,
           });
+          // unpause the video if it was paused
+          if (await getPauseVideoOnNewSnip()) {
+            youtubePlayer.play();
+          }
         });
+        summary = await fetch(`${URL}/llm/summarize/snip`, {
+          // mode: "no-cors",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            transcript: encodedTranscript,
+            title: encodedTitle,
+            summary: encodedSummary,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => data.summary);
       }
     }
   );
