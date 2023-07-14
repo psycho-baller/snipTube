@@ -43,7 +43,7 @@ const Popup: FC<Props> = () => {
   // };
 
   return (
-    <main className="w-[30rem] overflow-hidden min-h-[30rem] dark:bg-gray-950 dark:text-white">
+    <main className="w-[30rem] overflow-hidden min-h-[25rem] dark:bg-gray-950 dark:text-white">
       {inYoutube ? (
         <Tabs />
       ) : (
@@ -53,7 +53,7 @@ const Popup: FC<Props> = () => {
         </section>
       )}
       {/* made w love at the bottom of page */}
-      <footer className="flex items-center justify-center w-full h-12 text-sm text-gray-500 dark:text-gray-400 gap-x-1">
+      <footer className="fixed bottom-0 flex justify-center w-full h-8 text-sm text-gray-500 dark:text-gray-400 gap-x-1">
         Made with ❤️ by
         <a
           href="https://ramimaalouf.tech"

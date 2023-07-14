@@ -23,10 +23,10 @@ const AllSnips: React.FC<Props> = (props) => {
       snip.tags?.forEach((tag: Tag) => {
         if (!acc.find((t: Tag) => t.name === tag.name)) {
           acc.push(tag);
-          acc.push(tag);
-          acc.push(tag);
-          acc.push(tag);
-          acc.push(tag);
+          // acc.push(tag);
+          // acc.push(tag);
+          // acc.push(tag);
+          // acc.push(tag);
         }
       });
       return acc as Tag[];
@@ -34,12 +34,12 @@ const AllSnips: React.FC<Props> = (props) => {
   }, [snips]);
   return (
     <>
+      <Topbar
+        tags={tags}
+        allSnips={snips}
+      />
       {snips.length > 0 ? (
         <>
-          <Topbar
-            tags={tags}
-            allSnips={snips}
-          />
           <ul className="w-full">
             {snips.map(
               (snip: Snip, i): JSX.Element => (
