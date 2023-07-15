@@ -2,18 +2,20 @@ import { type FC, useState } from "react";
 import AllSnips from "./AllSnips";
 import CurrentSnips from "./CurrentSnips";
 
-interface Props {}
+interface Props {
+  className?: string;
+}
 
 const Tabs: FC<Props> = (props) => {
-  const {} = props;
+  const { className } = props;
 
   const tabs = ["Current Video Snips", "All Video Snips"];
 
   const [activeTab, setActiveTab] = useState<number>(0);
 
   return (
-    <div className="flex flex-col items-center justify-center flex-nowrap">
-      <header className="flex items-center justify-center w-full pt-2 text-lg px-auto flex-nowrap dark:bg-gradient-to-t dark:from-gray-950 dark:via-gray-800 dark:to-gray-800">
+    <div className={`flex flex-col ${className}`}>
+      <nav className="flex pt-2 text-lg px-auto dark:bg-gradient-to-t dark:from-gray-950 dark:via-gray-800 dark:to-gray-800">
         <div className="self-end flex-grow border-b"></div>
         {tabs.map((tab, index) => (
           <div
@@ -33,8 +35,8 @@ const Tabs: FC<Props> = (props) => {
           </div>
         ))}
         <div className="self-end flex-grow border-b" />
-      </header>
-      <section className="w-full px-4">{activeTab === 0 ? <CurrentSnips /> : <AllSnips />}</section>
+      </nav>
+      {activeTab === 0 ? <CurrentSnips className="flex-grow px-4 " /> : <AllSnips className="flex-grow px-4 " />}
     </div>
   );
 };

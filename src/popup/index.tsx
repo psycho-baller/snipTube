@@ -43,17 +43,14 @@ const Popup: FC<Props> = () => {
   // };
 
   return (
-    <main className="w-[30rem] overflow-hidden min-h-[25rem] dark:bg-gray-950 dark:text-white">
+    <div className="w-[30rem] flex flex-col overflow-hidden min-h-[25.5rem] dark:bg-gray-950 dark:text-white">
       {inYoutube ? (
-        <Tabs />
+        <Tabs className="flex-grow h-full" />
       ) : (
         // Have a home page that shows by default when you're not on youtube
-        <section className="w-full px-4">
-          <AllSnips />
-        </section>
+        <AllSnips className="px-4 flex-grow" />
       )}
-      {/* made w love at the bottom of page */}
-      <footer className="fixed bottom-0 flex justify-center w-full h-8 text-sm text-gray-500 dark:text-gray-400 gap-x-1">
+      <footer className="flex mb-2 justify-center w-full text-sm text-gray-500 dark:text-gray-400 gap-x-1">
         Made with ❤️ by
         <a
           href="https://ramimaalouf.tech"
@@ -64,7 +61,7 @@ const Popup: FC<Props> = () => {
           Rami Maalouf
         </a>
       </footer>
-    </main>
+    </div>
   );
 };
 

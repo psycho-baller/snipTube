@@ -5,10 +5,12 @@ import Topbar from "./Topbar";
 import { getAllSnips } from "~utils/storage";
 import OutsideSnip from "./OutsideSnip";
 
-interface Props {}
+interface Props {
+  className?: string;
+}
 
 const AllSnips: React.FC<Props> = (props) => {
-  const {} = props;
+  const { className } = props;
 
   const snips: Snip[] = useAllSnipsStore((state) => state.snips);
   const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
@@ -33,13 +35,13 @@ const AllSnips: React.FC<Props> = (props) => {
     }, []);
   }, [snips]);
   return (
-    <>
+    <div className={`w-full ${className}`}>
       <Topbar
         tags={tags}
         allSnips={snips}
       />
       {snips.length > 0 ? (
-        <>
+        <main>
           <ul className="w-full">
             {snips.map(
               (snip: Snip, i): JSX.Element => (
@@ -50,17 +52,16 @@ const AllSnips: React.FC<Props> = (props) => {
               )
             )}
           </ul>
-        </>
+        </main>
       ) : (
         <div className="flex flex-col items-center justify-center w-full h-96">
           <h1 className="text-2xl font-semibold">No Snips Found</h1>
           <p className="text-lg text-center">
-            Add a snip to this video by clicking the "+" icon in the bottom right corner of the
-            video.
+            Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.
           </p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

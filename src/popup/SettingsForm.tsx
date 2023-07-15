@@ -62,7 +62,7 @@ const SettingsForm: FC<Props> = (props) => {
     });
   }, []);
   return (
-    <div className={className}>
+    <section className={className}>
       <div className="flex items-center justify-between">
         {/* keep in single line:  overflow-ellipsis whitespace-nowrap  */}
         <h2 className="-mb-2 overflow-hidden text-2xl font-medium">Settings</h2>
@@ -169,7 +169,7 @@ const SettingsForm: FC<Props> = (props) => {
           </button> */}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
