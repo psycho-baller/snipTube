@@ -96,6 +96,10 @@ export const setShowOverlayOnNewSnip = async (show: boolean) => {
   return new Promise<boolean>((resolve, reject) => {
     chrome.storage.sync.set({ showOverlayOnNewSnip: show }, async () => {
       console.log("showOverlayOnNewSnip", show);
+      // log the values of the storage
+      chrome.storage.sync.get(null, (result) => {
+        console.log("result", result);
+      });
       resolve(show);
     });
   });
@@ -104,8 +108,9 @@ export const setShowOverlayOnNewSnip = async (show: boolean) => {
 export const getShowOverlayOnNewSnip = async () => {
   return new Promise<boolean>((resolve, reject) => {
     chrome.storage.sync.get(["showOverlayOnNewSnip"], async (result) => {
-      if (!result.showOverlayOnNewSnip) {
-        resolve(await setShowOverlayOnNewSnip(false));
+      if (result.showOverlayOnNewSnip === undefined) {
+        // await setShowOverlayOnNewSnip(false);
+        resolve(true);
       } else {
         resolve(result.showOverlayOnNewSnip);
       }
@@ -120,6 +125,9 @@ export const setPauseVideoOnNewSnip = async (pause: boolean) => {
       reject("Can't pause video if overlay is not shown");
     }
     chrome.storage.sync.set({ pauseVideoOnNewSnip: pause }, () => {
+      chrome.storage.sync.get(null, (result) => {
+        console.log("result", result);
+      });
       resolve(pause);
     });
   });
@@ -128,8 +136,8 @@ export const setPauseVideoOnNewSnip = async (pause: boolean) => {
 export const getPauseVideoOnNewSnip = async () => {
   return new Promise<boolean>((resolve, reject) => {
     chrome.storage.sync.get(["pauseVideoOnNewSnip"], async (result) => {
-      if (!result.pauseVideoOnNewSnip) {
-        resolve(await setPauseVideoOnNewSnip(false));
+      if (result.pauseVideoOnNewSnip === undefined) {
+        resolve(true);
       } else {
         resolve(result.pauseVideoOnNewSnip);
       }
