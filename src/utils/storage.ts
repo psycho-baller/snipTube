@@ -83,7 +83,7 @@ export const setDefaultSnipLength = async (length: number) => {
 export const getDefaultSnipLength = async () => {
   return new Promise<number>((resolve, reject) => {
     chrome.storage.sync.get(["defaultSnipLength"], async (result) => {
-      if (!result.defaultSnipLength) {
+      if (result.defaultSnipLength === undefined) {
         resolve(await setDefaultSnipLength(30));
       } else {
         resolve(result.defaultSnipLength);
@@ -95,11 +95,6 @@ export const getDefaultSnipLength = async () => {
 export const setShowOverlayOnNewSnip = async (show: boolean) => {
   return new Promise<boolean>((resolve, reject) => {
     chrome.storage.sync.set({ showOverlayOnNewSnip: show }, async () => {
-      console.log("showOverlayOnNewSnip", show);
-      // log the values of the storage
-      chrome.storage.sync.get(null, (result) => {
-        console.log("result", result);
-      });
       resolve(show);
     });
   });
@@ -125,9 +120,6 @@ export const setPauseVideoOnNewSnip = async (pause: boolean) => {
       reject("Can't pause video if overlay is not shown");
     }
     chrome.storage.sync.set({ pauseVideoOnNewSnip: pause }, () => {
-      chrome.storage.sync.get(null, (result) => {
-        console.log("result", result);
-      });
       resolve(pause);
     });
   });

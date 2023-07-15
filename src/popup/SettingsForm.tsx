@@ -4,6 +4,8 @@ import {
   getPauseVideoOnNewSnip,
   getShowOverlayOnNewSnip,
   setDefaultSnipLength,
+  setPauseVideoOnNewSnip,
+  setShowOverlayOnNewSnip,
 } from "~utils/storage";
 interface Props {
   className?: string;
@@ -12,8 +14,8 @@ interface Props {
 const SettingsForm: FC<Props> = (props) => {
   const { className } = props;
 
-  const [showOverlayOnNewSnip, setShowOverlayOnNewSnip] = useState<boolean>(false);
-  const [pauseVideoOnNewSnip, setPauseVideoOnNewSnip] = useState<boolean>(false);
+  const [showOverlayOnNewSnipState, setShowOverlayOnNewSnipState] = useState<boolean>(true);
+  const [pauseVideoOnNewSnipState, setPauseVideoOnNewSnipState] = useState<boolean>(true);
   const [length, setLength] = useState<number>(30);
 
   const handleSave = async () => {
@@ -26,14 +28,13 @@ const SettingsForm: FC<Props> = (props) => {
     await setDefaultSnipLength(parseInt(e.target.value));
   };
 
-  const handleShowOverlayOnNewSnipChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setShowOverlayOnNewSnip(e.target.checked);
-    console.log("showOverlayOnNewSnip", e.target.checked);
-    setShowOverlayOnNewSnip(e.target.checked);
+  const handleShowOverlayOnNewSnipChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    setShowOverlayOnNewSnipState(e.target.checked);
+    await setShowOverlayOnNewSnip(e.target.checked);
   };
 
   const handlePauseVideoOnNewSnipChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setPauseVideoOnNewSnip(e.target.checked);
+    setPauseVideoOnNewSnipState(e.target.checked);
     await setPauseVideoOnNewSnip(e.target.checked);
   };
 
@@ -48,16 +49,14 @@ const SettingsForm: FC<Props> = (props) => {
 
     new Promise<boolean>((resolve) => {
       getShowOverlayOnNewSnip().then((showOverlayOnNewSnip) => {
-        console.log("showOverlayOnNewSnip", showOverlayOnNewSnip);
-        setShowOverlayOnNewSnip(showOverlayOnNewSnip);
+        setShowOverlayOnNewSnipState(showOverlayOnNewSnip);
         resolve(showOverlayOnNewSnip);
       });
     });
 
     new Promise<boolean>((resolve) => {
       getPauseVideoOnNewSnip().then((pauseVideoOnNewSnip) => {
-        console.log("pauseVideoOnNewSnip", pauseVideoOnNewSnip);
-        setPauseVideoOnNewSnip(pauseVideoOnNewSnip);
+        setPauseVideoOnNewSnipState(pauseVideoOnNewSnip);
         resolve(pauseVideoOnNewSnip);
       });
     });
@@ -67,7 +66,7 @@ const SettingsForm: FC<Props> = (props) => {
       <div className="flex items-center justify-between">
         {/* keep in single line:  overflow-ellipsis whitespace-nowrap  */}
         <h2 className="-mb-2 overflow-hidden text-2xl font-medium">Settings</h2>
-        <button
+        {/* <button
           type="button"
           className="text-gray-500 bg-transparent hover:text-gray-700"
           aria-label="Add Note After Saving Snip Info"
@@ -80,7 +79,7 @@ const SettingsForm: FC<Props> = (props) => {
           >
             ?
           </svg>
-        </button>
+        </button> */}
       </div>
 
       <div className="">
@@ -93,7 +92,7 @@ const SettingsForm: FC<Props> = (props) => {
         <div className="flex items-center mt-2">
           <input
             type="checkbox"
-            checked={showOverlayOnNewSnip}
+            checked={showOverlayOnNewSnipState}
             className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handleShowOverlayOnNewSnipChange}
           />
@@ -106,7 +105,7 @@ const SettingsForm: FC<Props> = (props) => {
         </div>
       </div>
 
-      <div className={"" + (showOverlayOnNewSnip ? " " : " hidden")}>
+      <div className={"" + (showOverlayOnNewSnipState ? " " : " hidden")}>
         <label
           htmlFor="showOverlayOnNewSnip"
           className="text-base"
@@ -115,7 +114,7 @@ const SettingsForm: FC<Props> = (props) => {
         </label>
         <div className="flex items-center mt-2">
           <input
-            checked={pauseVideoOnNewSnip}
+            checked={pauseVideoOnNewSnipState}
             type="checkbox"
             className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handlePauseVideoOnNewSnipChange}
@@ -136,17 +135,26 @@ const SettingsForm: FC<Props> = (props) => {
         >
           Default Snip Length
         </label>
-        <div className="flex items-center mt-2">
+        <div className="flex items-center mt-2 ">
           <input
             type="number"
-            className="w-16 px-2 py-1 text-gray-300 bg-gray-700 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-gray-600 focus:bg-gray-800"
+            className="w-16 text-gray-300 bg-gray-800 border-none rounded-lg focus: outline-none focus:bg-gray-800"
             value={length}
             onChange={handleLengthChange}
             // onBlur={handleSave}
             min={20}
-            max={100}
+            max={120}
           />
-          <button
+          <input
+            type="range"
+            className="w-full bg-gray-700 opacity-70 hover:opacity-100"
+            value={length}
+            onChange={handleLengthChange}
+            // onBlur={handleLengthChange}
+            min={20}
+            max={120}
+          />
+          {/* <button
             type="button"
             className="text-gray-500 bg-transparent hover:text-gray-700"
             aria-label="Default Snip Length Info"
@@ -157,9 +165,8 @@ const SettingsForm: FC<Props> = (props) => {
               viewBox="0 0 20 20"
               fill="currentColor"
             >
-              {/* Add your question mark icon here */}
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
