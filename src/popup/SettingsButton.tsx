@@ -37,9 +37,7 @@ const SettingsButton: FC<Props> = (props) => {
         onClick={toggleDropdown}
         className={
           "flex self-center justify-center p-1 rounded-full " +
-          (isOpen
-            ? " bg-gray-600 ring-1 ring-gray-500 outline-none"
-            : "bg-gray-700 hover:bg-gray-600")
+          (isOpen ? " bg-gray-600 ring-1 ring-gray-500 outline-none" : "bg-gray-700 hover:bg-gray-600")
         }
       >
         <svg
@@ -77,7 +75,7 @@ const SettingsButton: FC<Props> = (props) => {
 
       <SettingsForm
         className={
-          "absolute space-y-6 w-72 top-7 py-2 mt-2 bg-gray-800 rounded-md shadow-2xl origin-top duration-200 z-10 max-w-md p-4 mx-auto border border-gray-600 ease-out" +
+          "absolute space-y-6 w-72 top-7 pt-2 pb-4 mt-2 bg-gray-900 rounded-md shadow-2xl origin-top duration-200 z-10 max-w-md p-4 mx-auto border-2 border-gray-700 ease-out" +
           " " +
           (stickRight ? "-right-3" : "-right-[4.25rem]") +
           " " +

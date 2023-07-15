@@ -62,7 +62,7 @@ const SettingsForm: FC<Props> = (props) => {
     });
   }, []);
   return (
-    <section className={className}>
+    <section className={className + ""}>
       <div className="flex items-center justify-between">
         {/* keep in single line:  overflow-ellipsis whitespace-nowrap  */}
         <h2 className="-mb-2 overflow-hidden text-2xl font-medium">Settings</h2>
@@ -93,7 +93,7 @@ const SettingsForm: FC<Props> = (props) => {
           <input
             type="checkbox"
             checked={showOverlayOnNewSnipState}
-            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+            className="w-4 h-4 form-checkbox text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handleShowOverlayOnNewSnipChange}
           />
           {/* <label
@@ -116,7 +116,7 @@ const SettingsForm: FC<Props> = (props) => {
           <input
             checked={pauseVideoOnNewSnipState}
             type="checkbox"
-            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+            className="w-4 h-4 text-gray-500 form-checkbox bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handlePauseVideoOnNewSnipChange}
           />
           {/* <label
@@ -135,10 +135,10 @@ const SettingsForm: FC<Props> = (props) => {
         >
           Default Snip Length
         </label>
-        <div className="flex items-center mt-2 ">
+        <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
           <input
             type="number"
-            className="w-16 text-gray-300 bg-gray-800 border-none rounded-lg focus: outline-none focus:bg-gray-800"
+            className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
             value={length}
             onChange={handleLengthChange}
             // onBlur={handleSave}
@@ -147,7 +147,7 @@ const SettingsForm: FC<Props> = (props) => {
           />
           <input
             type="range"
-            className="w-full bg-gray-700 opacity-70 hover:opacity-100"
+            className="w-full focus:outline-none mr-3"
             value={length}
             onChange={handleLengthChange}
             // onBlur={handleLengthChange}

@@ -75,11 +75,9 @@ export const useSettingsStore = create<SettingsState & SettingsActions>((set, ge
   setAddDetailsAfterSnipping: (addDetails) => set({ addDetailsAfterSnipping: addDetails }),
 }));
 
-export const useContentScriptStore = create<contentScriptState & contentScriptActions>(
-  (set, get) => ({
-    showOverlay: false,
-    setShowOverlay: (showOverlay) => set({ showOverlay }),
-    snipNote: "",
-    snipTags: [],
-  })
-);
+export const useContentScriptStore = create<contentScriptState & contentScriptActions>((set) => ({
+  showOverlay: false,
+  setShowOverlay: (showOverlay) => set({ showOverlay }),
+  snipNote: "",
+  snipTags: [],
+}));
