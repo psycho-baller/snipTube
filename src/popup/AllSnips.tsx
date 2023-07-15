@@ -4,6 +4,7 @@ import { useAllSnipsStore } from "~utils/store";
 import Topbar from "./Topbar";
 import { getAllSnips } from "~utils/storage";
 import OutsideSnip from "./OutsideSnip";
+import NoSnips from "./NoSnips";
 
 interface Props {
   className?: string;
@@ -35,7 +36,7 @@ const AllSnips: React.FC<Props> = (props) => {
     }, []);
   }, [snips]);
   return (
-    <div className={`w-full ${className}`}>
+    <div className={`flex flex-col ${className}`}>
       <Topbar
         tags={tags}
         allSnips={snips}
@@ -54,12 +55,7 @@ const AllSnips: React.FC<Props> = (props) => {
           </ul>
         </main>
       ) : (
-        <div className="flex flex-col items-center justify-center w-full h-96">
-          <h1 className="text-2xl font-semibold">No Snips Found</h1>
-          <p className="text-lg text-center">
-            Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.
-          </p>
-        </div>
+        <NoSnips />
       )}
     </div>
   );

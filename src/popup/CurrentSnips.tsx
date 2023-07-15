@@ -4,6 +4,7 @@ import Topbar from "./Topbar";
 import YtSnip from "./YtSnip";
 import { useSnipsStore } from "~utils/store";
 import { getSnips } from "~utils/storage";
+import NoSnips from "./NoSnips";
 
 interface Props {
   className?: string;
@@ -36,14 +37,14 @@ const CurrentSnips: FC<Props> = (props) => {
   }, [snips]);
 
   return (
-    <section className={`w-full ${className}`}>
+    <div className={`flex flex-col ${className}`}>
       <Topbar
         tags={tags}
         snips={snips}
       />
       {snips.length > 0 ? (
         <main>
-          <ul className="w-full">
+          <ul className="">
             {snips.map(
               (snip: Snip, i): JSX.Element => (
                 <YtSnip
@@ -55,14 +56,9 @@ const CurrentSnips: FC<Props> = (props) => {
           </ul>
         </main>
       ) : (
-        <div className="flex flex-col items-center justify-center w-full h-96">
-          <h1 className="text-2xl font-semibold">No Snips Found</h1>
-          <p className="text-lg text-center">
-            Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.
-          </p>
-        </div>
+        <NoSnips />
       )}
-    </section>
+    </div>
   );
 };
 
