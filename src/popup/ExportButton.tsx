@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ExportButton: FC<Props> = (props) => {
-  const { className = "w-5", snips = undefined, snip = undefined } = props;
+  const { className = "w-5", snips, snip } = props;
 
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -26,7 +26,9 @@ const ExportButton: FC<Props> = (props) => {
 
   return (
     <button
-      className="relative flex self-center justify-center p-1 bg-gray-700 rounded-full group"
+      // disabled only when: 1. no snips and no snip given, 2. no snips in snips array
+      disabled={snips?.length === 0 && !snip}
+      className="relative flex self-center justify-center p-1 bg-gray-700 rounded-full group disabled:opacity-70"
       onClick={exportSnipHandleClick}
     >
       <svg

@@ -79,7 +79,7 @@ const SettingsButton: FC<Props> = (props) => {
           " " +
           (stickRight ? "-right-3" : "-right-[4.25rem]") +
           " " +
-          (isOpen ? "opacity-1 scale-100 visible" : "opacity-0 scale-95 invisible")
+          (isOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible")
         }
       />
     </div>

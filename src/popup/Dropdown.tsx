@@ -66,7 +66,7 @@ const DropdownButton: FC<Props> = (props) => {
       <div
         className={
           "absolute w-24 right-0 py-2 mt-2 bg-gray-800 rounded-md shadow-lg origin-top duration-200 z-10" +
-          (isOpen ? " scale-100" : " scale-0")
+          (isOpen ? " scale-100 " : " scale-0")
         }
       >
         {options.map((option) => (
@@ -79,7 +79,7 @@ const DropdownButton: FC<Props> = (props) => {
             }}
             className={
               "block px-4 py-2 text-sm text-gray-50 hover:bg-gray-700" +
-              (selectedOption === option.value ? " bg-green-700" : "")
+              (selectedOption === option.value ? " bg-cyan-700" : "")
             }
           >
             {option.label}

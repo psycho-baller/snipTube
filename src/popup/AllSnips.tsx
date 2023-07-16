@@ -43,7 +43,7 @@ const AllSnips: React.FC<Props> = (props) => {
       />
       {snips.length > 0 ? (
         <main>
-          <ul className="w-full">
+          <ul className="w-full overflow-scroll">
             {snips.map(
               (snip: Snip, i): JSX.Element => (
                 <OutsideSnip

@@ -17,7 +17,7 @@ const Header: FC<Props> = (props) => {
   const hasMoreThanFour = allSnips?.length > 4 || snips?.length > 4;
 
   return (
-    <header className="flex my-4 -mx-4">
+    <header className="flex top-[3.8rem] sticky bg-gray-950 py-3 -mx-4 z-10">
       <div className="flex mr-2 overflow-x-auto rounded-full no-scrollbar">
         <div className="flex pl-4"></div>
         {tags.map((tag: Tag, i: number) => (

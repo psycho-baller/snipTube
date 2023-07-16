@@ -43,7 +43,7 @@ const Popup: FC<Props> = () => {
   // };
 
   return (
-    <div className="w-[30rem] flex flex-col overflow-hidden min-h-[25.5rem] dark:bg-gray-950 dark:text-white">
+    <div className="w-[30rem] flex flex-col min-h-[25.5rem] dark:bg-gray-950 dark:text-white">
       {inYoutube ? (
         <Tabs className="flex-grow h-full" />
       ) : (
