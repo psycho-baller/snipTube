@@ -2,12 +2,14 @@ import { useEffect, useState, type FC } from "react";
 import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
 import "~styles/tailwind.css";
+import { useContentScriptStore } from "~utils/store";
 
 interface Props {}
 
 const Popup: FC<Props> = () => {
   const [count, setCount] = useState<number>(0);
-  const [inYoutube, setInYoutube] = useState<boolean>(false);
+  const inYoutube = useContentScriptStore((state) => state.inYoutube);
+  const setInYoutube = useContentScriptStore((state) => state.setInYoutube);
   useEffect(() => {
     chrome.action.setBadgeText({ text: count.toString() });
   }, [count]);

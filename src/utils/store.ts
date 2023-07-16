@@ -27,10 +27,12 @@ type contentScriptState = {
   showOverlay: boolean;
   snipNote: string;
   snipTags: string[];
+  inYoutube: boolean;
 };
 
 type contentScriptActions = {
   setShowOverlay: (showOverlay: boolean) => void;
+  setInYoutube: (inYoutube: boolean) => void;
 };
 
 export const useSnipsStore = create<State & Actions>((set, get) => ({
@@ -80,4 +82,6 @@ export const useContentScriptStore = create<contentScriptState & contentScriptAc
   setShowOverlay: (showOverlay) => set({ showOverlay }),
   snipNote: "",
   snipTags: [],
+  inYoutube: false,
+  setInYoutube: (inYoutube) => set({ inYoutube }),
 }));

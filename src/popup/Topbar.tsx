@@ -3,6 +3,7 @@ import { type Snip, type Tag } from "../utils/types";
 import Dropdown from "./Dropdown";
 import ExportButton from "./ExportButton";
 import SettingsButton from "./SettingsButton";
+import { useContentScriptStore } from "~utils/store";
 
 interface Props {
   tags: Tag[];
@@ -14,10 +15,12 @@ interface Props {
 const Header: FC<Props> = (props) => {
   const { tags, allSnips, snips } = props;
 
+  const inYoutube = useContentScriptStore((state) => state.inYoutube);
+
   const hasMoreThanFour = allSnips?.length > 4 || snips?.length > 4;
 
   return (
-    <header className="flex top-[3.8rem] sticky bg-gray-950 py-3 -mx-4 z-10">
+    <header className={"flex sticky bg-gray-950 py-3 -mx-4 z-10" + (inYoutube ? "  top-[3.8rem]" : " top-0")}>
       <div className="flex mr-2 overflow-x-auto rounded-full no-scrollbar">
         <div className="flex pl-4"></div>
         {tags.map((tag: Tag, i: number) => (
