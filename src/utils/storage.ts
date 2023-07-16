@@ -137,6 +137,27 @@ export const getPauseVideoOnNewSnip = async () => {
   });
 };
 
+export const setUseKeyboardShortcut = async (use: boolean) => {
+  return new Promise<boolean>((resolve, reject) => {
+    // make sure it's called when overlay is true
+    chrome.storage.sync.set({ useKeyboardShortcut: use }, () => {
+      resolve(use);
+    });
+  });
+};
+
+export const getUseKeyboardShortcut = async () => {
+  return new Promise<boolean>((resolve, reject) => {
+    chrome.storage.sync.get(["useKeyboardShortcut"], async (result) => {
+      if (result.useKeyboardShortcut === undefined) {
+        resolve(true);
+      } else {
+        resolve(result.useKeyboardShortcut);
+      }
+    });
+  });
+};
+
 // export const getChapters = async () => {
 //   return new Promise<Chapter[]>((resolve, reject) => {
 //     chrome.storage.sync.get(['chapters'], (result) => {

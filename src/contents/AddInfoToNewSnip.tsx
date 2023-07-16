@@ -96,7 +96,7 @@ const PlasmoOverlay = () => {
             <div className="flex justify-center pt-2">
               <button
                 type="submit"
-                className="px-4 py-2 font-bold bg-gray-700 rounded hover:bg-gray-600 text-lg focus:outline-none focus:ring-3 focus:ring-gray-600"
+                className="px-4 py-2 font-bold bg-gray-700 rounded hover:bg-gray-600 text-lg focus:outline-none focus:ring-1 focus:ring-gray-500"
               >
                 Submit
               </button>

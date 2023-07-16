@@ -5,6 +5,7 @@ import {
   getPauseVideoOnNewSnip,
   getShowOverlayOnNewSnip,
   getSnips,
+  getUseKeyboardShortcut,
   setSnips,
 } from "~utils/storage";
 import { getVideoDetails, getFullSummary } from "~utils/youtube";
@@ -67,6 +68,13 @@ const newVideoLoaded = async () => {
     // add it before the first button
     firstRightButton?.parentElement?.insertBefore(snipBtn, firstRightButton);
     snipBtn.addEventListener("click", addNewSnipEventHandler);
+    // if usr clicks 's' then add a snip (if they have that setting enabled)
+
+    document.addEventListener("keydown", async (e) => {
+      if ((await getUseKeyboardShortcut()) && e.key === "s") {
+        addNewSnipEventHandler();
+      }
+    });
   }
 
   // section 2: add the snips to the video

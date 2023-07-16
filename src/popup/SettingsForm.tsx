@@ -3,9 +3,11 @@ import {
   getDefaultSnipLength,
   getPauseVideoOnNewSnip,
   getShowOverlayOnNewSnip,
+  getUseKeyboardShortcut,
   setDefaultSnipLength,
   setPauseVideoOnNewSnip,
   setShowOverlayOnNewSnip,
+  setUseKeyboardShortcut,
 } from "~utils/storage";
 interface Props {
   className?: string;
@@ -16,6 +18,7 @@ const SettingsForm: FC<Props> = (props) => {
 
   const [showOverlayOnNewSnipState, setShowOverlayOnNewSnipState] = useState<boolean>(true);
   const [pauseVideoOnNewSnipState, setPauseVideoOnNewSnipState] = useState<boolean>(true);
+  const [useKeyboardShortcutState, setUseKeyboardShortcutState] = useState<boolean>(true);
   const [length, setLength] = useState<number>(30);
 
   const handleSave = async () => {
@@ -38,6 +41,11 @@ const SettingsForm: FC<Props> = (props) => {
     await setPauseVideoOnNewSnip(e.target.checked);
   };
 
+  const handleUseKeyboardShortcutChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    setUseKeyboardShortcutState(e.target.checked);
+    await setUseKeyboardShortcut(e.target.checked);
+  };
+
   useEffect(() => {
     new Promise<number>((resolve) => {
       getDefaultSnipLength().then((length) => {
@@ -48,16 +56,23 @@ const SettingsForm: FC<Props> = (props) => {
     });
 
     new Promise<boolean>((resolve) => {
-      getShowOverlayOnNewSnip().then((showOverlayOnNewSnip) => {
-        setShowOverlayOnNewSnipState(showOverlayOnNewSnip);
-        resolve(showOverlayOnNewSnip);
+      getShowOverlayOnNewSnip().then((show) => {
+        setShowOverlayOnNewSnipState(show);
+        resolve(show);
       });
     });
 
     new Promise<boolean>((resolve) => {
-      getPauseVideoOnNewSnip().then((pauseVideoOnNewSnip) => {
-        setPauseVideoOnNewSnipState(pauseVideoOnNewSnip);
-        resolve(pauseVideoOnNewSnip);
+      getPauseVideoOnNewSnip().then((pause) => {
+        setPauseVideoOnNewSnipState(pause);
+        resolve(pause);
+      });
+    });
+
+    new Promise<boolean>((resolve) => {
+      getUseKeyboardShortcut().then((use) => {
+        setUseKeyboardShortcutState(use);
+        resolve(use);
       });
     });
   }, []);
@@ -80,6 +95,29 @@ const SettingsForm: FC<Props> = (props) => {
             ?
           </svg>
         </button> */}
+      </div>
+
+      <div className="">
+        <label
+          htmlFor="addNoteAfterSaving"
+          className="text-base"
+        >
+          Create snip with the 's' key
+        </label>
+        <div className="flex items-center mt-2">
+          <input
+            type="checkbox"
+            checked={useKeyboardShortcutState}
+            className="w-4 h-4 form-checkbox text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+            onChange={handleUseKeyboardShortcutChange}
+          />
+          {/* <label
+            htmlFor="addNoteAfterSaving"
+            className="ml-2"
+          >
+            Enable
+          </label> */}
+        </div>
       </div>
 
       <div className="">
@@ -154,19 +192,6 @@ const SettingsForm: FC<Props> = (props) => {
             min={20}
             max={120}
           />
-          {/* <button
-            type="button"
-            className="text-gray-500 bg-transparent hover:text-gray-700"
-            aria-label="Default Snip Length Info"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-            </svg>
-          </button> */}
         </div>
       </div>
     </section>
