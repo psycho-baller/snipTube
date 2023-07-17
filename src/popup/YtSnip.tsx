@@ -4,6 +4,7 @@ import type { Snip, Tag } from "~utils/types";
 import { useSnipsStore } from "~utils/store";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
+import DynamicTextarea from "~contents/DynamicTextarea";
 interface Props {
   snip: Snip;
 }
@@ -30,7 +31,7 @@ const YtSnip: FC<Props> = (props) => {
   }
 
   return (
-    <li className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl">
+    <li className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl group/snip">
       <p className="text-lg font-medium text-gray-100">{title}</p>
       {/* grid of 3 equal sized columns in 1 row */}
       <div className="grid w-full grid-cols-3 gap-2">
@@ -40,9 +41,7 @@ const YtSnip: FC<Props> = (props) => {
           {tags?.map((tag: Tag, i: number) => (
             <div
               key={i}
-              className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${
-                tag.color ?? "gray"
-              }-700`}
+              className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ?? "gray"}-700`}
             >
               {tag.name}
             </div>
@@ -60,15 +59,22 @@ const YtSnip: FC<Props> = (props) => {
         />
       </div>
 
-      <div className={`${showNote ? "block" : "hidden"} transition-all duration-300 -mb-1`}>
-        <TextareaAutosize
-          className="w-full p-2 text-gray-100 placeholder-gray-400 bg-gray-700 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800 "
+      <div className={`group-hover/snip:block hidden transition-all duration-300 -mb-`}>
+        {/* <TextareaAutosize
+          className="w-full p-2 text-gray-100 text-sm placeholder-gray-400 bg-gray-700 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800 "
           placeholder="Add a note..."
           value={textareaValue}
           maxRows={5}
           minRows={1}
           onChange={(e) => setTextareaValue(e.target.value)}
           onBlur={updateData}
+        /> */}
+        <DynamicTextarea
+          note={textareaValue}
+          setNote={setTextareaValue}
+          className="text-base py-1.5 px-2"
+          defaultHeight={1.7}
+          // onKeyDown={stopPropagation}
         />
       </div>
     </li>

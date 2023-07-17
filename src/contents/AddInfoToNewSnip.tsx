@@ -73,6 +73,7 @@ const PlasmoOverlay = () => {
                 note={note}
                 setNote={setNote}
                 onKeyDown={stopPropagation}
+                className="text-xl "
               />
             </div>
             <div className="space-y-1">

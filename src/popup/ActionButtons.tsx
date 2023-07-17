@@ -32,7 +32,7 @@ const ActionButtons: FC<Props> = (props) => {
         className={width}
       />
 
-      <button
+      {/* <button
         className="relative flex justify-center p-1 bg-gray-700 rounded-full group"
         onClick={editSnip}
       >
@@ -77,7 +77,7 @@ const ActionButtons: FC<Props> = (props) => {
         <span className="absolute z-50 w-auto p-1 text-xs text-gray-800 capitalize transition-all duration-100 origin-bottom scale-0 bg-white rounded-md shadow-md dark:bg-gray-900 dark:text-gray-100 tooltip min-w-max bottom-7 group-hover:delay-300 group-hover:scale-100">
           Edit note
         </span>
-      </button>
+      </button> */}
 
       <button className="relative flex justify-center p-1 bg-gray-700 rounded-full group">
         <svg

@@ -4,6 +4,7 @@ import type { Snip } from "~utils/types";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
 import { useAllSnipsStore, useSnipsStore } from "~utils/store";
+import DynamicTextarea from "~contents/DynamicTextarea";
 
 interface Props {
   snip: Snip;
@@ -30,10 +31,10 @@ const OutsideSnip: FC<Props> = (props) => {
   }
 
   return (
-    <li className="flex flex-col mb-4 rounded-xl bg-gray-800">
+    <li className="flex flex-col mb-4 rounded-xl bg-gray-800 group/snip">
       <div className="flex flex-row">
         <img
-          className={`w-1/3 h-full transition-all ${showNote ? "rounded-tl-xl" : "rounded-l-xl"}`}
+          className={`w-1/3 h-full transition-all rounded-l-xl group-hover/snip:rounded-bl-none`}
           src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
           alt="thumbnail"
         />
@@ -53,10 +54,8 @@ const OutsideSnip: FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      <div
-        className={`${showNote ? "block" : "hidden"} transition-all duration-300 w-full p-3 pb-1.5`}
-      >
-        <TextareaAutosize
+      <div className={`hidden group-hover/snip:block transition-all duration-300 w-full p-3 pb-1.5`}>
+        {/* <TextareaAutosize
           className="w-full p-2 rounded-md resize-none text-gray-100 bg-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800 placeholder-gray-400 "
           placeholder="Add a note..."
           value={textareaValue}
@@ -64,6 +63,13 @@ const OutsideSnip: FC<Props> = (props) => {
           minRows={1}
           onChange={(e) => setTextareaValue(e.target.value)}
           onBlur={updateData}
+        /> */}
+        <DynamicTextarea
+          note={textareaValue}
+          setNote={setTextareaValue}
+          className="text-sm px-2 py-1.5"
+          defaultHeight={1.5}
+          // onKeyDown={stopPropagation}
         />
       </div>
     </li>
