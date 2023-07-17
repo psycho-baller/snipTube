@@ -71,7 +71,8 @@ const newVideoLoaded = async () => {
     // if usr clicks 's' then add a snip (if they have that setting enabled)
 
     document.addEventListener("keydown", async (e) => {
-      if ((await getUseKeyboardShortcut()) && e.key === "s") {
+      // only when the user is not typing in an input field
+      if ((await getUseKeyboardShortcut()) && e.key === "s" && document.activeElement instanceof HTMLInputElement) {
         addNewSnipEventHandler();
       }
     });
