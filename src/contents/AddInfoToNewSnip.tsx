@@ -1,7 +1,7 @@
 import { useState, useEffect, type FormEvent, useRef, type KeyboardEvent } from "react";
 import { getShowOverlayOnNewSnip } from "~utils/storage";
 import { useContentScriptStore } from "~utils/store";
-import DynamicTextarea from "./DynamicTextarea";
+import DynamicTextarea from "../shared/components/DynamicTextarea";
 import type { PlasmoCSConfig } from "plasmo";
 import cssText from "data-text:~styles/tailwind.css";
 
@@ -73,7 +73,7 @@ const PlasmoOverlay = () => {
                 note={note}
                 setNote={setNote}
                 onKeyDown={stopPropagation}
-                className="text-xl "
+                className="text-xl px-3 py-2"
               />
             </div>
             <div className="space-y-1">

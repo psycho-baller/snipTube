@@ -4,7 +4,7 @@ import type { Snip } from "~utils/types";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
 import { useAllSnipsStore, useSnipsStore } from "~utils/store";
-import DynamicTextarea from "~contents/DynamicTextarea";
+import DynamicTextarea from "~shared/components/DynamicTextarea";
 
 interface Props {
   snip: Snip;
