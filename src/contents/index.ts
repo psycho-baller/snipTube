@@ -81,8 +81,8 @@ const newVideoLoaded = async () => {
 
     document.addEventListener("keydown", async (e) => {
       // only when the user is not typing in an input field
-      if ((await getUseKeyboardShortcut()) && e.key === "s" && document.activeElement instanceof HTMLInputElement) {
-        addNewSnipEventHandler();
+      if ((await getUseKeyboardShortcut()) && e.key === "s" && !(document.activeElement instanceof HTMLInputElement)) {
+        await addNewSnipEventHandler();
       }
     });
   }
