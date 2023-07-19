@@ -12,7 +12,16 @@ export const getStyle = () => {
 };
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://*.youtube.com/watch*"],
+  matches: [
+    "https://youtube.com/watch*",
+    "https://www.youtube.com/watch*",
+    "https://youtu.be/watch*",
+    "https://www.youtu.be/watch*",
+    "https://www.youtube-nocookie.com/watch*",
+    "https://youtube-nocookie.com/watch*",
+    "https://www.youtube.com/embed/watch*",
+    "https://youtube.com/embed/watch*",
+  ],
   // run_at: "document_end",
 };
 const PlasmoOverlay = () => {
