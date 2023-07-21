@@ -1,5 +1,4 @@
 import { useState, type FC } from "react";
-import TextareaAutosize from "react-textarea-autosize";
 import type { Snip, Tag } from "~utils/types";
 import { useSnipsStore } from "~utils/store";
 import TimeStamps from "./TimeStamps";
@@ -60,15 +59,6 @@ const YtSnip: FC<Props> = (props) => {
       </div>
 
       <div className={`group-hover/snip:block hidden transition-all duration-300 -mb-`}>
-        {/* <TextareaAutosize
-          className="w-full p-2 text-gray-100 text-sm placeholder-gray-400 bg-gray-700 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800 "
-          placeholder="Add a note..."
-          value={textareaValue}
-          maxRows={5}
-          minRows={1}
-          onChange={(e) => setTextareaValue(e.target.value)}
-          onBlur={updateData}
-        /> */}
         <DynamicTextarea
           note={textareaValue}
           setNote={setTextareaValue}

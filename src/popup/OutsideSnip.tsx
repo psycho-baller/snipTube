@@ -1,5 +1,4 @@
 import { useState, type FC, type MouseEvent } from "react";
-import TextareaAutosize from "react-textarea-autosize";
 import type { Snip } from "~utils/types";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
@@ -55,15 +54,6 @@ const OutsideSnip: FC<Props> = (props) => {
         </div>
       </div>
       <div className={`hidden group-hover/snip:block transition-all duration-300 w-full p-3 pb-1.5`}>
-        {/* <TextareaAutosize
-          className="w-full p-2 rounded-md resize-none text-gray-100 bg-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800 placeholder-gray-400 "
-          placeholder="Add a note..."
-          value={textareaValue}
-          maxRows={5}
-          minRows={1}
-          onChange={(e) => setTextareaValue(e.target.value)}
-          onBlur={updateData}
-        /> */}
         <DynamicTextarea
           note={textareaValue}
           setNote={setTextareaValue}
