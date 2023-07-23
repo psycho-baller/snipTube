@@ -7,11 +7,11 @@ import {
   getSnips,
   getUseKeyboardShortcut,
   setSnips,
-} from "~utils/storage";
-import { getVideoDetails, getFullSummary } from "~utils/youtube";
-import { getSnipTranscript } from "~utils/youtube";
-import { URL } from "~utils/constants";
-import { useContentScriptStore } from "~utils/store";
+} from "src/utils/storage";
+import { getVideoDetails, getFullSummary } from "src/utils/youtube";
+import { getSnipTranscript } from "src/utils/youtube";
+import { URL } from "src/utils/constants";
+import { useContentScriptStore } from "src/utils/store";
 export const config: PlasmoCSConfig = {
   matches: [
     "https://youtube.com/watch*",
@@ -102,23 +102,27 @@ async function addNewSnipEventHandler() {
 
   const date = new Date();
   const currentTime = ~~youtubePlayer.currentTime; // ~~ is a faster Math.floor
-  const startTime = currentTime - (await getDefaultSnipLength());
-  const snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
-  if (!snipTranscript) {
-    return;
-  }
 
-  const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
-  // remove things that don't work with base64 encoding like emojis
-  const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
-  const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
-  const encodedSummary = Buffer.from(vidSummary).toString("base64");
+  // get their values depending on if the user wants to show the overlay or not
   let summary = "";
+  let startTime = 0;
+  let snipTranscript = "";
 
   // show the overlay and wait for the user to add details
   const { snipNote, snipTags } = await new Promise<{ snipNote: string; snipTags: string[] }>(async (resolve) => {
     // if user doesn't want to add details after snipping, resolve with empty strings
     if (!(await getShowOverlayOnNewSnip())) {
+      startTime = currentTime - (await getDefaultSnipLength());
+      snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
+      if (!snipTranscript) {
+        return;
+      }
+
+      const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
+      // remove things that don't work with base64 encoding like emojis
+      const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
+      const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
+      const encodedSummary = Buffer.from(vidSummary).toString("base64");
       summary = await fetch(`${URL}/llm/summarize/snip`, {
         // mode: "no-cors",
         method: "POST",
@@ -139,12 +143,24 @@ async function addNewSnipEventHandler() {
       });
     } else {
       // otherwise, show the overlay and wait for the user to add details
+      startTime = currentTime - useContentScriptStore.getState().snipLength;
+      snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
+      if (!snipTranscript) {
+        return;
+      }
+
+      const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
+      // remove things that don't work with base64 encoding like emojis
+      const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
+      const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
+      const encodedSummary = Buffer.from(vidSummary).toString("base64");
       useContentScriptStore.setState({ showOverlay: true });
       // check if user wants to pause video on new snip
       if (await getPauseVideoOnNewSnip()) {
         youtubePlayer.pause();
       }
 
+      // this is subscribing to the store, so it will run every time the store updates
       useContentScriptStore.subscribe(async (showOverlay) => {
         resolve({
           snipNote: useContentScriptStore.getState().snipNote,

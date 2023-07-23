@@ -1,21 +1,20 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     ".plasmo/index.d.ts",
     "next-env.d.ts",
     "./**/*.ts",
     "./**/*.tsx",
     ".next/types/**/*.ts",
-    "next.config.js"  ],
+    "next.config.js"
+  ],
   "compilerOptions": {
-    "paths": {
-      "~*": [
-        "./src/*"
-      ]
-    },
+    // "paths": {
+    //   "~*": [
+    //     "./src/*"
+    //   ]
+    // },
     "baseUrl": ".",
     "isolatedModules": true,
     "plugins": [

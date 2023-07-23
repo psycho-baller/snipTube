@@ -1,9 +1,9 @@
 import { useState, type FC, type MouseEvent } from "react";
-import type { Snip } from "~utils/types";
+import type { Snip } from "src/utils/types";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
-import { useAllSnipsStore, useSnipsStore } from "~utils/store";
-import DynamicTextarea from "~shared/components/DynamicTextarea";
+import { useAllSnipsStore, useSnipsStore } from "src/utils/store";
+import DynamicTextarea from "src/shared/components/DynamicTextarea";
 
 interface Props {
   snip: Snip;
@@ -30,7 +30,7 @@ const OutsideSnip: FC<Props> = (props) => {
   }
 
   return (
-    <li className="flex flex-col mb-4 rounded-xl bg-gray-800 group/snip">
+    <li className="flex flex-col mb-4 bg-gray-800 rounded-xl group/snip">
       <div className="flex flex-row">
         <img
           className={`w-1/3 h-full transition-all rounded-l-xl group-hover/snip:rounded-bl-none`}

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Snip } from "~utils/types";
+import type { Snip } from "src/utils/types";
 import { getDefaultSnipLength, setDefaultSnipLength, setSnips } from "./storage";
 
 type State = {
@@ -27,12 +27,14 @@ type contentScriptState = {
   showOverlay: boolean;
   snipNote: string;
   snipTags: string[];
+  snipLength: number;
   inYoutube: boolean;
 };
 
 type contentScriptActions = {
   setShowOverlay: (showOverlay: boolean) => void;
   setInYoutube: (inYoutube: boolean) => void;
+  setSnipLength: (snipLength: number) => void;
 };
 
 export const useSnipsStore = create<State & Actions>((set, get) => ({
@@ -82,6 +84,8 @@ export const useContentScriptStore = create<contentScriptState & contentScriptAc
   setShowOverlay: (showOverlay) => set({ showOverlay }),
   snipNote: "",
   snipTags: [],
+  snipLength: 30,
+  setSnipLength: (snipLength) => set({ snipLength }),
   inYoutube: false,
   setInYoutube: (inYoutube) => set({ inYoutube }),
 }));

@@ -1,9 +1,9 @@
 import { useMemo, type FC, useEffect } from "react";
-import type { Snip, Tag } from "~utils/types";
+import type { Snip, Tag } from "src/utils/types";
 import Topbar from "./Topbar";
 import YtSnip from "./YtSnip";
-import { useSnipsStore } from "~utils/store";
-import { getSnips } from "~utils/storage";
+import { useSnipsStore } from "src/utils/store";
+import { getSnips } from "src/utils/storage";
 import NoSnips from "./NoSnips";
 
 interface Props {

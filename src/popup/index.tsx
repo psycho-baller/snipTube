@@ -1,8 +1,8 @@
 import { useEffect, useState, type FC } from "react";
 import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
-import "~styles/tailwind.css";
-import { useContentScriptStore } from "~utils/store";
+import "src/styles/tailwind.css";
+import { useContentScriptStore } from "src/utils/store";
 
 interface Props {}
 
@@ -50,9 +50,9 @@ const Popup: FC<Props> = () => {
         <Tabs className="flex-grow h-full" />
       ) : (
         // Have a home page that shows by default when you're not on youtube
-        <AllSnips className="px-4 flex-grow" />
+        <AllSnips className="flex-grow px-4" />
       )}
-      <footer className="flex mb-2 justify-center w-full text-sm text-gray-500 dark:text-gray-400 gap-x-1">
+      <footer className="flex justify-center w-full mb-2 text-sm text-gray-500 dark:text-gray-400 gap-x-1">
         Made with ❤️ by
         <a
           href="https://ramimaalouf.tech"

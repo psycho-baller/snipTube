@@ -1,5 +1,5 @@
 import { useState, type FC, useEffect, type MouseEvent } from "react";
-import "~styles/play-pause-btn.css";
+import "src/styles/play-pause-btn.css";
 
 interface Props {
   start: number;
@@ -16,9 +16,7 @@ const TimeStamps: FC<Props> = (props) => {
   const [state, setState] = useState<"pause" | "play">("play");
 
   useEffect(() => {
-    animateElement = document.getElementById(
-      "from_play_to_pause_" + id + tab
-    ) as unknown as SVGAnimateElement;
+    animateElement = document.getElementById("from_play_to_pause_" + id + tab) as unknown as SVGAnimateElement;
     animateElement.beginElement();
   }, []);
 

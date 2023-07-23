@@ -1,4 +1,4 @@
-import { setSnips } from "~utils/storage";
+import { setSnips } from "src/utils/storage";
 
 chrome.runtime.onInstalled.addListener(() => {
   // predefine the snip store
@@ -10,20 +10,20 @@ chrome.runtime.onInstalled.addListener(() => {
   //   contexts: ["link"],
   // });
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status === 'complete') {
+    if (changeInfo.status === "complete") {
       if (tab.url && tab.url.includes("youtube.com/watch")) {
         // console.log("tabId", tabId);
         const queryParameters = tab.url.split("?")[1];
         const urlParameters = new URLSearchParams(queryParameters);
         const vidId = urlParameters.get("v");
 
-        chrome.tabs.sendMessage(tabId, { // new
+        chrome.tabs.sendMessage(tabId, {
+          // new
           type: "NEW",
-          vidId
+          vidId,
         });
         // returning
         // chrome.tabs.sendMessage(tabId, { // returning
-
       }
     }
   });

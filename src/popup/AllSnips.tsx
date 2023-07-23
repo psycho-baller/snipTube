@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import type { Snip, Tag } from "../utils/types";
-import { useAllSnipsStore } from "~utils/store";
+import { useAllSnipsStore } from "src/utils/store";
 import Topbar from "./Topbar";
-import { getAllSnips } from "~utils/storage";
+import { getAllSnips } from "src/utils/storage";
 import OutsideSnip from "./OutsideSnip";
 import NoSnips from "./NoSnips";
 

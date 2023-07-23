@@ -1,9 +1,9 @@
-import { useState, useEffect, type FormEvent, useRef, type KeyboardEvent } from "react";
-import { getShowOverlayOnNewSnip } from "~utils/storage";
-import { useContentScriptStore } from "~utils/store";
+import { useState, useEffect, type FormEvent, type KeyboardEvent, type ChangeEvent } from "react";
+import { getShowOverlayOnNewSnip } from "src/utils/storage";
+import { useContentScriptStore, useSettingsStore } from "src/utils/store";
 import DynamicTextarea from "../shared/components/DynamicTextarea";
 import type { PlasmoCSConfig } from "plasmo";
-import cssText from "data-text:~styles/tailwind.css";
+import cssText from "data-text:src/styles/tailwind.css";
 
 export const getStyle = () => {
   const style = document.createElement("style");
@@ -26,6 +26,11 @@ export const config: PlasmoCSConfig = {
 };
 const PlasmoOverlay = () => {
   const [showOverlay, setShowOverlay] = useState<boolean>(true);
+  const [note, setNote] = useState<string>("");
+
+  const defaultLength = useSettingsStore((state) => state.defaultLength);
+  const snipLength = defaultLength;
+  const setSnipLength = useContentScriptStore((state) => state.setSnipLength);
   const show = useContentScriptStore((state) => state.showOverlay);
 
   useEffect(() => {
@@ -59,7 +64,10 @@ const PlasmoOverlay = () => {
     e.stopPropagation();
   };
 
-  const [note, setNote] = useState<string>("");
+  const handleLengthChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const length = parseInt(e.target.value);
+    setSnipLength(length);
+  };
 
   // TODO: color? put overlay right above the snip in the video? Make sure it's small but also easily expandable to suit a small note and a large note
   return (
@@ -67,10 +75,10 @@ const PlasmoOverlay = () => {
       {showOverlay ? (
         <main className={`flex z-50 items-center justify-center w-screen h-screen ${show ? "block" : "hidden"}`}>
           <form
-            className="p-6 m-auto bg-gray-800 w-96 rounded-xl space-y-4 text-white"
+            className="p-6 m-auto space-y-4 text-white bg-gray-800 w-96 rounded-xl"
             onSubmit={handleSubmit}
           >
-            <h1 className="text-3xl font-bold mx-aut text-center">New Snip</h1>
+            <h1 className="text-3xl font-bold text-center mx-aut">New Snip</h1>
             <div className="space-y-1">
               <label
                 htmlFor="note"
@@ -82,7 +90,7 @@ const PlasmoOverlay = () => {
                 note={note}
                 setNote={setNote}
                 onKeyDown={stopPropagation}
-                className="text-xl px-3 py-2"
+                className="px-3 py-2 text-xl"
               />
             </div>
             <div className="space-y-1">
@@ -97,16 +105,42 @@ const PlasmoOverlay = () => {
                 name="tags"
                 id="name"
                 onKeyDown={stopPropagation}
-                className="px-3 py-2 transition-all border border-gray-600 rounded-md focus:outline-none overflow-x-hidden overflow-y-auto scrollbar scrolling-touch w-full
-                dark:bg-gray-700 dark:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-300 placeholder-gray-500
-                focus:placeholder-transparent overflow-hidden ease-in-out duration-300 focus:ring-3 focus:ring-gray-600 text-xl"
+                className="w-full px-3 py-2 overflow-hidden overflow-x-hidden overflow-y-auto scrolling-touch text-xl placeholder-gray-500 transition-all duration-300 ease-in-out border border-gray-600 rounded-md focus:outline-none scrollbar dark:bg-gray-700 dark:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-300 focus:placeholder-transparent focus:ring-3 focus:ring-gray-600"
                 placeholder="focus, productivity, ..."
               />
+            </div>
+            <div className="">
+              <label
+                htmlFor="defaultSnipLength"
+                className="text-base"
+              >
+                Default Snip Length
+              </label>
+              <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
+                <input
+                  type="number"
+                  className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
+                  value={snipLength}
+                  onChange={handleLengthChange}
+                  // onBlur={handleSave}
+                  min={20}
+                  max={120}
+                />
+                <input
+                  type="range"
+                  className="w-full mr-3 focus:outline-none"
+                  value={snipLength}
+                  onChange={handleLengthChange}
+                  // onBlur={handleLengthChange}
+                  min={20}
+                  max={120}
+                />
+              </div>
             </div>
             <div className="flex justify-center pt-2">
               <button
                 type="submit"
-                className="px-4 py-2 font-bold bg-gray-700 rounded hover:bg-gray-600 text-lg focus:outline-none focus:ring-1 focus:ring-gray-500"
+                className="px-4 py-2 text-lg font-bold bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500"
               >
                 Submit
               </button>
