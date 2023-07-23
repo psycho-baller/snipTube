@@ -1,13 +1,11 @@
 "use client";
-import { useEffect, type FC, useState } from 'react';
-import type { VidDetails } from '~utils/types';
-import { URL } from '~utils/constants';
-interface Props {
-
-}
+import { useEffect, type FC, useState } from "react";
+import type { VidDetails } from "src/utils/types";
+import { URL } from "src/utils/constants";
+interface Props {}
 
 const Home: FC<Props> = (props) => {
-  const { } = props;
+  const {} = props;
 
   const [data, setData] = useState<VidDetails | null>(null);
 
@@ -15,13 +13,15 @@ const Home: FC<Props> = (props) => {
     try {
       fetch(`${URL}/youtube?videoID=${"7Fer7W3JCPU"}`, {
         method: "GET",
-      }).then((res) => {
-        console.log(res);
-        return res.json();
-      }).then((resData) => {
-        console.log(resData);
-        setData(resData);
-      });
+      })
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
+        .then((resData) => {
+          console.log(resData);
+          setData(resData);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -47,10 +47,9 @@ const Home: FC<Props> = (props) => {
               </div>
             );
           })}
-
         </div>
       )}
-    </div >
+    </div>
   );
 };
 

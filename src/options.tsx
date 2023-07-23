@@ -1,18 +1,15 @@
-import { useEffect, type FC, useState } from 'react';
-import type { VidDetails } from '~utils/types';
-import { URL } from '~utils/constants';
-interface Props {
-
-}
+import { useEffect, type FC, useState } from "react";
+import type { VidDetails } from "src/utils/types";
+import { URL } from "src/utils/constants";
+interface Props {}
 
 const Home: FC<Props> = (props) => {
-  const { } = props;
+  const {} = props;
 
   return (
     <main>
       <h1>Settings</h1>
-
-    </main >
+    </main>
   );
 };
 

@@ -13,7 +13,9 @@
     "dev:fastapi": "cd llm-api && source .venv/bin/activate && uvicorn main:app --reload",
     "build": "run-p build:*",
     "build:plasmo": "plasmo build",
-    "build:next": "next build"
+    "build:next": "next build",
+    "package": "run-p package:*",
+    "package:plasmo": "plasmo package"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.3",
