@@ -29,12 +29,14 @@ type contentScriptState = {
   snipTags: string[];
   snipLength: number;
   inYoutube: boolean;
+  cancelSnipRequest: boolean;
 };
 
 type contentScriptActions = {
   setShowOverlay: (showOverlay: boolean) => void;
   setInYoutube: (inYoutube: boolean) => void;
   setSnipLength: (snipLength: number) => void;
+  setCancelSnipRequest: (cancelSnipRequest: boolean) => void;
 };
 
 export const useSnipsStore = create<State & Actions>((set, get) => ({
@@ -88,4 +90,6 @@ export const useContentScriptStore = create<contentScriptState & contentScriptAc
   setSnipLength: (snipLength) => set({ snipLength }),
   inYoutube: false,
   setInYoutube: (inYoutube) => set({ inYoutube }),
+  cancelSnipRequest: false,
+  setCancelSnipRequest: (cancelSnipRequest) => set({ cancelSnipRequest }),
 }));

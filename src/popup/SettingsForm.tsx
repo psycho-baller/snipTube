@@ -28,7 +28,7 @@ const SettingsForm: FC<Props> = (props) => {
 
   const handleLengthChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setLength(parseInt(e.target.value));
-    await setDefaultSnipLength(parseInt(e.target.value));
+    // await setDefaultSnipLength(parseInt(e.target.value));
   };
 
   const handleShowOverlayOnNewSnipChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +108,7 @@ const SettingsForm: FC<Props> = (props) => {
           <input
             type="checkbox"
             checked={useKeyboardShortcutState}
-            className="w-4 h-4 form-checkbox text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handleUseKeyboardShortcutChange}
           />
           {/* <label
@@ -131,7 +131,7 @@ const SettingsForm: FC<Props> = (props) => {
           <input
             type="checkbox"
             checked={showOverlayOnNewSnipState}
-            className="w-4 h-4 form-checkbox text-gray-500 bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handleShowOverlayOnNewSnipChange}
           />
           {/* <label
@@ -154,7 +154,7 @@ const SettingsForm: FC<Props> = (props) => {
           <input
             checked={pauseVideoOnNewSnipState}
             type="checkbox"
-            className="w-4 h-4 text-gray-500 form-checkbox bg-gray-700 border-gray-700 rounded focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handlePauseVideoOnNewSnipChange}
           />
           {/* <label
@@ -179,16 +179,16 @@ const SettingsForm: FC<Props> = (props) => {
             className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
             value={length}
             onChange={handleLengthChange}
-            // onBlur={handleSave}
+            onBlur={handleSave}
             min={20}
             max={120}
           />
           <input
             type="range"
-            className="w-full focus:outline-none mr-3"
+            className="w-full mr-3 focus:outline-none"
             value={length}
             onChange={handleLengthChange}
-            // onBlur={handleLengthChange}
+            onBlur={handleSave}
             min={20}
             max={120}
           />

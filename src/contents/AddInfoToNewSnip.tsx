@@ -1,6 +1,6 @@
 import { useState, useEffect, type FormEvent, type KeyboardEvent, type ChangeEvent } from "react";
-import { getShowOverlayOnNewSnip } from "src/utils/storage";
-import { useContentScriptStore, useSettingsStore } from "src/utils/store";
+import { getDefaultSnipLength, getShowOverlayOnNewSnip } from "src/utils/storage";
+import { useContentScriptStore } from "src/utils/store";
 import DynamicTextarea from "../shared/components/DynamicTextarea";
 import type { PlasmoCSConfig } from "plasmo";
 import cssText from "data-text:src/styles/tailwind.css";
@@ -28,20 +28,32 @@ const PlasmoOverlay = () => {
   const [showOverlay, setShowOverlay] = useState<boolean>(true);
   const [note, setNote] = useState<string>("");
 
-  const defaultLength = useSettingsStore((state) => state.defaultLength);
-  const [snipLength, setSnipLength] = useState<number>(defaultLength);
+  // const defaultLength = useSettingsStore((state) => state.defaultLength);
+  const [snipLength, setSnipLength] = useState<number>(30);
   // const snipLength = defaultLength;
   // const setSnipLength = useContentScriptStore((state) => state.setSnipLength);
   const show = useContentScriptStore((state) => state.showOverlay);
 
   useEffect(() => {
-    new Promise<boolean>((resolve) => {
+    new Promise<void>((resolve) => {
       getShowOverlayOnNewSnip().then((showOverlayOnNewSnip) => {
         setShowOverlay(showOverlayOnNewSnip);
-        resolve(showOverlayOnNewSnip);
+        resolve();
+      });
+    });
+
+    // TODO: for some reason it doesn't the most up to date value (gotta refresh the page)
+    new Promise<void>((resolve) => {
+      getDefaultSnipLength().then((defaultLength) => {
+        setSnipLength(defaultLength);
+        resolve();
       });
     });
   }, []);
+
+  const cancelRequest = () => {
+    useContentScriptStore.setState({ showOverlay: false, cancelSnipRequest: true });
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -140,10 +152,18 @@ const PlasmoOverlay = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-center pt-2">
+            <div className="flex justify-between pt-2">
+              {/* close button */}
+              <button
+                type="button"
+                className="px-4 py-2 text-lg font-medium transition-colors border border-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                onClick={cancelRequest}
+              >
+                Close
+              </button>
               <button
                 type="submit"
-                className="px-4 py-2 text-lg font-bold bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                className="px-4 py-2 text-lg font-bold transition-colors bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500"
               >
                 Submit
               </button>

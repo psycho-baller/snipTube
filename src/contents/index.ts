@@ -113,7 +113,7 @@ async function addNewSnipEventHandler() {
     snipNote: string;
     snipTags: string[];
     snipLength: number;
-  }>(async (resolve) => {
+  }>(async (resolve, reject) => {
     // if user doesn't want to add details after snipping, resolve with empty strings
     if (!(await getShowOverlayOnNewSnip())) {
       const defaultSnipLength = await getDefaultSnipLength();
@@ -156,15 +156,22 @@ async function addNewSnipEventHandler() {
       }
 
       // this is subscribing to the store, so it will run every time the store updates
-      useContentScriptStore.subscribe(async (showOverlay) => {
-        resolve({
-          snipNote: useContentScriptStore.getState().snipNote,
-          snipTags: useContentScriptStore.getState().snipTags,
-          snipLength: useContentScriptStore.getState().snipLength,
-        });
+      useContentScriptStore.subscribe(async (state) => {
         // unpause the video if it was paused
         if (await getPauseVideoOnNewSnip()) {
           youtubePlayer.play();
+        }
+        // if the user closes the overlay, resolve with empty strings
+        if (!state.showOverlay && state.cancelSnipRequest) {
+          // stop running this function
+          useContentScriptStore.setState({ cancelSnipRequest: false });
+          reject("User cancelled snip creation");
+        } else if (!state.showOverlay) {
+          resolve({
+            snipNote: state.snipNote,
+            snipTags: state.snipTags,
+            snipLength: state.snipLength,
+          });
         }
       });
     }
