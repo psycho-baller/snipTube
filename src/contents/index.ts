@@ -109,10 +109,15 @@ async function addNewSnipEventHandler() {
   let snipTranscript = "";
 
   // show the overlay and wait for the user to add details
-  const { snipNote, snipTags } = await new Promise<{ snipNote: string; snipTags: string[] }>(async (resolve) => {
+  const { snipNote, snipTags, snipLength } = await new Promise<{
+    snipNote: string;
+    snipTags: string[];
+    snipLength: number;
+  }>(async (resolve) => {
     // if user doesn't want to add details after snipping, resolve with empty strings
     if (!(await getShowOverlayOnNewSnip())) {
-      startTime = currentTime - (await getDefaultSnipLength());
+      const defaultSnipLength = await getDefaultSnipLength();
+      startTime = currentTime - defaultSnipLength;
       snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
       if (!snipTranscript) {
         return;
@@ -140,20 +145,10 @@ async function addNewSnipEventHandler() {
       resolve({
         snipNote: "",
         snipTags: [],
+        snipLength: defaultSnipLength,
       });
     } else {
       // otherwise, show the overlay and wait for the user to add details
-      startTime = currentTime - useContentScriptStore.getState().snipLength;
-      snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
-      if (!snipTranscript) {
-        return;
-      }
-
-      const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
-      // remove things that don't work with base64 encoding like emojis
-      const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
-      const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
-      const encodedSummary = Buffer.from(vidSummary).toString("base64");
       useContentScriptStore.setState({ showOverlay: true });
       // check if user wants to pause video on new snip
       if (await getPauseVideoOnNewSnip()) {
@@ -165,28 +160,40 @@ async function addNewSnipEventHandler() {
         resolve({
           snipNote: useContentScriptStore.getState().snipNote,
           snipTags: useContentScriptStore.getState().snipTags,
+          snipLength: useContentScriptStore.getState().snipLength,
         });
         // unpause the video if it was paused
         if (await getPauseVideoOnNewSnip()) {
           youtubePlayer.play();
         }
       });
-      summary = await fetch(`${URL}/llm/summarize/snip`, {
-        // mode: "no-cors",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          transcript: encodedTranscript,
-          title: encodedTitle,
-          summary: encodedSummary,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => data.summary);
     }
   });
+
+  startTime = currentTime - snipLength;
+  snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
+  if (!snipTranscript) {
+    return;
+  }
+
+  const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
+  // remove things that don't work with base64 encoding like emojis
+  const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
+  const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
+  const encodedSummary = Buffer.from(vidSummary).toString("base64");
+  summary = await fetch(`${URL}/llm/summarize/snip`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      transcript: encodedTranscript,
+      title: encodedTitle,
+      summary: encodedSummary,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => data.summary);
 
   const newSnip: Snip = {
     vidTitle: vidTitle as string,

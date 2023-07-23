@@ -29,8 +29,9 @@ const PlasmoOverlay = () => {
   const [note, setNote] = useState<string>("");
 
   const defaultLength = useSettingsStore((state) => state.defaultLength);
-  const snipLength = defaultLength;
-  const setSnipLength = useContentScriptStore((state) => state.setSnipLength);
+  const [snipLength, setSnipLength] = useState<number>(defaultLength);
+  // const snipLength = defaultLength;
+  // const setSnipLength = useContentScriptStore((state) => state.setSnipLength);
   const show = useContentScriptStore((state) => state.showOverlay);
 
   useEffect(() => {
@@ -56,6 +57,7 @@ const PlasmoOverlay = () => {
       showOverlay: false,
       snipNote: note,
       snipTags: tabsArr,
+      snipLength,
     });
   };
 
@@ -122,6 +124,7 @@ const PlasmoOverlay = () => {
                   className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
                   value={snipLength}
                   onChange={handleLengthChange}
+                  onKeyDown={stopPropagation}
                   // onBlur={handleSave}
                   min={20}
                   max={120}
