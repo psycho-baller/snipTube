@@ -2,6 +2,7 @@
 
 # dependencies
 node_modules
+venv
 .pnp
 .pnp.js
 
@@ -26,7 +27,6 @@ yarn-error.log*
 # local env files
 .env*
 !.env.example
-.venv
 out/
 build/
 dist/

@@ -1,9 +1,7 @@
 {
   "functions": {
     "api/*.py": {
-      "includeFiles": [
-        "index.py"
-      ]
+      "includeFiles": "index.py"
     }
   }
 }

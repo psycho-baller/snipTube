@@ -3,6 +3,7 @@
 # dependencies
 
 node_modules
+venv
 .pnp
 .pnp.js
 
@@ -32,7 +33,6 @@ yarn-error.log*
 
 .env\*
 !.env.example
-.venv
 out/
 build/
 dist/
