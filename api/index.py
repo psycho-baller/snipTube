@@ -29,7 +29,7 @@ from prompts import full_summary_template, snip_summary_template_with_context, s
 # OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 # COHERE_API_KEY: str = os.getenv("COHERE_API_KEY")
 # HUGGINGFACE_API_KEY: str = os.getenv("HUGGINGFACE_API_KEY")
-# API_URL = "http://localhost:3000/api/llm/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
+# API_URL = "http://localhost:3000/api/llm/llm/v1/prediction/08251153-caae-41e7-be83-fd294358e304"
     
 # API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6b"
 # headers = {"Authorization": "Bearer " + HUGGINGFACE_API_KEY}
@@ -56,22 +56,22 @@ app = FastAPI(docs_url="/docs", openapi_url="/openapi.json")
 
 
 # CORS configuration
-origins = [
-    "https://www.youtube.com",
-    "http://localhost:3000",
-    "https://sniptube.vercel.app",
-    "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
-]
+# origins = [
+#     "https://www.youtube.com",
+#     "http://localhost:3000",
+#     "https://sniptube.vercel.app",
+#     "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
+# ]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST"],
-    allow_headers=["content-type"]
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["GET", "POST"],
+#     allow_headers=["content-type"]
+# )
 
-@app.get("/api/healthchecker")
+@app.get("/api/llm/healthchecker")
 def healthchecker():
     return {"status": "success", "message": "Integrated FastAPI Framework with Next.js and chrome extension successfully!"}
 # def query(payload):
@@ -141,7 +141,7 @@ async def summary_openAI(video_id: str, start_time: int = None, end_time: int = 
     print(summary)
     return {"summary": summary}
 
-@app.post("/api/summarize/full")
+@app.post("/api/llm/summarize/full")
 async def summarizeFull(item: SummarizeFull):
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"
@@ -169,7 +169,7 @@ async def summarizeFull(item: SummarizeFull):
     
     return {"summary": wrapped_summary}
 
-@app.post("/api/summarize/snip")
+@app.post("/api/llm/summarize/snip")
 async def summarizeSnip(item: SummarizeSnip):
     # set up model
     model_path = "./ggml-gpt4all-j-v1.3-groovy.bin"

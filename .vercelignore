@@ -1,30 +1,36 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+
 node_modules
 .pnp
 .pnp.js
 
 # testing
+
 /coverage
 
 #cache
 .turbo
 
 # misc
+
 .DS_Store
-__pycache__
-*.pem
+**pycache**
+\*.pem
+
 # .vscode
 
 # debug
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env*
+
+.env\*
 !.env.example
 .venv
 out/
@@ -34,19 +40,25 @@ dist/
 .vercel
 
 # plasmo - https://www.plasmo.com
+
 .plasmo
 
 # bpp - http://bpp.browser.market/
+
 keys.json
 
 # typescript
+
 .tsbuildinfo
 
 # LLM binaries
-*.bin
+
+\*.bin
 
 # Others
+
 scratch.py
 
 # My stuff
+
 TODO.md

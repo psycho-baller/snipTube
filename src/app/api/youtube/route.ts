@@ -20,9 +20,9 @@ export async function GET(req: NextRequest) {
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Methods": "GET",
-          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "*",
+          // "Content-Type": "application/json",
         },
       }
     );

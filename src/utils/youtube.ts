@@ -11,6 +11,7 @@ export const getVideoDetails = async (videoId: string) => {
   // const res = await getSubtitles({ videoID: videoId, lang: 'en' });
   try {
     const res = await fetch(`${URL}/youtube?videoID=${videoId}`, {
+      // mode: "no-cors",
       method: "GET",
     });
     if (!res.ok) {
@@ -29,10 +30,10 @@ export const getVideoDetails = async (videoId: string) => {
 
 export const getFullSummary = async (transcript: string, title: string, videoId: string) => {
   // check local storage for summarized transcript
-  const summary = localStorage.getItem(`${videoId}-summary`);
-  if (summary) {
-    return summary;
-  }
+  // const summary = localStorage.getItem(`${videoId}-summary`);
+  // if (summary) {
+  //   return summary;
+  // }
   // encode transcript and title to base64
   const encodedTranscript = Buffer.from(transcript).toString("base64");
   // remove things that don't work with base64 encoding like emojis
@@ -40,7 +41,7 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
   const res = await fetch(`${URL}/llm/summarize/full`, {
     method: "POST",
-    // mode: "no-cors",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
