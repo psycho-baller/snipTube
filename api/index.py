@@ -1,18 +1,16 @@
 from  base64 import b64decode
 import textwrap
-from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
-from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
-from langchain import PromptTemplate
 from math import ceil
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
 
+from fastapi import FastAPI
 from pydantic import BaseModel
 
+# from fastapi.middleware.cors import CORSMiddleware
+from langchain import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain.document_loaders import YoutubeLoader
-from langchain.llms import HuggingFaceHub
+from langchain.llms import OpenAI
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 
@@ -31,7 +29,7 @@ class SummarizeSnip(BaseModel):
 
 
 # headers = {"Authorization": "Bearer " + FLOWISE_API_KEY}
-app = FastAPI(docs_url="/docs", openapi_url="/openapi.json")
+app = FastAPI(docs_url="/api/llm/docs", redoc_url="/api/llm/redoc", openapi_url="/api/llm/openapi.json")
 
 # CORS configuration
 # origins = [
@@ -55,7 +53,7 @@ def healthchecker():
 
 @app.post("/api/llm/summarize/full")
 async def summarizeFull(item: SummarizeFull):
-    llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
+    llm = OpenAI(temperature=0.6)
     # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
     if item.encoded:
         # decode from base64
@@ -95,7 +93,7 @@ async def summarizeSnip(item: SummarizeSnip):
         text = item.transcript
         summary = item.summary
         
-    llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 250 })
+    llm = OpenAI(temperature=0.6)
     PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, summary=summary, text='{text}'), input_variables=["text"])
     # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
     chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_SNIP_SUMMARY)
