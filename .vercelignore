@@ -33,6 +33,7 @@ yarn-error.log*
 
 .env\*
 !.env.example
+config.py
 out/
 build/
 dist/
