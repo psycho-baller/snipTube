@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
       { transcript, chapters, title },
       {
         headers: {
-          "Access-Control-Allow-Origin": "https://www.youtube.com https://sniptube.vercel.app http://localhost:3000",
+          "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Allow-Methods": "GET",
           "Content-Type": "application/json",
