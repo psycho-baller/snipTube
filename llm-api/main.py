@@ -57,14 +57,15 @@ app = FastAPI(docs_url="/docs", openapi_url="/openapi.json")
 
 # CORS configuration
 origins = [
-    "https://www.youtube.com",
-    "http://localhost:3000",
+    # "https://www.youtube.com",
+    # "http://localhost:3000",
+    # "https://sniptube.vercel.app",
     # "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["content-type"]

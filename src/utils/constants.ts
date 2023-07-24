@@ -1,3 +1,2 @@
-export const URL = process.env.NEXT_PUBLIC_SITE_URL
-  ? `https://${process.env.NEXT_PUBLIC_SITE_URL}/api`
-  : "http://localhost:3000/api";
+export const URL =
+  process.env.NODE_ENV === "production" ? `https://sniptube.vercel.app/api` : "http://localhost:3000/api";
