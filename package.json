@@ -12,7 +12,6 @@
     "dev:next": "next dev --port 3000",
     "dev:fastapi": "cd api && source .venv/bin/activate && uvicorn index:app --reload",
     "build": "run-p build:*",
-    "build:plasmo": "plasmo build",
     "build:next": "next build",
     "package": "run-p package:*",
     "package:plasmo": "plasmo package"
