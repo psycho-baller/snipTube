@@ -32,20 +32,20 @@ class SummarizeSnip(BaseModel):
 app = FastAPI(docs_url="/api/llm/docs", redoc_url="/api/llm/redoc", openapi_url="/api/llm/openapi.json")
 
 # CORS configuration
-# origins = [
-#     "https://www.youtube.com",
-#     "http://localhost:3000",
-#     "https://sniptube.vercel.app",
-#     "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
-# ]
+origins = [
+    "https://www.youtube.com",
+    "http://localhost:3000",
+    "https://sniptube.vercel.app",
+    "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
+]
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["GET", "POST"],
-#     allow_headers=["content-type"]
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["content-type"]
+)
 
 @app.get("/api/llm/healthchecker")
 def healthchecker():
