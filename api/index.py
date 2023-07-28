@@ -7,7 +7,7 @@ load_dotenv()  # take environment variables from .env.
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-# from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from langchain import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.llms import OpenAI
@@ -43,7 +43,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["content-type"]
 )
 
@@ -67,7 +67,7 @@ async def summarizeFull(item: SummarizeFull):
     # chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_FULL_SUMMARY)
     chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True, return_intermediate_steps=False, map_prompt=PROMPT_FULL_SUMMARY, combine_prompt=PROMPT_FULL_SUMMARY)
     # get optimal chunk size given the max number of tokens can be 6000 but we want to split it equally in the least number of chunks
-    chunk_size = 2000# calculate_chunk_size(len(text))
+    chunk_size = 2000 # calculate_chunk_size(len(text))
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=200 if chunk_size > 200 else 0)
     text_document = text_splitter.split_documents([Document(page_content=text, metadata={"title": title, "transcript": text})])
         

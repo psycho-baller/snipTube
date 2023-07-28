@@ -4,7 +4,7 @@
 
 ## About
 
-Essentially, SnipTube is a browser extension that allows you to **highlight and save the best parts of your favorite YouTube videos** and summarize these snips with the power of AI. It also allows you to write notes and assign tags for each snip.
+SnipTube is a browser extension that allows you to **highlight and save the best parts of your favorite YouTube videos** and summarize these snips with the power of AI. It also allows you to write notes, assign tags, and export each snip.
 
 What you end up with is a **collection of your favorite YouTube snips** to look back at and **easily export with a click of a button**. Whether you are **a student, a researcher, or just a casual YouTube user**, SnipTube will help you **save time and effort** by being a medium for you to **store and organize your favorite YouTube moments**.
 

@@ -41,7 +41,6 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
   const res = await fetch(`${URL}/llm/summarize/full`, {
     method: "POST",
-    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
