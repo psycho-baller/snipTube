@@ -12,17 +12,21 @@
     "dev:next": "next dev --port 3000",
     "dev:fastapi": "source venv/bin/activate && uvicorn api.index:app --reload",
     "build": "run-p build:*",
+    "build:plasmo": "plasmo build",
     "build:next": "next build",
     "package": "run-p package:*",
     "package:plasmo": "plasmo package"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.1.1",
+    "@stripe/stripe-js": "^1.54.1",
     "@tailwindcss/forms": "^0.5.3",
     "get-youtube-chapters": "^2.0.0",
     "next": "^13.4.7",
     "plasmo": "^0.81.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "stripe": "^12.14.0",
     "youtube-caption-extractor": "^1.4.3",
     "zustand": "^4.3.8"
   },
