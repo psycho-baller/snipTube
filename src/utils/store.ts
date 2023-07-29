@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import type { Snip } from "src/utils/types";
-import { getDefaultSnipLength, setDefaultSnipLength, setSnips } from "./storage";
+import type { Snip, sortByOptions } from "src/utils/types";
+import { setDefaultSnipLength, setSnips } from "./storage";
 
 type State = {
   snips: Snip[];
+  sortBy?: sortByOptions;
 };
 
 type Actions = {
@@ -11,6 +12,7 @@ type Actions = {
   removeSnip: (snipId: string) => void;
   // updateSnip: (snip: Snip) => void;
   setSnips?: (snips: Snip[]) => void;
+  setSortBy?: (sortBy: sortByOptions) => void;
 };
 
 type SettingsState = {
@@ -41,6 +43,7 @@ type contentScriptActions = {
 
 export const useSnipsStore = create<State & Actions>((set, get) => ({
   snips: [],
+  sortBy: "Newest",
   addSnip: async (snip) => {
     const snips = [...get().snips, snip] as Snip[];
     await setSnips(snips, snip.videoId);
@@ -55,6 +58,7 @@ export const useSnipsStore = create<State & Actions>((set, get) => ({
     await setSnips(snips);
     set({ snips });
   },
+  setSortBy: (sortBy) => set({ sortBy }),
   // updateSnip: (snip) => set((state) => ({ snips: state.snips.map((s) => (s.id === snip.id ? snip : s)) })),
 }));
 

@@ -38,10 +38,6 @@ const Header: FC<Props> = (props) => {
         <SettingsButton stickRight={!hasMoreThanFour} />
         {hasMoreThanFour && <Dropdown />}
       </div>
-      {/* <div className="flex pr-4">
-          <ExportButton snips={allSnips ?? snips} />
-          <SettingsButton />
-        </div> */}
     </header>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import type { Snip, Tag } from "../utils/types";
-import { useAllSnipsStore } from "src/utils/store";
+import { useAllSnipsStore, useSnipsStore } from "src/utils/store";
 import Topbar from "./Topbar";
 import { getAllSnips } from "src/utils/storage";
 import OutsideSnip from "./OutsideSnip";
@@ -15,10 +15,40 @@ const AllSnips: React.FC<Props> = (props) => {
 
   const snips: Snip[] = useAllSnipsStore((state) => state.snips);
   const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
+  const sortBy = useSnipsStore((state) => state.sortBy);
 
   useEffect(() => {
     getAllSnips().then((allSnips) => setAllVideoSnips(allSnips));
   }, []);
+
+  useEffect(() => {
+    switch (sortBy) {
+      case "Newest":
+        setAllVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        break;
+      case "Oldest":
+        setAllVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
+        break;
+      case "A-Z":
+        setAllVideoSnips(snips.sort((a, b) => a.title.localeCompare(b.title)));
+        break;
+      case "Z-A":
+        setAllVideoSnips(snips.sort((a, b) => b.title.localeCompare(a.title)));
+        break;
+      case "End time":
+        setAllVideoSnips(snips.sort((a, b) => a.endTimestamp - b.endTimestamp));
+        break;
+      case "Tag (A-Z)":
+        setAllVideoSnips(snips.sort((a, b) => a.tags[0].name.localeCompare(b.tags[0].name)));
+        break;
+      case "Tag (Z-A)":
+        setAllVideoSnips(snips.sort((a, b) => b.tags[0].name.localeCompare(a.tags[0].name)));
+        break;
+      default:
+        setAllVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        break;
+    }
+  }, [sortBy]);
 
   // a list of all the tags for the current video
   const tags = useMemo<Tag[]>(() => {
@@ -39,7 +69,7 @@ const AllSnips: React.FC<Props> = (props) => {
     <div className={`flex flex-col ${className}`}>
       <Topbar
         tags={tags}
-        allSnips={snips}
+        snips={snips}
       />
       {snips.length > 0 ? (
         <main>

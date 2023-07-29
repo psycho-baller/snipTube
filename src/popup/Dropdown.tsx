@@ -1,4 +1,6 @@
 import { type FC, useEffect, useRef, useState } from "react";
+import { useSnipsStore } from "src/utils/store";
+import type { sortByOptions } from "src/utils/types";
 
 interface Props {}
 
@@ -6,20 +8,11 @@ const DropdownButton: FC<Props> = (props) => {
   const {} = props;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>("newest");
+  const sortBy = useSnipsStore((state) => state.sortBy);
+  const setSortBy = useSnipsStore((state) => state.setSortBy);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const options = [
-    { value: "newest", label: "Newest" },
-    { value: "oldest", label: "Oldest" },
-    { value: "a-z", label: "A-Z" },
-    { value: "z-a", label: "Z-A" },
-    { value: "end-time", label: "End time" },
-    // { value: 'tag-a-z', label: 'Tag (A-Z)' },
-    // { value: 'tag-z-a', label: 'Tag (Z-A)' },
-    { value: "title-a-z", label: "Title (A-Z)" },
-    { value: "title-z-a", label: "Title (Z-A)" },
-  ];
+  const options = ["Newest", "Oldest", "A-Z", "Z-A", "End time", "Tag (A-Z)", "Tag (Z-A)"] as sortByOptions[];
 
   const toggleDropdown = () => {
     setIsOpen((prevState) => !prevState);
@@ -63,29 +56,27 @@ const DropdownButton: FC<Props> = (props) => {
         </svg>
       </button>
 
-      <div
+      <ul
         className={
           "absolute w-24 right-0 py-2 mt-2 bg-gray-800 rounded-md shadow-lg origin-top duration-200 z-10" +
           (isOpen ? " scale-100 " : " scale-0")
         }
       >
         {options.map((option) => (
-          <a
-            href={`#${option.value}`}
-            key={option.value}
+          <li
+            key={option}
             onClick={() => {
-              setSelectedOption(option.value);
+              setSortBy(option);
               setIsOpen(false);
             }}
             className={
-              "block px-4 py-2 text-sm text-gray-50 hover:bg-gray-700" +
-              (selectedOption === option.value ? " bg-cyan-700" : "")
+              "block px-4 py-2 text-sm text-gray-50 hover:bg-gray-700" + (sortBy === option ? " bg-cyan-700" : "")
             }
           >
-            {option.label}
-          </a>
+            {option}
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

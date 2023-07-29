@@ -15,10 +15,39 @@ const CurrentSnips: FC<Props> = (props) => {
 
   const snips: Snip[] = useSnipsStore((state) => state.snips);
   const setCurrentVideoSnips = useSnipsStore((state) => state.setSnips);
-
+  const sortBy = useSnipsStore((state) => state.sortBy);
   useEffect(() => {
     getSnips().then((snips) => setCurrentVideoSnips(snips));
   }, []);
+
+  useEffect(() => {
+    switch (sortBy) {
+      case "Newest":
+        setCurrentVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        break;
+      case "Oldest":
+        setCurrentVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
+        break;
+      case "A-Z":
+        setCurrentVideoSnips(snips.sort((a, b) => a.title.localeCompare(b.title)));
+        break;
+      case "Z-A":
+        setCurrentVideoSnips(snips.sort((a, b) => b.title.localeCompare(a.title)));
+        break;
+      case "End time":
+        setCurrentVideoSnips(snips.sort((a, b) => a.endTimestamp - b.endTimestamp));
+        break;
+      case "Tag (A-Z)":
+        setCurrentVideoSnips(snips.sort((a, b) => a.tags[0].name.localeCompare(b.tags[0].name)));
+        break;
+      case "Tag (Z-A)":
+        setCurrentVideoSnips(snips.sort((a, b) => b.tags[0].name.localeCompare(a.tags[0].name)));
+        break;
+      default:
+        setCurrentVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        break;
+    }
+  }, [sortBy]);
 
   // a list of all the tags for the current video
   const tags = useMemo<Tag[]>(() => {
