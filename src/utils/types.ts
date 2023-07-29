@@ -1,4 +1,5 @@
 import type { Chapter } from "get-youtube-chapters";
+import type { sortByOptions } from "./constants";
 
 export type Snip = {
   startTimestamp: number;
@@ -30,4 +31,4 @@ export type VidDetails = {
   title: string;
 };
 
-export type sortByOptions = "Newest" | "Oldest" | "A-Z" | "Z-A" | "End time" | "Tag (A-Z)" | "Tag (Z-A)";
+export type sortByOptionsType = (typeof sortByOptions)[number];

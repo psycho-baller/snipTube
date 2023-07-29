@@ -5,6 +5,7 @@ import Topbar from "./Topbar";
 import { getAllSnips } from "src/utils/storage";
 import OutsideSnip from "./OutsideSnip";
 import NoSnips from "./NoSnips";
+import { sortByOptions } from "src/utils/constants";
 
 interface Props {
   className?: string;
@@ -23,29 +24,26 @@ const AllSnips: React.FC<Props> = (props) => {
 
   useEffect(() => {
     switch (sortBy) {
-      case "Newest":
-        setAllVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
-        break;
-      case "Oldest":
+      case sortByOptions[0]:
         setAllVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
         break;
-      case "A-Z":
+      case sortByOptions[1]:
+        setAllVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        break;
+      case sortByOptions[2]:
         setAllVideoSnips(snips.sort((a, b) => a.title.localeCompare(b.title)));
         break;
-      case "Z-A":
+      case sortByOptions[3]:
         setAllVideoSnips(snips.sort((a, b) => b.title.localeCompare(a.title)));
         break;
-      case "End time":
+      case sortByOptions[4]:
         setAllVideoSnips(snips.sort((a, b) => a.endTimestamp - b.endTimestamp));
         break;
-      case "Tag (A-Z)":
-        setAllVideoSnips(snips.sort((a, b) => a.tags[0].name.localeCompare(b.tags[0].name)));
-        break;
-      case "Tag (Z-A)":
-        setAllVideoSnips(snips.sort((a, b) => b.tags[0].name.localeCompare(a.tags[0].name)));
+      case sortByOptions[5]:
+        setAllVideoSnips(snips.sort((a, b) => b.endTimestamp - a.endTimestamp));
         break;
       default:
-        setAllVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        setAllVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
         break;
     }
   }, [sortBy]);

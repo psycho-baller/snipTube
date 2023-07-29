@@ -1,6 +1,6 @@
 import { type FC, useEffect, useRef, useState } from "react";
+import { sortByOptions } from "src/utils/constants";
 import { useSnipsStore } from "src/utils/store";
-import type { sortByOptions } from "src/utils/types";
 
 interface Props {}
 
@@ -11,8 +11,6 @@ const DropdownButton: FC<Props> = (props) => {
   const sortBy = useSnipsStore((state) => state.sortBy);
   const setSortBy = useSnipsStore((state) => state.setSortBy);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const options = ["Newest", "Oldest", "A-Z", "Z-A", "End time", "Tag (A-Z)", "Tag (Z-A)"] as sortByOptions[];
 
   const toggleDropdown = () => {
     setIsOpen((prevState) => !prevState);
@@ -36,7 +34,7 @@ const DropdownButton: FC<Props> = (props) => {
   // TODO: actually sort the snips lol
   return (
     <div
-      className="relative"
+      className="relative h-min w-min"
       ref={dropdownRef}
     >
       <button
@@ -62,7 +60,7 @@ const DropdownButton: FC<Props> = (props) => {
           (isOpen ? " scale-100 " : " scale-0")
         }
       >
-        {options.map((option) => (
+        {sortByOptions.map((option) => (
           <li
             key={option}
             onClick={() => {
@@ -70,7 +68,8 @@ const DropdownButton: FC<Props> = (props) => {
               setIsOpen(false);
             }}
             className={
-              "block px-4 py-2 text-sm text-gray-50 hover:bg-gray-700" + (sortBy === option ? " bg-cyan-700" : "")
+              "block cursor-pointer px-4 py-2 text-sm text-gray-50 hover:bg-gray-700" +
+              (sortBy === option ? " bg-cyan-700" : "")
             }
           >
             {option}

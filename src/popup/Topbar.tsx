@@ -26,7 +26,9 @@ const Header: FC<Props> = (props) => {
         {tags.map((tag: Tag, i: number) => (
           <button
             key={i}
-            className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ? tag.color : "gray"}-700`}
+            className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${
+              tag.color ? tag.color : "gray"
+            }-700  whitespace-nowrap`}
           >
             {tag.name}
           </button>

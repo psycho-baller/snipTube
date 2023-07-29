@@ -5,6 +5,7 @@ import YtSnip from "./YtSnip";
 import { useSnipsStore } from "src/utils/store";
 import { getSnips } from "src/utils/storage";
 import NoSnips from "./NoSnips";
+import { sortByOptions } from "src/utils/constants";
 
 interface Props {
   className?: string;
@@ -22,29 +23,27 @@ const CurrentSnips: FC<Props> = (props) => {
 
   useEffect(() => {
     switch (sortBy) {
-      case "Newest":
-        setCurrentVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
-        break;
-      case "Oldest":
+      case sortByOptions[0]:
         setCurrentVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
         break;
-      case "A-Z":
+      case sortByOptions[1]:
+        setCurrentVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        break;
+      case sortByOptions[2]:
         setCurrentVideoSnips(snips.sort((a, b) => a.title.localeCompare(b.title)));
         break;
-      case "Z-A":
+      case sortByOptions[3]:
         setCurrentVideoSnips(snips.sort((a, b) => b.title.localeCompare(a.title)));
         break;
-      case "End time":
+      case sortByOptions[4]:
         setCurrentVideoSnips(snips.sort((a, b) => a.endTimestamp - b.endTimestamp));
         break;
-      case "Tag (A-Z)":
-        setCurrentVideoSnips(snips.sort((a, b) => a.tags[0].name.localeCompare(b.tags[0].name)));
-        break;
-      case "Tag (Z-A)":
-        setCurrentVideoSnips(snips.sort((a, b) => b.tags[0].name.localeCompare(a.tags[0].name)));
+      case sortByOptions[5]:
+        setCurrentVideoSnips(snips.sort((a, b) => b.endTimestamp - a.endTimestamp));
         break;
       default:
-        setCurrentVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
+        // most recent (newest) first
+        setCurrentVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
         break;
     }
   }, [sortBy]);

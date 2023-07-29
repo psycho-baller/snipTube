@@ -1,4 +1,4 @@
-import { useState, type FC, type MouseEvent } from "react";
+import { useState, type FC } from "react";
 import type { Snip } from "src/utils/types";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
@@ -15,6 +15,7 @@ const OutsideSnip: FC<Props> = (props) => {
 
   const snips = useAllSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
+  // no longer used (for now)
   const [showNote, setShowNote] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(note);
 

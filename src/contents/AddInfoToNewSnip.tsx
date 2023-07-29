@@ -30,10 +30,7 @@ const PlasmoOverlay = () => {
   const [note, setNote] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
 
-  // const defaultLength = useSettingsStore((state) => state.defaultLength);
   const [snipLength, setSnipLength] = useState<number>(30);
-  // const snipLength = defaultLength;
-  // const setSnipLength = useContentScriptStore((state) => state.setSnipLength);
   const show = useContentScriptStore((state) => state.showOverlay);
 
   useEffect(() => {
@@ -66,6 +63,11 @@ const PlasmoOverlay = () => {
       snipTags: tags,
       snipLength,
     });
+    // reset the note and tags
+    setNote("");
+    setTags([]);
+    // might actually be better to keep the snip length the same
+    // setSnipLength(await getDefaultSnipLength());
   };
 
   const stopPropagation = (e: KeyboardEvent<HTMLElement>) => {
