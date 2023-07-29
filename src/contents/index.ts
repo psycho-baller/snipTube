@@ -129,7 +129,6 @@ async function addNewSnipEventHandler() {
       const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
       const encodedSummary = Buffer.from(vidSummary).toString("base64");
       summary = await fetch(`${URL}/llm/summarize/snip`, {
-        // mode: "no-cors",
         method: "POST",
         headers: {
           "Content-Type": "application/json",

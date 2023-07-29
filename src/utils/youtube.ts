@@ -30,10 +30,10 @@ export const getVideoDetails = async (videoId: string) => {
 
 export const getFullSummary = async (transcript: string, title: string, videoId: string) => {
   // check local storage for summarized transcript
-  // const summary = localStorage.getItem(`${videoId}-summary`);
-  // if (summary) {
-  //   return summary;
-  // }
+  const summary = localStorage.getItem(`${videoId}-summary`);
+  if (summary) {
+    return summary;
+  }
   // encode transcript and title to base64
   const encodedTranscript = Buffer.from(transcript).toString("base64");
   // remove things that don't work with base64 encoding like emojis

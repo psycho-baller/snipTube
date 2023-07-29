@@ -126,14 +126,14 @@ const PlasmoOverlay = () => {
             <div className="">
               <label
                 htmlFor="defaultSnipLength"
-                className="text-base"
+                className="text-lg text-gray-300"
               >
                 Default Snip Length
               </label>
               <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
                 <input
                   type="number"
-                  className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
+                  className="w-24 form-input text-xl border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
                   value={snipLength}
                   onChange={handleLengthChange}
                   onKeyDown={stopPropagation}
