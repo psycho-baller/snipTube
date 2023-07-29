@@ -4,6 +4,7 @@ import { useContentScriptStore } from "src/utils/store";
 import DynamicTextarea from "../shared/components/DynamicTextarea";
 import type { PlasmoCSConfig } from "plasmo";
 import cssText from "data-text:src/styles/tailwind.css";
+import TagInput from "src/shared/components/TagInput";
 
 export const getStyle = () => {
   const style = document.createElement("style");
@@ -27,6 +28,7 @@ export const config: PlasmoCSConfig = {
 const PlasmoOverlay = () => {
   const [showOverlay, setShowOverlay] = useState<boolean>(true);
   const [note, setNote] = useState<string>("");
+  const [tags, setTags] = useState<string[]>([]);
 
   // const defaultLength = useSettingsStore((state) => state.defaultLength);
   const [snipLength, setSnipLength] = useState<number>(30);
@@ -58,17 +60,10 @@ const PlasmoOverlay = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const tags = formData.get("tags") as string;
-    // remove whitespace and split by comma and remove empty strings
-    const tabsArr = tags
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter((tag) => tag !== "");
     useContentScriptStore.setState({
       showOverlay: false,
       snipNote: note,
-      snipTags: tabsArr,
+      snipTags: tags,
       snipLength,
     });
   };
@@ -112,14 +107,11 @@ const PlasmoOverlay = () => {
                 htmlFor="name"
                 className="text-lg text-gray-300"
               >
-                Tags (separate tags with commas)
+                Tags (separate with comma, tab, or enter)
               </label>
-              <input
-                type="text"
-                name="tags"
-                id="name"
-                onKeyDown={stopPropagation}
-                className="w-full px-3 py-2 overflow-hidden overflow-x-hidden overflow-y-auto scrolling-touch text-xl placeholder-gray-500 transition-all duration-300 ease-in-out border border-gray-600 rounded-md focus:outline-none scrollbar dark:bg-gray-700 dark:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-300 focus:placeholder-transparent focus:ring-3 focus:ring-gray-600"
+              <TagInput
+                tags={tags}
+                setTags={setTags}
                 placeholder="focus, productivity, ..."
               />
             </div>
@@ -153,7 +145,6 @@ const PlasmoOverlay = () => {
               </div>
             </div>
             <div className="flex justify-between pt-2">
-              {/* close button */}
               <button
                 type="button"
                 className="px-4 py-2 text-lg font-medium transition-colors border border-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500"
