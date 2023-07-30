@@ -2,7 +2,7 @@
   "name": "sniptube",
   "displayName": "SnipTube",
   "version": "0.0.1",
-  "description": "Save the most important parts of a YouTube video with built-in AI for summarization",
+  "description": "SnipTube is a powerful browser extension that allows you to highlight, save, and summarize the best parts of your favorite YouTube videos while organizing them with tags and notes for easy access and export",
   "author": "Rami <rami.rami@ucalgary.ca>",
   "license": "MIT",
   "scripts": {
