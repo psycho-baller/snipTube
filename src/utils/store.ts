@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import type { Snip, sortByOptions } from "src/utils/types";
+import type { Snip, SortByOptionsType } from "src/utils/types";
 import { setDefaultSnipLength, setSnips } from "./storage";
 
 type State = {
   snips: Snip[];
-  sortBy?: sortByOptions;
+  sortBy?: SortByOptionsType;
 };
 
 type Actions = {
@@ -12,7 +12,7 @@ type Actions = {
   removeSnip: (snipId: string) => void;
   // updateSnip: (snip: Snip) => void;
   setSnips?: (snips: Snip[]) => void;
-  setSortBy?: (sortBy: sortByOptions) => void;
+  setSortBy?: (sortBy: SortByOptionsType) => void;
 };
 
 type SettingsState = {

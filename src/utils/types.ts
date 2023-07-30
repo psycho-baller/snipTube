@@ -31,4 +31,4 @@ export type VidDetails = {
   title: string;
 };
 
-export type sortByOptionsType = (typeof sortByOptions)[number];
+export type SortByOptionsType = (typeof sortByOptions)[number];

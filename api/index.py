@@ -38,7 +38,7 @@ origins = [
     "https://www.youtube.com",
     "http://localhost:3000",
     "https://sniptube.vercel.app",
-    "chrome-extension://pifbgdkhjhmflojngfjmbpmihbbecfnn",
+    "chrome-extension://fidajdajcfpjlbmgmpbcobkofibhkimk",
 ]
 
 app.add_middleware(

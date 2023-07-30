@@ -19,10 +19,10 @@ export async function GET(req: NextRequest) {
       { transcript, chapters, title },
       {
         headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "*",
-          "Access-Control-Allow-Methods": "*",
-          // "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "www.youtube.com",
+          "Access-Control-Allow-Headers": "content-type",
+          "Access-Control-Allow-Methods": "GET",
+          "Content-Type": "application/json",
         },
       }
     );
