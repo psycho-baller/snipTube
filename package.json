@@ -2,7 +2,7 @@
   "name": "sniptube",
   "displayName": "SnipTube",
   "version": "0.0.1",
-  "description": "SnipTube is a powerful browser extension that allows you to highlight, save, and summarize the best parts of your favorite YouTube videos while organizing them with tags and notes for easy access and export",
+  "description": "Highlight, save, annotate, and export your favorite YouTube moments with the power of AI.",
   "author": "Rami <rami.rami@ucalgary.ca>",
   "license": "MIT",
   "scripts": {
@@ -18,15 +18,12 @@
     "package:plasmo": "plasmo package"
   },
   "dependencies": {
-    "@stripe/react-stripe-js": "^2.1.1",
-    "@stripe/stripe-js": "^1.54.1",
     "@tailwindcss/forms": "^0.5.3",
     "get-youtube-chapters": "^2.0.0",
     "next": "^13.4.7",
     "plasmo": "^0.81.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "stripe": "^12.14.0",
     "youtube-caption-extractor": "^1.4.3",
     "zustand": "^4.3.8"
   },
@@ -44,7 +41,8 @@
   "manifest": {
     "permissions": [
       "storage",
-      "tabs"
+      "tabs",
+      "webNavigation"
     ],
     "host_permissions": [
       "https://youtube.com/watch*",
@@ -54,7 +52,9 @@
       "https://www.youtube-nocookie.com/watch*",
       "https://youtube-nocookie.com/watch*",
       "https://www.youtube.com/embed/watch*",
-      "https://youtube.com/embed/watch*"
+      "https://youtube.com/embed/watch*",
+      "https://*.youtube.com/*",
+      "https://www.youtube-nocookie.com/embed/*",
     ]
   }
 }

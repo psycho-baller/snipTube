@@ -55,7 +55,8 @@ def healthchecker():
 
 @app.post("/api/llm/summarize/full")
 async def summarizeFull(item: SummarizeFull):
-    llm = OpenAI(temperature=0.6) if not dev else HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
+    # OpenAI(temperature=0.6) if not dev else
+    llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
 
     # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
     if item.encoded:
@@ -71,7 +72,7 @@ async def summarizeFull(item: SummarizeFull):
     chain = load_summarize_chain(llm, chain_type="map_reduce", verbose=True, return_intermediate_steps=False, map_prompt=PROMPT_FULL_SUMMARY, combine_prompt=PROMPT_FULL_SUMMARY)
     # get optimal chunk size given the max number of tokens can be 6000 but we want to split it equally in the least number of chunks
     chunk_size = 2000 # calculate_chunk_size(len(text))
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=200 if chunk_size > 200 else 0)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=100 if chunk_size > 100 else 0)
     text_document = text_splitter.split_documents([Document(page_content=text, metadata={"title": title, "transcript": text})])
         
     summary = chain({'input_documents': text_document}, return_only_outputs=True)['output_text'].strip()
@@ -94,8 +95,8 @@ async def summarizeSnip(item: SummarizeSnip):
         title = item.title
         text = item.transcript
         summary = item.summary
-        
-    llm = OpenAI(temperature=0.6) if not dev else HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
+    # OpenAI(temperature=0.6) if not dev else 
+    llm = HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
     print("llm", llm)
     PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, summary=summary, text='{text}'), input_variables=["text"])
     # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain

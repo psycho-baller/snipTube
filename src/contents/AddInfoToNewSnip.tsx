@@ -22,8 +22,10 @@ export const config: PlasmoCSConfig = {
     "https://youtube-nocookie.com/watch*",
     "https://www.youtube.com/embed/watch*",
     "https://youtube.com/embed/watch*",
+    "https://*.youtube.com/*",
+    "https://www.youtube-nocookie.com/embed/*",
   ],
-  // run_at: "document_end",
+  run_at: "document_end",
 };
 const PlasmoOverlay = () => {
   const [showOverlay, setShowOverlay] = useState<boolean>(true);

@@ -35,7 +35,7 @@ Reach out to us through:
 
 - 🐞 [Creating a GitHub issue](https://github.com/psycho-baller/snipTube/issues/new/choose)
 - 📧 [Sending me an email](https://mail.google.com/mail/u/0/?fs=1&to=rami.rami@ucalgary.ca&su=SnipTube%20-%20&body=Hey%20Rami,%20....&tf=cm)
-- 📞 [Scheduling an online call with me](https://cal.com/rami-maalouf/any?duration=15)
+- 📞 [Scheduling an online call with me](https://cal.com/rami-maalouf/any)
 
 Your input is my inspiration, and together, we'll make SnipTube even better!
 

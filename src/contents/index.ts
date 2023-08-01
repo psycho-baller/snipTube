@@ -14,16 +14,16 @@ import { URL } from "src/utils/constants";
 import { useContentScriptStore } from "src/utils/store";
 export const config: PlasmoCSConfig = {
   matches: [
-    "https://youtube.com/watch*",
-    "https://www.youtube.com/watch*",
     "https://youtu.be/watch*",
     "https://www.youtu.be/watch*",
     "https://www.youtube-nocookie.com/watch*",
     "https://youtube-nocookie.com/watch*",
     "https://www.youtube.com/embed/watch*",
     "https://youtube.com/embed/watch*",
+    "https://*.youtube.com/*",
+    "https://www.youtube-nocookie.com/embed/*",
   ],
-  // run_at: "document_end",
+  run_at: "document_start",
 };
 let videoId = "";
 let videoIdSnips = [] as Snip[];
@@ -33,12 +33,13 @@ let previewBar: HTMLUListElement;
 let vidTranscript: string;
 let vidSummary: string;
 let vidTitle: string;
+let snipBtn: HTMLButtonElement | undefined;
 
 const newVideoLoaded = async () => {
   // const len = await getDefaultSnipLength();
   // useSettingsStore.setState({ defaultLength: len });
   // console.log(useSettingsStore.getState().defaultLength, "meow", len);
-  const snipButtonExists = document.getElementsByClassName("snip-btn")[0];
+  snipBtn = document.getElementsByClassName("snip-btn")[0] as HTMLButtonElement | undefined;
 
   // get the current video id if it doesn't exists
   if (!videoId) {
@@ -50,6 +51,7 @@ const newVideoLoaded = async () => {
     const urlParameters = new URLSearchParams(queryParameters);
     videoId = urlParameters.get("v") as string;
   }
+  console.log("new video loaded", videoId);
 
   // useSnipsStore.setState({ videoId });
   // save to storage the current video id
@@ -57,9 +59,9 @@ const newVideoLoaded = async () => {
   await chrome.storage.sync.set({ videoId });
 
   // section 1: add a snip button
-  if (!snipButtonExists) {
+  if (!snipBtn) {
     // create an svg element
-    const snipBtn = document.createElement("button");
+    snipBtn = document.createElement("button");
     snipBtn.innerHTML = `<svg style="padding: 2px; padding-bottom: 4px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Edit / Add_Plus_Circle"> <path id="Vector" d="M8 12H12M12 12H16M12 12V16M12 12V8M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g> </g></svg>`;
 
     snipBtn.className = "snip-btn" + " ytp-button";
@@ -91,7 +93,7 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 
   const { transcript, title } = (await getVideoDetails(videoId)) as VidDetails;
-  vidTranscript = transcript.map((d) => d.text).join(" ");
+  vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
   vidTitle = title;
 
   vidSummary = await getFullSummary(vidTranscript, vidTitle, videoId);
@@ -310,5 +312,5 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
     response(videoIdSnips);
   }
 
-  await newVideoLoaded();
+  // await newVideoLoaded();
 });
