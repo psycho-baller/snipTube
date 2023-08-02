@@ -42,7 +42,8 @@
     "permissions": [
       "storage",
       "tabs",
-      "webNavigation"
+      "webNavigation",
+      "scripting"
     ],
     "host_permissions": [
       "https://youtube.com/watch*",
@@ -54,7 +55,7 @@
       "https://www.youtube.com/embed/watch*",
       "https://youtube.com/embed/watch*",
       "https://*.youtube.com/*",
-      "https://www.youtube-nocookie.com/embed/*",
+      "https://www.youtube-nocookie.com/embed/*"
     ]
   }
 }
