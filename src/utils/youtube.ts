@@ -34,31 +34,43 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   if (summary) {
     return summary;
   }
+  // if it's in the process of being summarized, return empty string
+  if (localStorage.getItem(`${videoId}-summary`) === "loading") {
+    return "";
+  }
+  // if it's not in local storage, set it to loading
+  localStorage.setItem(`${videoId}-summary`, "loading");
   // encode transcript and title to base64
   const encodedTranscript = Buffer.from(transcript).toString("base64");
   // remove things that don't work with base64 encoding like emojis
   const cleanedTitle = title.replace(/[\uD800-\uDFFF]./g, "");
   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
-  const res = await fetch(`${URL}/llm/summarize/full`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      transcript: encodedTranscript,
-      title: encodedTitle,
-    }),
-  });
-  if (!res.ok) {
-    console.log("error", res);
+  try {
+    const res = await fetch(`${URL}/llm/summarize/full`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        transcript: encodedTranscript,
+        title: encodedTitle,
+      }),
+    });
+    if (!res.ok) {
+      console.log("error", res);
+      localStorage.removeItem(`${videoId}-summary`);
+      return "";
+    }
+    const data = (await res.json()) as { summary: string };
+    if (data.summary) {
+      localStorage.setItem(`${videoId}-summary`, data.summary);
+      return data.summary;
+    }
+  } catch (e) {
+    console.log("error", e);
+    localStorage.removeItem(`${videoId}-summary`);
     return "";
   }
-  const data = (await res.json()) as { summary: string };
-  if (data.summary) {
-    localStorage.setItem(`${videoId}-summary`, data.summary);
-    return data.summary;
-  }
-  return "";
 };
 
 export const getSnipTranscript = (videoId: string, start: number, end: number) => {
