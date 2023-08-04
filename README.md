@@ -1,5 +1,11 @@
 # SnipTube - Unleash the Power of YouTube Snips
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/SnipTube logo-dark.svg">
+<!--   <source media="(prefers-color-scheme: light)" srcset="assets/SnipTube logo.svg"> -->
+  <img width="100%" alt="Shows a black logo in light color mode and a white one in dark color mode." src="assets/SnipTube logo.svg">
+</picture>
+
 Hours spent on Project:
 <a href="https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/7432176a-d08e-48bd-96fb-6cba5c9f4fa2"><img src="https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/7432176a-d08e-48bd-96fb-6cba5c9f4fa2.svg" alt="wakatime"></a>
 
