@@ -10,9 +10,9 @@ const Popup: FC<Props> = () => {
   const [count, setCount] = useState<number>(0);
   const inYoutube = useContentScriptStore((state) => state.inYoutube);
   const setInYoutube = useContentScriptStore((state) => state.setInYoutube);
-  useEffect(() => {
-    chrome.action.setBadgeText({ text: count.toString() });
-  }, [count]);
+  // useEffect(() => {
+  //   chrome.action.setBadgeText({ text: count.toString() });
+  // }, [count]);
 
   useEffect(() => {
     // get the current video id
