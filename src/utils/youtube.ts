@@ -33,9 +33,8 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   const summary = localStorage.getItem(`${videoId}-summary`);
   if (summary) {
     return summary;
-  }
-  // if it's in the process of being summarized, return empty string
-  if (localStorage.getItem(`${videoId}-summary`) === "loading") {
+  } else if (summary === "loading") {
+    // if it's in the process of being summarized, return empty string
     return "";
   }
   // if it's not in local storage, set it to loading
