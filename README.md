@@ -1,9 +1,9 @@
 # SnipTube - Unleash the Power of YouTube Snips
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/SnipTube logo-dark.svg">
-<!--   <source media="(prefers-color-scheme: light)" srcset="assets/SnipTube logo.svg"> -->
-  <img width="100%" alt="Shows a black logo in light color mode and a white one in dark color mode." src="assets/SnipTube logo.svg">
+<!--   <source media="(prefers-color-scheme: dark)" srcset="assets/SnipTube logo-dark.svg"> -->
+  <source media="(prefers-color-scheme: light)" srcset="assets/SnipTube logo.svg">
+  <img width="100%" alt="Shows a black logo in light color mode and a white one in dark color mode." src="assets/SnipTube logo-dark.svg">
 </picture>
 
 Hours spent on Project:
