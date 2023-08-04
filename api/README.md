@@ -2,5 +2,5 @@
 
 ## Development
 
-run `uvicorn main:app --reload` to start the backend server
+run `uvicorn index:app --reload` to start the backend server
 
