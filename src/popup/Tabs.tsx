@@ -17,8 +17,8 @@ const Tabs: FC<Props> = (props) => {
     <div className={`flex flex-col ${className}`}>
       <nav className="grid grid-cols-2 text-center text-lg sticky top-0 z-10">
         <button
-          className={`self-center justify-center py-4 ${
-            0 === activeTab ? "bg-gray-950" : "border-b border-r border-gray-600 bg-gray-800"
+          className={`self-center justify-center py-4 border-b border-r ${
+            0 === activeTab ? "border-gray-950 bg-gray-950" : "border-gray-600 bg-gray-800"
           }`}
           aria-label="tab"
           onClick={() => setActiveTab(0)}
@@ -29,8 +29,8 @@ const Tabs: FC<Props> = (props) => {
         </button>
 
         <button
-          className={`self-center justify-center py-4 ${
-            1 === activeTab ? "bg-gray-950" : "border-b border-l border-gray-600 bg-gray-800"
+          className={`self-center justify-center py-4 border-b border-l ${
+            1 === activeTab ? "border-gray-950 bg-gray-950" : "border-gray-600 bg-gray-800"
           }`}
           aria-label="tab"
           onClick={() => setActiveTab(1)}

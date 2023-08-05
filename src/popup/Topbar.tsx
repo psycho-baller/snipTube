@@ -21,14 +21,14 @@ const Header: FC<Props> = (props) => {
 
   return (
     <header className={"flex sticky bg-gray-950 py-3 -mx-4 z-10" + (inYoutube ? "  top-[3.8rem]" : " top-0")}>
-      <div className="flex mr-2 overflow-x-auto rounded-full no-scrollbar">
+      <div className="flex mr-2 overflow-x-auto rounded-full scrollbar-hidden">
         <div className="flex pl-4"></div>
         {tags.map((tag: Tag, i: number) => (
           <button
             key={i}
-            className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${
+            className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center whitespace-nowrap bg-${
               tag.color ? tag.color : "gray"
-            }-700  whitespace-nowrap`}
+            }-700`}
           >
             {tag.name}
           </button>
