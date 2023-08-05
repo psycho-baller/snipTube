@@ -28,7 +28,7 @@ Build an exquisite collection of your most cherished YouTube moments that you ca
 Need to take your snips on the go? No problem! With a simple click of a button, you can easily export individual snips or the entire collection in Markdown format. Seamlessly import them into your favorite note-taking app and continue your learning journey.
 
 🌐 **Perfect for All Users**:
-SnipTube caters to everyone, whether you're a student looking to ace your exams, a researcher seeking cutting-edge insights, or simply a casual YouTube enthusiast. Say goodbye to wasting time searching for that elusive moment in a video.
+SnipTube caters to everyone, whether you're a student looking to ace your exams, a researcher seeking profound insights, or simply a casual YouTube enthusiast. Say goodbye to wasting time searching for that elusive moment in a video.
 
 🚀 **Constantly Evolving**:
 I am committed to providing you with the best experience possible, which is why I am continually updating and enhancing SnipTube. I strive to make it the ultimate YouTube companion for all users, and I am always open to feedback and suggestions.
