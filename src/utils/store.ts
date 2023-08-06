@@ -11,7 +11,7 @@ type Actions = {
   addSnip?: (snip: Snip) => void;
   removeSnip: (snipId: string) => void;
   // updateSnip: (snip: Snip) => void;
-  setSnips?: (snips: Snip[]) => void;
+  setSnips?: (snips: Snip[], vidId?: string) => void;
   setSortBy?: (sortBy: SortByOptionsType) => void;
 };
 
@@ -51,11 +51,12 @@ export const useSnipsStore = create<State & Actions>((set, get) => ({
   },
   removeSnip: async (snipId) => {
     const snips = get().snips.filter((s: Snip) => s.id !== snipId) as Snip[];
-    await setSnips(snips, snipId.split("-")[0]); // vidId = snipId.split("-")[0]
+    const vidId = snipId.split("-")[0];
+    await setSnips(snips, vidId);
     set({ snips });
   },
-  setSnips: async (snips) => {
-    await setSnips(snips);
+  setSnips: async (snips, vidId) => {
+    await setSnips(snips, vidId);
     set({ snips });
   },
   setSortBy: (sortBy) => set({ sortBy }),
@@ -70,7 +71,6 @@ export const useAllSnipsStore = create<State & Actions>((set, get) => ({
     set({ snips });
   },
   setSnips: async (snips) => {
-    // await setSnips(snips)
     set({ snips });
   },
 }));

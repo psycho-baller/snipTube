@@ -14,15 +14,15 @@ const YtSnip: FC<Props> = (props) => {
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
-
+  // no longer used (for now)
   const [showNote, setShowNote] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(note);
 
-  function updateData(): void {
-    setShowNote((prev) => !prev);
+  function updateData(note: string): void {
+    // setShowNote((prev) => !prev);
     const newSnips = snips.map((s: Snip) => {
       if (s.id === id) {
-        return { ...s, notes: textareaValue };
+        return { ...s, note: note };
       }
       return s;
     }) as Snip[];
@@ -35,12 +35,14 @@ const YtSnip: FC<Props> = (props) => {
       {/* grid of 3 equal sized columns in 1 row */}
       <div className="grid w-full grid-cols-3 gap-2">
         {/* tags */}
-        <div className="flex items-center justify-start col-span-1">
-          {/* overflow scroll */}
+        <div className="flex items-center justify-start col-span-1 overflow-scroll scrollbar-hidden rounded-full">
+          {/* TODO(feat): add tags */}
           {tags?.map((tag: Tag, i: number) => (
             <div
               key={i}
-              className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center bg-${tag.color ?? "gray"}-700`}
+              className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center whitespace-nowrap bg-gray-700`}
+              //   tag.color ?? "gray"
+              // }-700`}
             >
               {tag.name}
             </div>
@@ -64,6 +66,7 @@ const YtSnip: FC<Props> = (props) => {
           setNote={setTextareaValue}
           className="text-base py-1.5 px-2"
           defaultHeight={1.7}
+          updateData={updateData}
           // onKeyDown={stopPropagation}
         />
       </div>

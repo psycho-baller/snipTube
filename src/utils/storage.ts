@@ -62,8 +62,8 @@ export const getAllSnips = async () => {
     chrome.storage.sync.get(null, (result) => {
       const snips: Snip[] = [];
       Object.keys(result).forEach((key) => {
-        // check if key is in the format of a video id (11 characters)
-        if (key.length === 11 && result[key]) {
+        // check if key is in the format of a video id (11 characters) and if it has a value and make sure it was not already added (sanity check)
+        if (key.length === 11 && result[key] && !snips.find((s) => s.id === key)) {
           snips.push(...JSON.parse(result[key]));
         }
       });

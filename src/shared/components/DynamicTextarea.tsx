@@ -4,12 +4,13 @@ interface Props {
   note: string;
   setNote: Dispatch<SetStateAction<string>>;
   className?: string;
+  updateData?: (note: string) => void;
   defaultHeight?: number;
   [key: string]: any;
 }
 
 const DynamicTextarea: FC<Props> = (props) => {
-  const { note, setNote, className, defaultHeight = 2, ...rest } = props;
+  const { note, setNote, className, updateData, defaultHeight = 2, ...rest } = props;
 
   // const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -19,6 +20,13 @@ const DynamicTextarea: FC<Props> = (props) => {
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setRows(event.target.value.split("\n").length);
     setNote(event.target.value);
+    if (updateData) {
+      updateData(event.target.value);
+    }
+  };
+
+  const handleBlur = () => {
+    setOnFocus(false);
   };
   return (
     <textarea
@@ -35,7 +43,7 @@ const DynamicTextarea: FC<Props> = (props) => {
       name="note"
       onChange={handleChange}
       onFocus={() => setOnFocus(true)}
-      onBlur={() => setOnFocus(false)}
+      onBlur={handleBlur}
       placeholder="Write your note here..."
       role="textbox"
       aria-multiline="true"

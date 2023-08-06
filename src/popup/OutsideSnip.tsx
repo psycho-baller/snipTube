@@ -19,15 +19,23 @@ const OutsideSnip: FC<Props> = (props) => {
   const [showNote, setShowNote] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(note);
 
-  function updateData(): void {
-    setShowNote((prev) => !prev);
+  function updateData(note: string): void {
+    // setShowNote((prev) => !prev);
+    let vidId: string;
     const newSnips = snips.map((s: Snip) => {
       if (s.id === id) {
-        return { ...s, notes: textareaValue };
+        vidId = s.videoId;
+        return { ...s, note: note };
       }
       return s;
     }) as Snip[];
-    setSnips(newSnips);
+    console.log("vidId test:", vidId);
+    // only update the snips for the video that this snip belongs to
+    setSnips(
+      // this is the setSnips from useSnipsStore (not useAllSnipsStore)
+      newSnips.filter((s: Snip) => s.videoId === vidId),
+      vidId
+    );
   }
 
   return (
@@ -60,6 +68,7 @@ const OutsideSnip: FC<Props> = (props) => {
           setNote={setTextareaValue}
           className="text-sm px-2 py-1.5"
           defaultHeight={1.5}
+          updateData={updateData}
           // onKeyDown={stopPropagation}
         />
       </div>
