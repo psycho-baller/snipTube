@@ -53,6 +53,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // https://stackoverflow.com/questions/10994324/chrome-extension-content-script-re-injection-after-upgrade-or-install
 // another possible solution: https://stackoverflow.com/a/76126272
 chrome.runtime.onInstalled.addListener(async () => {
+  //this introduces another unseen error: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
+
   for (const cs of chrome.runtime.getManifest().content_scripts) {
     for (const tab of await chrome.tabs.query({ url: cs.matches })) {
       chrome.scripting.executeScript(

@@ -57,7 +57,7 @@ const DynamicTextarea: FC<Props> = (props) => {
         height: ((onFocus ? (rows < 4 ? 4 : rows) : defaultHeight) * 1.5).toString() + "rem",
       }}
       className={
-        "transition-all border border-gray-600 focus:rounded-xl rounded-md resize-none focus:outline-none overflow-x-hidden overflow-y-auto scrollbar scrolling-touch w-full dark:bg-gray-700 dark:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-300 placeholder-gray-500 focus:placeholder-transparent max-h-60 overflow-hidden ease-in-out duration-300 focus:ring-3 focus:ring-gray-600 " +
+        "transition-all border border-gray-600 focus:rounded-xl rounded-md resize-none focus:outline-none overflow-x-hidden overflow-y-auto scrollbar scrolling-touch w-full bg-gray-700 text-gray-400 focus:bg-gray-900 focus:text-gray-300 placeholder-gray-500 focus:placeholder-transparent max-h-60 overflow-hidden ease-in-out duration-300 focus:ring-3 focus:ring-gray-600 " +
         className
       }
     />
