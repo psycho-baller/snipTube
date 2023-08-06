@@ -1,7 +1,7 @@
 {
   "name": "sniptube",
-  "displayName": "SnipTube",
-  "version": "0.0.1",
+  "displayName": "SnipTube - Elevate Your YouTube Experience",
+  "version": "0.1.0",
   "description": "Highlight, save, annotate, and export your favorite YouTube moments with the power of AI.",
   "author": "Rami <rami.rami@ucalgary.ca>",
   "license": "MIT",
@@ -18,7 +18,6 @@
     "package:plasmo": "plasmo package"
   },
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.4",
     "get-youtube-chapters": "^2.0.0",
     "next": "^13.4.12",
     "plasmo": "^0.82.0",
@@ -36,6 +35,7 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.27",
     "prettier": "^2.8.8",
+    "@tailwindcss/forms": "^0.5.4",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
   },
