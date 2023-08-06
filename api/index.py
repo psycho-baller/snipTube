@@ -64,7 +64,7 @@ async def summarizeSnip(item: SummarizeSnip):
         text = item.transcript
         summary = item.summary if item.summary else None
     # OpenAI(temperature=0.6) if not dev else 
-    llm = OpenAI(temperature=0.6) if dev else HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
+    llm = OpenAI(temperature=0.6) if not dev else HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
     print("llm", llm)
     PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, text='{text}'), input_variables=["text"])
     # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
