@@ -24,6 +24,11 @@ const Popup: FC<Props> = () => {
       const currentVideo = urlParameters.get("v");
 
       setInYoutube(url.includes("youtube.com/watch") && currentVideo ? true : false);
+
+      // temporary fix for dark mode (add a class to the html tag)
+      if (!document.documentElement.classList.contains("dark")) {
+        document.documentElement.classList.add("dark");
+      }
     });
   }, []);
 
