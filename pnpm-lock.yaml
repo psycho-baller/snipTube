@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@plasmohq/storage':
+    specifier: ^1.7.2
+    version: 1.7.2(react@18.2.0)
   get-youtube-chapters:
     specifier: ^2.0.0
     version: 2.0.0
@@ -2097,6 +2100,18 @@ packages:
       - velocityjs
       - walrus
       - whiskers
+    dev: false
+
+  /@plasmohq/storage@1.7.2(react@18.2.0):
+    resolution: {integrity: sha512-N8hliSa3XJftAA5gZASKVVMbZ+jxTlNIehRTNT7rIgYhm+PNGXa1xZkuAlv+JDFIUuYMI84/xvVqivKedld73Q==}
+    peerDependencies:
+      react: ^16.8.6 || ^17 || ^18
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      pify: 6.1.0
+      react: 18.2.0
     dev: false
 
   /@pnpm/config.env-replace@1.1.0:
@@ -5122,6 +5137,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
     optional: true
+
+  /pify@6.1.0:
+    resolution: {integrity: sha512-KocF8ve28eFjjuBKKGvzOBGzG8ew2OqOOSxTTZhirkzH7h3BI1vyzqlR0qbfcDBve1Yzo3FVlWUAtCRrbVN8Fw==}
+    engines: {node: '>=14.16'}
+    dev: false
 
   /pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}

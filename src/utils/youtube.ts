@@ -73,43 +73,51 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
 };
 
 export const getSnipTranscript = (videoId: string, start: number, end: number) => {
-  // check local storage for details given videoId
-  const details = localStorage.getItem(videoId);
-  if (!details) {
-    return "";
-  }
-  const { transcript } = JSON.parse(details) as VidDetails;
-
-  // error handling
-  if (!start || !end) {
-    return "";
-  }
-  if (
-    // 1: Error: start is out of range
-    start > parseInt(transcript[transcript.length - 1].start) + parseInt(transcript[transcript.length - 1].dur) ||
-    start < 0 || // Error: end is out of range
-    end < parseInt(transcript[0].start) ||
-    end > parseInt(transcript[transcript.length - 1].start) + parseInt(transcript[transcript.length - 1].dur) ||
-    start > end || // Error: start is greater than end
-    start === end // Error: start is equal to end
-  ) {
-    return "";
-  }
-
-  // increase time range by 2 seconds
-  start = start - 2;
-  end = end + 2;
-  // 2: get transcript text
-  let text = "";
-  for (let line of transcript) {
-    const from_time = parseInt(line.start);
-    const to_time = from_time + parseInt(line.dur);
-
-    if ((start <= from_time && end >= from_time) || (start <= to_time && end >= to_time)) {
-      text += line.text.replace("\n", " ");
-    } else if (to_time > end) {
-      return text;
+  try {
+    // check local storage for details given videoId
+    const details = localStorage.getItem(videoId);
+    if (!details) {
+      throw new Error("No details");
     }
+    const { transcript } = JSON.parse(details) as VidDetails;
+    console.log("transcript", transcript);
+    if (!transcript || transcript.length === 0) {
+      throw new Error("No transcript");
+    }
+    // error handling
+    if (!start || !end) {
+      throw new Error("No start or end");
+    }
+    if (
+      // 1: Error: start is out of range
+      start > parseInt(transcript[transcript.length - 1].start) + parseInt(transcript[transcript.length - 1].dur) ||
+      start < 0 || // Error: end is out of range
+      end < parseInt(transcript[0].start) ||
+      end > parseInt(transcript[transcript.length - 1].start) + parseInt(transcript[transcript.length - 1].dur) ||
+      start > end || // Error: start is greater than end
+      start === end // Error: start is equal to end
+    ) {
+      throw new Error("Invalid start or end time");
+    }
+
+    // increase time range by 2 seconds
+    start = start - 2;
+    end = end + 2;
+    // 2: get transcript text
+    let text = "";
+    for (let line of transcript) {
+      const from_time = parseInt(line.start);
+      const to_time = from_time + parseInt(line.dur);
+
+      if ((start <= from_time && end >= from_time) || (start <= to_time && end >= to_time)) {
+        text += line.text.replace("\n", " ");
+      } else if (to_time > end) {
+        return text;
+      }
+    }
+  } catch (e) {
+    console.log("error", e);
+    return "";
   }
 };
 

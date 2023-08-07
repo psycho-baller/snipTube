@@ -1,161 +1,80 @@
 import type { Snip } from "./types";
+import { Storage } from "@plasmohq/storage";
+
+const storage = new Storage();
+
+export const setVideoId = async (vidId: string) => {
+  await storage.set("videoId", vidId);
+};
 
 export const getVideoId = async () => {
-  return new Promise<string>((resolve, reject) => {
-    // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    //   const tab = tabs[0];
-    //   if (tab.url && tab.url.includes("youtube.com/watch")) {
-    //     const queryParameters = tab.url.split("?")[1];
-    //     const urlParameters = new URLSearchParams(queryParameters);
-    //     const vidId = urlParameters.get("v");
-    //     resolve(vidId || "");
-    //   } else {
-    //     reject("Not a youtube video");
-    //   }
-    // });
-    // const vidId = window.location.href.split("?")[1]?.split("&").find((p) => p.startsWith("v="))?.split("=")[1];
-    // console.log("vidId", vidId);
-    chrome.storage.sync.get(["videoId"], (result) => {
-      console.log("result vidId", result.videoId);
-      if (!result.videoId) {
-        reject("Not a youtube video");
-        return;
-      }
-      resolve(result.videoId);
-    });
-    // reject("Not a youtube video");
-  });
+  const vidId: string = await storage.get("videoId");
+  return vidId;
 };
 
 export const setSnips = async (snips: Snip[], vidId: string = undefined) => {
   const videoId: string = vidId ? vidId : await getVideoId();
 
-  return new Promise<Snip[]>((resolve, reject) => {
-    if (!videoId) {
-      console.log("No video id");
-      reject("No video id");
-    }
-
-    chrome.storage.sync.set({ [videoId]: JSON.stringify(snips) }, async () => {
-      resolve(snips);
-    });
-  });
+  await storage.set(videoId, snips);
+  return snips;
 };
 
 export const getSnips = async (vidId: string = undefined) => {
   const videoId: string = vidId ? vidId : await getVideoId();
-  console.log("videoId in getSnips", videoId);
-  return new Promise<Snip[]>((resolve, reject) => {
-    if (!videoId) {
-      reject("No video id");
-      return;
-    }
-    chrome.storage.sync.get([videoId], (result) => {
-      console.log("result in getSnips", JSON.parse(result[videoId] || "[]"));
-      resolve(JSON.parse(result[videoId] || "[]"));
-    });
-  });
+
+  const snips: Snip[] = await storage.get(videoId);
+  return snips;
 };
 
 export const getAllSnips = async () => {
-  return new Promise<Snip[]>((resolve, reject) => {
-    chrome.storage.sync.get(null, (result) => {
-      const snips: Snip[] = [];
-      Object.keys(result).forEach((key) => {
-        // check if key is in the format of a video id (11 characters) and if it has a value and make sure it was not already added (sanity check)
-        if (key.length === 11 && result[key] && !snips.find((s) => s.id === key)) {
-          snips.push(...JSON.parse(result[key]));
-        }
-      });
-      resolve(snips);
-    });
+  const allStorageData = await storage.getAll();
+  const allSnips: Snip[] = [];
+  Object.keys(allStorageData).forEach((key) => {
+    // check if key is in the format of a video id (11 characters) and if it has a value and make sure it was not already added (sanity check)
+    if (key.length === 11 && allStorageData[key] && !allSnips.find((s) => s.id === key)) {
+      allSnips.push(...JSON.parse(allStorageData[key]));
+    }
   });
+  return allSnips;
 };
 
 export const setDefaultSnipLength = async (length: number) => {
-  return new Promise<number>((resolve, reject) => {
-    chrome.storage.sync.set({ defaultSnipLength: length }, () => {
-      resolve(length);
-    });
-  });
+  await storage.set("defaultSnipLength", length);
+  return length;
 };
 
 export const getDefaultSnipLength = async () => {
-  return new Promise<number>((resolve, reject) => {
-    chrome.storage.sync.get(["defaultSnipLength"], async (result) => {
-      if (result.defaultSnipLength === undefined) {
-        resolve(await setDefaultSnipLength(30));
-      } else {
-        resolve(result.defaultSnipLength);
-      }
-    });
-  });
+  const defaultSnipLength: number = await storage.get("defaultSnipLength");
+  return defaultSnipLength;
 };
 
 export const setShowOverlayOnNewSnip = async (show: boolean) => {
-  return new Promise<boolean>((resolve, reject) => {
-    chrome.storage.sync.set({ showOverlayOnNewSnip: show }, async () => {
-      resolve(show);
-    });
-  });
+  await storage.set("showOverlayOnNewSnip", show);
 };
 
 export const getShowOverlayOnNewSnip = async () => {
-  return new Promise<boolean>((resolve, reject) => {
-    chrome.storage.sync.get(["showOverlayOnNewSnip"], async (result) => {
-      if (result.showOverlayOnNewSnip === undefined) {
-        // await setShowOverlayOnNewSnip(false);
-        resolve(true);
-      } else {
-        resolve(result.showOverlayOnNewSnip);
-      }
-    });
-  });
+  const showOverlayOnNewSnip: boolean = await storage.get("showOverlayOnNewSnip");
+  return showOverlayOnNewSnip;
 };
 
 export const setPauseVideoOnNewSnip = async (pause: boolean) => {
-  return new Promise<boolean>((resolve, reject) => {
-    // make sure it's called when overlay is true
-    if (!getShowOverlayOnNewSnip()) {
-      reject("Can't pause video if overlay is not shown");
-    }
-    chrome.storage.sync.set({ pauseVideoOnNewSnip: pause }, () => {
-      resolve(pause);
-    });
-  });
+  await storage.set("pauseVideoOnNewSnip", pause);
+  return pause;
 };
 
 export const getPauseVideoOnNewSnip = async () => {
-  return new Promise<boolean>((resolve, reject) => {
-    chrome.storage.sync.get(["pauseVideoOnNewSnip"], async (result) => {
-      if (result.pauseVideoOnNewSnip === undefined) {
-        resolve(true);
-      } else {
-        resolve(result.pauseVideoOnNewSnip);
-      }
-    });
-  });
+  const pauseVideoOnNewSnip: boolean = await storage.get("pauseVideoOnNewSnip");
+  return pauseVideoOnNewSnip;
 };
 
 export const setUseKeyboardShortcut = async (use: boolean) => {
-  return new Promise<boolean>((resolve, reject) => {
-    // make sure it's called when overlay is true
-    chrome.storage.sync.set({ useKeyboardShortcut: use }, () => {
-      resolve(use);
-    });
-  });
+  await storage.set("useKeyboardShortcut", use);
+  return use;
 };
 
 export const getUseKeyboardShortcut = async () => {
-  return new Promise<boolean>((resolve, reject) => {
-    chrome.storage.sync.get(["useKeyboardShortcut"], async (result) => {
-      if (result.useKeyboardShortcut === undefined) {
-        resolve(true);
-      } else {
-        resolve(result.useKeyboardShortcut);
-      }
-    });
-  });
+  const useKeyboardShortcut: boolean = await storage.get("useKeyboardShortcut");
+  return useKeyboardShortcut;
 };
 
 // export const getChapters = async () => {
