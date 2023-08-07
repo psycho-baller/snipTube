@@ -6,7 +6,7 @@ import {
   getUseKeyboardShortcut,
   setDefaultSnipLength,
   setPauseVideoOnNewSnip,
-  setShowOverlayOnNewSnip,
+  setShowAddSnipDetailsFormOnNewSnip,
   setUseKeyboardShortcut,
 } from "src/utils/storage";
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 const SettingsForm: FC<Props> = (props) => {
   const { className } = props;
 
-  const [showOverlayOnNewSnipState, setShowOverlayOnNewSnipState] = useState<boolean>(true);
+  const [showAddSnipDetailsFormOnNewSnipState, setShowAddSnipDetailsFormOnNewSnipState] = useState<boolean>(true);
   const [pauseVideoOnNewSnipState, setPauseVideoOnNewSnipState] = useState<boolean>(true);
   const [useKeyboardShortcutState, setUseKeyboardShortcutState] = useState<boolean>(true);
   const [length, setLength] = useState<number>(30);
@@ -32,8 +32,8 @@ const SettingsForm: FC<Props> = (props) => {
   };
 
   const handleShowOverlayOnNewSnipChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setShowOverlayOnNewSnipState(e.target.checked);
-    await setShowOverlayOnNewSnip(e.target.checked);
+    setShowAddSnipDetailsFormOnNewSnipState(e.target.checked);
+    await setShowAddSnipDetailsFormOnNewSnip(e.target.checked);
   };
 
   const handlePauseVideoOnNewSnipChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ const SettingsForm: FC<Props> = (props) => {
 
     new Promise<boolean>((resolve) => {
       getShowOverlayOnNewSnip().then((show) => {
-        setShowOverlayOnNewSnipState(show);
+        setShowAddSnipDetailsFormOnNewSnipState(show);
         resolve(show);
       });
     });
@@ -130,7 +130,7 @@ const SettingsForm: FC<Props> = (props) => {
         <div className="flex items-center mt-2">
           <input
             type="checkbox"
-            checked={showOverlayOnNewSnipState}
+            checked={showAddSnipDetailsFormOnNewSnipState}
             className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
             onChange={handleShowOverlayOnNewSnipChange}
           />
@@ -143,9 +143,9 @@ const SettingsForm: FC<Props> = (props) => {
         </div>
       </div>
 
-      <div className={"" + (showOverlayOnNewSnipState ? " " : " hidden")}>
+      <div className={"" + (showAddSnipDetailsFormOnNewSnipState ? " " : " hidden")}>
         <label
-          htmlFor="showOverlayOnNewSnip"
+          htmlFor="showAddSnipDetailsFormOnNewSnip"
           className="text-base"
         >
           Pause video when creating snip
@@ -158,7 +158,7 @@ const SettingsForm: FC<Props> = (props) => {
             onChange={handlePauseVideoOnNewSnipChange}
           />
           {/* <label
-            htmlFor="showOverlayOnNewSnip"
+            htmlFor="showAddSnipDetailsFormOnNewSnip"
             className="ml-2"
           >
             Enable

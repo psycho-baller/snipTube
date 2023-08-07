@@ -11,7 +11,7 @@ import {
 } from "src/utils/storage";
 import { getVideoDetails, getFullSummary } from "src/utils/youtube";
 import { getSnipTranscript } from "src/utils/youtube";
-import { URL } from "src/utils/constants";
+import { URL, invalidStartOrEndTimeMessage } from "src/utils/constants";
 import { useContentScriptStore } from "src/utils/store";
 export const config: PlasmoCSConfig = {
   matches: [
@@ -110,7 +110,7 @@ async function addNewSnipEventHandler() {
   let startTime = 0;
   let snipTranscript = "";
 
-  // show the overlay and wait for the user to add details
+  // show the AddSnipDetailsForm and wait for the user to add details
   const { snipNote, snipTags, snipLength } = await new Promise<{
     snipNote: string;
     snipTags: string[];
@@ -121,9 +121,11 @@ async function addNewSnipEventHandler() {
       const defaultSnipLength = await getDefaultSnipLength();
       startTime = currentTime - defaultSnipLength;
       snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
-
-      // if there exists a transcript, use it to get the summary, otherwise use the title
       if (vidTranscript) {
+        if (snipTranscript === invalidStartOrEndTimeMessage) {
+          reject(invalidStartOrEndTimeMessage);
+        }
+        // if there exists a transcript, use it to get the summary, otherwise use the title
         const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
         // remove things that don't work with base64 encoding like emojis
         const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
@@ -156,8 +158,8 @@ async function addNewSnipEventHandler() {
         });
       }
     } else {
-      // otherwise, show the overlay and wait for the user to add details
-      useContentScriptStore.setState({ showOverlay: true });
+      // otherwise, show the AddSnipDetailsForm and wait for the user to add details
+      useContentScriptStore.setState({ showAddSnipDetailsForm: true });
       // check if user wants to pause video on new snip
       if (await getPauseVideoOnNewSnip()) {
         youtubePlayer.pause();
@@ -169,12 +171,12 @@ async function addNewSnipEventHandler() {
         if (await getPauseVideoOnNewSnip()) {
           youtubePlayer.play();
         }
-        // if the user closes the overlay, resolve with empty strings
-        if (!state.showOverlay && state.cancelSnipRequest) {
+        // if the user closes the form, resolve with empty strings
+        if (!state.showAddSnipDetailsForm && state.cancelSnipRequest) {
           // stop running this function
           useContentScriptStore.setState({ cancelSnipRequest: false });
           reject("User cancelled snip creation");
-        } else if (!state.showOverlay) {
+        } else if (!state.showAddSnipDetailsForm) {
           resolve({
             snipNote: state.snipNote,
             snipTags: state.snipTags,
@@ -188,8 +190,11 @@ async function addNewSnipEventHandler() {
   startTime = currentTime - snipLength;
   snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
 
-  // if there exists a transcript, use it to get the summary, otherwise use the title
   if (vidTranscript) {
+    if (snipTranscript === invalidStartOrEndTimeMessage) {
+      return;
+    }
+    // if there exists a transcript, use it to get the summary, otherwise use the title
     const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
     // remove things that don't work with base64 encoding like emojis
     const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");

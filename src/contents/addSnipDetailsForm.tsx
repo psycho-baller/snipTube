@@ -11,7 +11,7 @@ export const getStyle = () => {
   style.textContent = cssText;
   return style;
 };
-
+// TODO(fix): 🟠 WARN   | [plasmo/parcel-runtime]: Connection to the HMR server is closed
 export const config: PlasmoCSConfig = {
   matches: [
     "https://youtube.com/watch*",
@@ -27,18 +27,18 @@ export const config: PlasmoCSConfig = {
   ],
   run_at: "document_end",
 };
-const PlasmoOverlay = () => {
-  const [showOverlay, setShowOverlay] = useState<boolean>(true);
+const AddSnipDetailsForm = () => {
+  const [showAddSnipDetailsForm, setShowAddSnipDetailsForm] = useState<boolean>(true);
   const [note, setNote] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
 
   const [snipLength, setSnipLength] = useState<number>(30);
-  const show = useContentScriptStore((state) => state.showOverlay);
+  const show = useContentScriptStore((state) => state.showAddSnipDetailsForm);
 
   useEffect(() => {
     new Promise<void>((resolve) => {
-      getShowOverlayOnNewSnip().then((showOverlayOnNewSnip) => {
-        setShowOverlay(showOverlayOnNewSnip);
+      getShowOverlayOnNewSnip().then((showAddSnipDetailsFormOnNewSnip) => {
+        setShowAddSnipDetailsForm(showAddSnipDetailsFormOnNewSnip);
         resolve();
       });
     });
@@ -53,14 +53,14 @@ const PlasmoOverlay = () => {
   }, []);
 
   const cancelRequest = () => {
-    useContentScriptStore.setState({ showOverlay: false, cancelSnipRequest: true });
+    useContentScriptStore.setState({ showAddSnipDetailsForm: false, cancelSnipRequest: true });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     useContentScriptStore.setState({
-      showOverlay: false,
+      showAddSnipDetailsForm: false,
       snipNote: note,
       snipTags: tags,
       snipLength,
@@ -82,10 +82,10 @@ const PlasmoOverlay = () => {
     setSnipLength(length);
   };
 
-  // TODO: color? put overlay right above the snip in the video? Make sure it's small but also easily expandable to suit a small note and a large note
+  // TODO: color? put AddSnipDetailsForm right above the snip in the video? Make sure it's small but also easily expandable to suit a small note and a large note
   return (
     <>
-      {showOverlay ? (
+      {showAddSnipDetailsForm ? (
         <main className={`flex z-50 items-center justify-center w-screen h-screen ${show ? "block" : "hidden"}`}>
           <form
             className="p-6 m-auto space-y-4 text-white bg-gray-800 w-96 rounded-xl"
@@ -170,4 +170,4 @@ const PlasmoOverlay = () => {
   );
 };
 
-export default PlasmoOverlay;
+export default AddSnipDetailsForm;

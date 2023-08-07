@@ -1,5 +1,5 @@
 import type { VidDetails } from "./types";
-import { URL } from "./constants";
+import { URL, invalidStartOrEndTimeMessage } from "./constants";
 
 export const getVideoDetails = async (videoId: string) => {
   // check local storage for transcript
@@ -76,15 +76,15 @@ export const getSnipTranscript = (videoId: string, start: number, end: number) =
   try {
     // check local storage for details given videoId
     const details = localStorage.getItem(videoId);
+
+    // ---error handling---
     if (!details) {
       throw new Error("No details");
     }
     const { transcript } = JSON.parse(details) as VidDetails;
-    console.log("transcript", transcript);
     if (!transcript || transcript.length === 0) {
       throw new Error("No transcript");
     }
-    // error handling
     if (!start || !end) {
       throw new Error("No start or end");
     }
@@ -97,8 +97,9 @@ export const getSnipTranscript = (videoId: string, start: number, end: number) =
       start > end || // Error: start is greater than end
       start === end // Error: start is equal to end
     ) {
-      throw new Error("Invalid start or end time");
+      throw new Error(invalidStartOrEndTimeMessage);
     }
+    // ---end error handling---
 
     // increase time range by 2 seconds
     start = start - 2;
@@ -116,7 +117,12 @@ export const getSnipTranscript = (videoId: string, start: number, end: number) =
       }
     }
   } catch (e) {
-    console.log("error", e);
+    // catch errors
+    console.log(e);
+    // handle this error differently (in the content script)
+    if (e.message === invalidStartOrEndTimeMessage) {
+      return invalidStartOrEndTimeMessage;
+    }
     return "";
   }
 };

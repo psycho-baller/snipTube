@@ -26,7 +26,7 @@ type SettingsActions = {
 };
 
 type contentScriptState = {
-  showOverlay: boolean;
+  showAddSnipDetailsForm: boolean;
   snipNote: string;
   snipTags: string[];
   snipLength: number;
@@ -35,7 +35,7 @@ type contentScriptState = {
 };
 
 type contentScriptActions = {
-  setShowOverlay: (showOverlay: boolean) => void;
+  setShowAddSnipDetailsForm: (showAddSnipDetailsForm: boolean) => void;
   setInYoutube: (inYoutube: boolean) => void;
   setSnipLength: (snipLength: number) => void;
   setCancelSnipRequest: (cancelSnipRequest: boolean) => void;
@@ -86,8 +86,8 @@ export const useSettingsStore = create<SettingsState & SettingsActions>((set, ge
 }));
 
 export const useContentScriptStore = create<contentScriptState & contentScriptActions>((set) => ({
-  showOverlay: false,
-  setShowOverlay: (showOverlay) => set({ showOverlay }),
+  showAddSnipDetailsForm: false,
+  setShowAddSnipDetailsForm: (showAddSnipDetailsForm) => set({ showAddSnipDetailsForm }),
   snipNote: "",
   snipTags: [],
   snipLength: 30,

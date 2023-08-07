@@ -1,7 +1,7 @@
 {
   "name": "sniptube",
   "displayName": "SnipTube - Elevate Your YouTube Experience",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Highlight, save, annotate, and export your favorite YouTube moments with the power of AI.",
   "author": "Rami <rami.rami@ucalgary.ca>",
   "license": "MIT",
