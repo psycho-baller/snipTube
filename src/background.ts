@@ -8,6 +8,7 @@
 //   contexts: ["link"],
 // });
 // });
+export {};
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   // console.log("background running", "3");
   // if (changeInfo.status === "complete") {

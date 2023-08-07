@@ -10,7 +10,7 @@ interface Props {
 
 const YtSnip: FC<Props> = (props) => {
   const { snip } = props;
-  const { id, startTimestamp, endTimestamp, title, tags, note = "" } = snip;
+  const { id, startTimestamp, endTimestamp, title, tags, videoId, note = "" } = snip;
 
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
@@ -49,9 +49,9 @@ const YtSnip: FC<Props> = (props) => {
           ))}
         </div>
         <TimeStamps
-          inYoutube
           start={startTimestamp}
           end={endTimestamp}
+          currentVideoId={videoId}
           id={id}
         />
         <ActionButtons

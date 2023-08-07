@@ -52,6 +52,7 @@ const OutsideSnip: FC<Props> = (props) => {
             <TimeStamps
               start={startTimestamp}
               end={endTimestamp}
+              currentVideoId={videoId}
               id={id}
               tab={1}
             />

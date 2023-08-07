@@ -1,29 +1,33 @@
 import { useState, type FC, useEffect, type MouseEvent } from "react";
 import "src/styles/play-pause-btn.css";
+import { getVideoId } from "src/utils/storage";
+import { useContentScriptStore } from "src/utils/store";
 
 interface Props {
   start: number;
   end: number;
+  currentVideoId: string;
   id: string;
   tab?: number;
-  inYoutube?: boolean;
 }
 
 const TimeStamps: FC<Props> = (props) => {
-  const { start, end, id, tab = 0, inYoutube = false } = props;
+  const { start, end, currentVideoId, id, tab = 0 } = props;
   let animateElement: SVGAnimateElement;
 
   const [state, setState] = useState<"pause" | "play">("play");
+  const inYoutube = useContentScriptStore((state) => state.inYoutube);
 
   useEffect(() => {
     animateElement = document.getElementById("from_play_to_pause_" + id + tab) as unknown as SVGAnimateElement;
     animateElement.beginElement();
   }, []);
 
-  const handlePlayBtnClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handlePlayBtnClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const storedVideoId = await getVideoId();
 
-    if (inYoutube) {
+    if (inYoutube && currentVideoId === storedVideoId) {
       // send message to content script to play the snip
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const tab = tabs[0];

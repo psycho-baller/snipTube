@@ -5,6 +5,9 @@
   "description": "Highlight, save, annotate, and export your favorite YouTube moments with the power of AI.",
   "author": "Rami <rami.rami@ucalgary.ca>",
   "license": "MIT",
+  "contributors": [
+    "Rami <rami.rami@ucalgary.ca>"
+  ],
   "scripts": {
     "start": "next start",
     "dev": "run-p dev:*",
