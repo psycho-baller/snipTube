@@ -27,7 +27,7 @@ export const config: PlasmoCSConfig = {
   run_at: "document_end",
 };
 let videoId = "";
-let videoIdSnips = [] as Snip[];
+let videoIdSnips: Snip[] = [];
 let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
 let previewBar: HTMLUListElement;
@@ -231,9 +231,6 @@ async function addNewSnipEventHandler() {
     createdAt: date.getTime(),
     updatedAt: date.getTime(),
   };
-  // chrome.storage.sync.set({
-  //   [videoId]: JSON.stringify([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
-  // });
   getSnips().then((snips) =>
     setSnips(
       [...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp),
