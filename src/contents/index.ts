@@ -308,15 +308,16 @@ async function updateVideoSnips(snips?: Snip[]) {
   // if
 }
 
-chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
+browser.runtime.onMessage.addListener(async (obj, sender, response) => {
   const { type, value, vidId } = obj;
 
   if (type === "NEW") {
     videoId = vidId;
+    console.log("videoId", videoId);
     await newVideoLoaded();
   } else if (type === "PLAY_SNIP") {
     youtubePlayer.currentTime = value;
   }
-
-  // await newVideoLoaded();
 });
+
+// await newVideoLoaded();

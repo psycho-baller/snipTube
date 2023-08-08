@@ -8,42 +8,43 @@
 //   contexts: ["link"],
 // });
 // });
-declare global {
-  interface Window {
-    // browser: typeof chrome;
-    msBrowser: typeof chrome;
-  }
-}
+// declare global {
+//   interface Window {
+//     // browser: typeof chrome;
+//     msBrowser: typeof chrome;
+//   }
+// }
 
 // window.browser = window.browser || window.chrome || window.msBrowser;
 
 // const browser = window.browser;
 
-// browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-//   // console.log("background running", "3");
-//   if (changeInfo.status === "complete") {
-//     const tabs = browser.tabs.query({ active: true, currentWindow: true });
-//     const activeTab = tabs[0];
-//     // console.log("background running", "4");
-//     if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
-//       // console.log("background running", "5");
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  // console.log("background running", "3");
+  if (changeInfo.status === "complete") {
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    console.log("tabs", tabs);
+    const activeTab = tabs[0];
+    // console.log("background running", "4");
+    if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
+      // console.log("background running", "5");
 
-//       // console.log("tabId", tabId);
-//       const queryParameters = activeTab.url.split("?")[1];
-//       const urlParameters = new URLSearchParams(queryParameters);
-//       const vidId = urlParameters.get("v");
-//       console.log("vidId", vidId);
+      // console.log("tabId", tabId);
+      const queryParameters = activeTab.url.split("?")[1];
+      const urlParameters = new URLSearchParams(queryParameters);
+      const vidId = urlParameters.get("v");
+      console.log("vidId", vidId);
 
-//       browser.tabs.sendMessage(activeTab.id, {
-//         // new
-//         type: "NEW",
-//         vidId,
-//       });
-//       // returning
-//       // chrome.tabs.sendMessage(tabId, { // returning
-//     }
-//   }
-// });
+      browser.tabs.sendMessage(activeTab.id, {
+        // new
+        type: "NEW",
+        vidId,
+      });
+      // returning
+      // chrome.tabs.sendMessage(tabId, { // returning
+    }
+  }
+});
 
 // chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
 //   if (details.url && details.url.includes("youtube.com/watch")) {
