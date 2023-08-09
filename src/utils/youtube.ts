@@ -1,4 +1,4 @@
-import type { VidDetails } from "./types";
+import type { Subtitle, VidDetails } from "./types";
 import { URL, invalidStartOrEndTimeMessage } from "./constants";
 
 export const getVideoDetails = async (videoId: string) => {
@@ -15,16 +15,16 @@ export const getVideoDetails = async (videoId: string) => {
       method: "GET",
     });
     if (!res.ok) {
-      return "";
+      return null;
     }
     const data = (await res.json()) as VidDetails;
-    localStorage.setItem(videoId, JSON.stringify(data));
+    // localStorage.setItem(videoId, JSON.stringify(data));
     return data;
     // const transcriptText = data.transcript.map((d) => d.text).join("");
     // return transcriptText;
   } catch (e) {
     console.log("error", e);
-    return "";
+    return null;
   }
 };
 
@@ -72,16 +72,12 @@ export const getFullSummary = async (transcript: string, title: string, videoId:
   }
 };
 
-export const getSnipTranscript = (videoId: string, start: number, end: number) => {
+export const getSnipTranscript = async (transcript: Subtitle[] | null, start: number, end: number) => {
   try {
-    // check local storage for details given videoId
-    const details = localStorage.getItem(videoId);
-
     // ---error handling---
-    if (!details) {
-      throw new Error("No details");
-    }
-    const { transcript } = JSON.parse(details) as VidDetails;
+    // if (!details) {
+    //   throw new Error("No details");
+    // }
     if (!transcript || transcript.length === 0) {
       throw new Error("No transcript");
     }

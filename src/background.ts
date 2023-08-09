@@ -15,27 +15,29 @@
 //   }
 // }
 
-// window.browser = window.browser || window.chrome || window.msBrowser;
+// window.browser = window.browser || window.chrome;
 
 // const browser = window.browser;
 
-browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  // console.log("background running", "3");
-  if (changeInfo.status === "complete") {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+// import { browser } from "webextension-polyfill-ts";
+
+// if process.env.NODE_ENV === "development" {
+
+const web = (process.env.PLASMO_BROWSER === "firefox" ? browser : chrome) as typeof chrome;
+console.log("browser", browser);
+web.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  console.log("tabId", tabId);
+  if (changeInfo.status === "complete" && tab.active) {
+    const tabs = await web.tabs.query({ active: true, currentWindow: true });
     console.log("tabs", tabs);
     const activeTab = tabs[0];
-    // console.log("background running", "4");
     if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
-      // console.log("background running", "5");
-
-      // console.log("tabId", tabId);
       const queryParameters = activeTab.url.split("?")[1];
       const urlParameters = new URLSearchParams(queryParameters);
       const vidId = urlParameters.get("v");
       console.log("vidId", vidId);
 
-      browser.tabs.sendMessage(activeTab.id, {
+      web.tabs.sendMessage(activeTab.id, {
         // new
         type: "NEW",
         vidId,

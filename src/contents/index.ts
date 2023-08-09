@@ -1,4 +1,4 @@
-import type { Snip, VidDetails } from "../utils/types";
+import type { Snip, Subtitle, VidDetails } from "../utils/types";
 import type { PlasmoCSConfig } from "plasmo";
 import {
   getDefaultSnipLength,
@@ -13,6 +13,7 @@ import { getVideoDetails, getFullSummary } from "src/utils/youtube";
 import { getSnipTranscript } from "src/utils/youtube";
 import { URL, invalidStartOrEndTimeMessage } from "src/utils/constants";
 import { useContentScriptStore } from "src/utils/store";
+import { getVideoId } from "src/utils/helpers";
 export const config: PlasmoCSConfig = {
   matches: [
     "https://youtu.be/watch*",
@@ -31,7 +32,7 @@ let videoIdSnips: Snip[] = [];
 let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
 let previewBar: HTMLUListElement;
-let vidTranscript: string;
+let vidTranscript: Subtitle[] = [];
 let vidSummary: string;
 let vidTitle: string;
 let snipBtn: HTMLButtonElement | undefined;
@@ -93,7 +94,7 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 
   const { transcript, title } = (await getVideoDetails(videoId)) as VidDetails;
-  vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
+  vidTranscript = transcript; // .map((d) => d.text).join(" ") || "";
   vidTitle = title;
 
   vidSummary = ""; // await getFullSummary(vidTranscript, vidTitle, videoId);
@@ -101,7 +102,7 @@ const newVideoLoaded = async () => {
 
 async function addNewSnipEventHandler() {
   // TODO: figure out how I want the process to work
-
+  // 1. define some variables
   const date = new Date();
   const currentTime = ~~youtubePlayer.currentTime; // ~~ is a faster Math.floor
 
@@ -110,18 +111,18 @@ async function addNewSnipEventHandler() {
   let startTime = 0;
   let snipTranscript = "";
 
-  // show the AddSnipDetailsForm and wait for the user to add details
+  // 4. get the video summary
   const { snipNote, snipTags, snipLength } = await new Promise<{
     snipNote: string;
     snipTags: string[];
     snipLength: number;
   }>(async (resolve, reject) => {
-    // if user doesn't want to add details after snipping, resolve with empty strings
+    // if user doesn't want to add details after snipping, resolve with empty note and tags
     if (!(await getShowOverlayOnNewSnip())) {
       const defaultSnipLength = await getDefaultSnipLength();
       startTime = currentTime - defaultSnipLength;
-      snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
-      if (vidTranscript) {
+      if (vidTranscript.length > 0) {
+        snipTranscript = await getSnipTranscript(vidTranscript, startTime, currentTime);
         if (snipTranscript === invalidStartOrEndTimeMessage) {
           reject(invalidStartOrEndTimeMessage);
         }
@@ -144,6 +145,7 @@ async function addNewSnipEventHandler() {
         })
           .then((response) => response.json())
           .then((data) => data.summary);
+        // resolve with the empty note and tags
         resolve({
           snipNote: "",
           snipTags: [],
@@ -188,9 +190,9 @@ async function addNewSnipEventHandler() {
   });
 
   startTime = currentTime - snipLength;
-  snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
 
-  if (vidTranscript) {
+  if (vidTranscript.length > 0) {
+    snipTranscript = await getSnipTranscript(vidTranscript, startTime, currentTime);
     if (snipTranscript === invalidStartOrEndTimeMessage) {
       return;
     }
@@ -308,7 +310,8 @@ async function updateVideoSnips(snips?: Snip[]) {
   // if
 }
 
-browser.runtime.onMessage.addListener(async (obj, sender, response) => {
+const web = (process.env.PLASMO_BROWSER === "firefox" ? window.browser : chrome) as typeof chrome;
+web.runtime.onMessage.addListener(async (obj, sender, response) => {
   const { type, value, vidId } = obj;
 
   if (type === "NEW") {
@@ -320,4 +323,4 @@ browser.runtime.onMessage.addListener(async (obj, sender, response) => {
   }
 });
 
-// await newVideoLoaded();
+// newVideoLoaded();

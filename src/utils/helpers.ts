@@ -1,5 +1,12 @@
 import type { Snip } from "./types";
 
+export function getVideoId() {
+  const queryParameters = window.location.search.substring(1);
+  const urlParameters = new URLSearchParams(queryParameters);
+  const vidId = urlParameters.get("v");
+  return vidId;
+}
+
 // TODO: settings to specify what format to export in and what data to include
 export function exportSnip(snip: Snip) {
   const { startTimestamp, endTimestamp, videoId, vidTitle, title, note, tags } = snip;
