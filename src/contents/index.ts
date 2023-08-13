@@ -310,7 +310,7 @@ async function updateVideoSnips(snips?: Snip[]) {
   // if
 }
 
-const web = (process.env.PLASMO_BROWSER === "firefox" ? window.browser : chrome) as typeof chrome;
+const web = (process.env.PLASMO_BROWSER === "firefox" ? browser : chrome) as typeof chrome;
 web.runtime.onMessage.addListener(async (obj, sender, response) => {
   const { type, value, vidId } = obj;
 

@@ -24,7 +24,7 @@
 // if process.env.NODE_ENV === "development" {
 
 const web = (process.env.PLASMO_BROWSER === "firefox" ? browser : chrome) as typeof chrome;
-console.log("browser", browser);
+console.log("browser", web);
 web.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   console.log("tabId", tabId);
   if (changeInfo.status === "complete" && tab.active) {

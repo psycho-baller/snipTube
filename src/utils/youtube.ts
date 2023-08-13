@@ -11,7 +11,7 @@ export const getVideoDetails = async (videoId: string) => {
   // const res = await getSubtitles({ videoID: videoId, lang: 'en' });
   try {
     const res = await fetch(`${URL}/youtube?videoID=${videoId}`, {
-      // mode: "no-cors",
+      mode: "no-cors",
       method: "GET",
     });
     if (!res.ok) {
