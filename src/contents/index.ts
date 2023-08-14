@@ -1,4 +1,4 @@
-import type { Snip, VidDetails } from "../utils/types";
+import type { Snip, Subtitle, VidDetails } from "../utils/types";
 import type { PlasmoCSConfig } from "plasmo";
 import {
   getDefaultSnipLength,
@@ -9,7 +9,7 @@ import {
   setSnips,
   setVideoId,
 } from "src/utils/storage";
-import { getVideoDetails, getFullSummary } from "src/utils/youtube";
+import { getVideoDetails } from "src/utils/youtube";
 import { getSnipTranscript } from "src/utils/youtube";
 import { URL, invalidStartOrEndTimeMessage } from "src/utils/constants";
 import { useContentScriptStore } from "src/utils/store";
@@ -27,11 +27,10 @@ export const config: PlasmoCSConfig = {
   run_at: "document_end",
 };
 let videoId = "";
-let videoIdSnips = [] as Snip[];
 let youtubePlayer: HTMLVideoElement;
 let firstRightButton: HTMLButtonElement;
 let previewBar: HTMLUListElement;
-let vidTranscript: string;
+let vidTranscript: Subtitle[] = [];
 let vidSummary: string;
 let vidTitle: string;
 let snipBtn: HTMLButtonElement | undefined;
@@ -93,7 +92,8 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 
   const { transcript, title } = (await getVideoDetails(videoId)) as VidDetails;
-  vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
+  // vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
+  vidTranscript = transcript;
   vidTitle = title;
 
   vidSummary = ""; // await getFullSummary(vidTranscript, vidTitle, videoId);
@@ -101,7 +101,7 @@ const newVideoLoaded = async () => {
 
 async function addNewSnipEventHandler() {
   // TODO: figure out how I want the process to work
-
+  // define some variables
   const date = new Date();
   const currentTime = ~~youtubePlayer.currentTime; // ~~ is a faster Math.floor
 
@@ -110,53 +110,54 @@ async function addNewSnipEventHandler() {
   let startTime = 0;
   let snipTranscript = "";
 
-  // show the AddSnipDetailsForm and wait for the user to add details
+  // get the video summary
   const { snipNote, snipTags, snipLength } = await new Promise<{
     snipNote: string;
     snipTags: string[];
     snipLength: number;
   }>(async (resolve, reject) => {
-    // if user doesn't want to add details after snipping, resolve with empty strings
+    // if user doesn't want to add details after snipping, resolve with empty note and tags
     if (!(await getShowOverlayOnNewSnip())) {
       const defaultSnipLength = await getDefaultSnipLength();
-      startTime = currentTime - defaultSnipLength;
-      snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
-      if (vidTranscript) {
-        if (snipTranscript === invalidStartOrEndTimeMessage) {
-          reject(invalidStartOrEndTimeMessage);
-        }
-        // if there exists a transcript, use it to get the summary, otherwise use the title
-        const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
-        // remove things that don't work with base64 encoding like emojis
-        const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
-        const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
-        const encodedSummary = vidSummary ? Buffer.from(vidSummary).toString("base64") : "";
-        summary = await fetch(`${URL}/llm/summarize/snip`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            transcript: encodedTranscript,
-            title: encodedTitle,
-            // summary: encodedSummary,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => data.summary);
-        resolve({
-          snipNote: "",
-          snipTags: [],
-          snipLength: defaultSnipLength,
-        });
-      } else {
-        // if there is no transcript
-        resolve({
-          snipNote: "",
-          snipTags: [],
-          snipLength: defaultSnipLength,
-        });
-      }
+      // startTime = currentTime - defaultSnipLength;
+      // if (vidTranscript.length > 0) {
+      //   snipTranscript = await getSnipTranscript(vidTranscript, startTime, currentTime);
+      //   if (snipTranscript === invalidStartOrEndTimeMessage) {
+      //     reject(invalidStartOrEndTimeMessage);
+      //   }
+      //   // if there exists a transcript, use it to get the summary, otherwise use the title
+      //   const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
+      //   // remove things that don't work with base64 encoding like emojis
+      //   const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
+      //   const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
+      //   const encodedSummary = vidSummary ? Buffer.from(vidSummary).toString("base64") : "";
+      //   // summary = await fetch(`${URL}/llm/summarize/snip`, {
+      //   //   method: "POST",
+      //   //   headers: {
+      //   //     "Content-Type": "application/json",
+      //   //   },
+      //   //   body: JSON.stringify({
+      //   //     transcript: encodedTranscript,
+      //   //     title: encodedTitle,
+      //   //     // summary: encodedSummary,
+      //   //   }),
+      //   // })
+      //   //   .then((response) => response.json())
+      //   //   .then((data) => data.summary);
+      //   // resolve with the empty note and tags
+      //   resolve({
+      //     snipNote: "",
+      //     snipTags: [],
+      //     snipLength: defaultSnipLength,
+      //   });
+      // } else {
+      // if there is no transcript
+      resolve({
+        snipNote: "",
+        snipTags: [],
+        snipLength: defaultSnipLength,
+      });
+      // }
     } else {
       // otherwise, show the AddSnipDetailsForm and wait for the user to add details
       useContentScriptStore.setState({ showAddSnipDetailsForm: true });
@@ -188,13 +189,13 @@ async function addNewSnipEventHandler() {
   });
 
   startTime = currentTime - snipLength;
-  snipTranscript = getSnipTranscript(videoId, startTime, currentTime);
 
-  if (vidTranscript) {
+  // if there exists a transcript, use it to get the summary, otherwise use the title
+  if (vidTranscript.length > 0) {
+    snipTranscript = await getSnipTranscript(vidTranscript, startTime, currentTime);
     if (snipTranscript === invalidStartOrEndTimeMessage) {
       return;
     }
-    // if there exists a transcript, use it to get the summary, otherwise use the title
     const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
     // remove things that don't work with base64 encoding like emojis
     const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
@@ -231,9 +232,6 @@ async function addNewSnipEventHandler() {
     createdAt: date.getTime(),
     updatedAt: date.getTime(),
   };
-  // chrome.storage.sync.set({
-  //   [videoId]: JSON.stringify([...videoIdSnips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp))
-  // });
   getSnips().then((snips) =>
     setSnips(
       [...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp),
@@ -319,7 +317,26 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
     await newVideoLoaded();
   } else if (type === "PLAY_SNIP") {
     youtubePlayer.currentTime = value;
+  } else if (type === "UPDATE_VIDEO_ID") {
+    console.log("updating video id");
+    videoId = value;
+  } else if (type === "UPDATE_SNIPS") {
+    await updateVideoSnips(value);
   }
-
-  // await newVideoLoaded();
+  response({ type: "SUCCESS" });
 });
+
+let port: chrome.runtime.Port;
+
+function connect() {
+  port = chrome.runtime.connect({ name: "content-script" });
+  console.log("connecting");
+  port.onDisconnect.addListener(() => {
+    console.log("disconnected");
+    // Reconnect when disconnected
+    setTimeout(connect, 1000); // Retry after 1 second
+  });
+}
+
+// Call the connect function to establish the initial connection
+connect();

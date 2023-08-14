@@ -23,7 +23,7 @@ export const getSnips = async (vidId: string = undefined) => {
   const videoId: string = vidId ? vidId : await getVideoId();
 
   const snips: Snip[] = await storage.get(videoId);
-  return snips;
+  return snips || [];
 };
 
 export const getAllSnips = async () => {
