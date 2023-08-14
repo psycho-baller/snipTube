@@ -9,7 +9,7 @@ const NoSnips: FC<Props> = (props) => {
     <main className="flex flex-col items-center justify-center my-auto">
       <h1 className="text-2xl font-semibold">No Snips Found</h1>
       <p className="text-lg text-center">
-        Add a snip to this video by clicking the "+" icon in the bottom right corner of the video.
+        Add a snip to this video by clicking the logo at the bottom corner of the YouTube video player.
       </p>
     </main>
   );
