@@ -33,7 +33,7 @@ build/
 dist/
 .next/
 .vercel
-.vscode/
+.vscode
 
 # plasmo - https://www.plasmo.com
 .plasmo

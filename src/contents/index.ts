@@ -328,13 +328,14 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
 
 let port: chrome.runtime.Port;
 
+// test this vs injecting: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
 function connect() {
   port = chrome.runtime.connect({ name: "content-script" });
-  console.log("connecting");
+  // console.log("connecting");
   port.onDisconnect.addListener(() => {
-    console.log("disconnected");
+    // console.log("disconnected");
     // Reconnect when disconnected
-    setTimeout(connect, 1000); // Retry after 1 second
+    setTimeout(connect, 100000); // Retry after 100 seconds
   });
 }
 
