@@ -9,22 +9,23 @@
 // });
 // });
 export {};
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   // console.log("background running", "3");
-  // if (changeInfo.status === "complete") {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tab = tabs[0];
+  if (changeInfo.status === "complete" && tab.active) {
     // console.log("background running", "4");
-    if (tab.url && tab.url.includes("youtube.com/watch")) {
-      // console.log("background running", "5");
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const activeTab = tabs[0];
+    // console.log("background running", "5");
+    if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
+      // console.log("background running", "6");
 
       // console.log("tabId", tabId);
-      const queryParameters = tab.url.split("?")[1];
+      const queryParameters = activeTab.url.split("?")[1];
       const urlParameters = new URLSearchParams(queryParameters);
       const vidId = urlParameters.get("v");
       console.log("vidId", vidId);
 
-      chrome.tabs.sendMessage(tab.id, {
+      chrome.tabs.sendMessage(activeTab.id, {
         // new
         type: "NEW",
         vidId,
@@ -32,8 +33,29 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       // returning
       // chrome.tabs.sendMessage(tabId, { // returning
     }
-  });
-  // }
+  }
+});
+
+//
+chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  // console.log("background running onActivated", activeInfo.tabId);
+
+  // Retrieve information about the newly activated tab
+  const activeTab = await chrome.tabs.get(activeInfo.tabId);
+
+  // Your existing code for checking the URL and sending messages
+  if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
+    // console.log("background running onActivated", "youtube tab activated");
+
+    const queryParameters = activeTab.url.split("?")[1];
+    const urlParameters = new URLSearchParams(queryParameters);
+    const vidId = urlParameters.get("v");
+    console.log("vidId", vidId);
+    sendMessageToContentScript(activeTab.id, {
+      type: "UPDATE_VIDEO_ID",
+      vidId,
+    });
+  }
 });
 
 // chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
@@ -53,20 +75,36 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // https://stackoverflow.com/questions/10994324/chrome-extension-content-script-re-injection-after-upgrade-or-install
 // another possible solution: https://stackoverflow.com/a/76126272
-chrome.runtime.onInstalled.addListener(async () => {
-  //this introduces another unseen error: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
+// chrome.runtime.onInstalled.addListener(async () => {
+//   //this introduces another unseen error: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
 
-  for (const cs of chrome.runtime.getManifest().content_scripts) {
-    for (const tab of await chrome.tabs.query({ url: cs.matches })) {
-      chrome.scripting.executeScript(
-        {
-          target: { tabId: tab.id },
-          files: cs.js,
-        },
-        (data) => {
-          console.log("injected", data);
-        }
-      );
+//   for (const cs of chrome.runtime.getManifest().content_scripts) {
+//     for (const tab of await chrome.tabs.query({ url: cs.matches })) {
+//       chrome.scripting.executeScript(
+//         {
+//           target: { tabId: tab.id },
+//           files: cs.js,
+//         },
+//         (data) => {
+//           console.log("injected", data);
+//         }
+//       );
+//     }
+//   }
+// });
+
+const maxRetryAttempts = 3;
+
+async function sendMessageToContentScript(tabId, message, retryCount = 0) {
+  try {
+    await chrome.tabs.sendMessage(tabId, message);
+  } catch (error) {
+    if (retryCount < maxRetryAttempts) {
+      setTimeout(() => {
+        sendMessageToContentScript(tabId, message, retryCount + 1);
+      }, 1000); // Retry after 1 second
+    } else {
+      console.error("Failed to send message after multiple attempts", error);
     }
   }
-});
+}
