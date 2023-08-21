@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "@plasmohq/storage": "^1.7.2",
+    "framer-motion": "^10.12.16",
     "get-youtube-chapters": "^2.0.0",
     "next": "^13.4.12",
+    "next-themes": "^0.2.1",
     "plasmo": "^0.82.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

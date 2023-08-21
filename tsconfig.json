@@ -11,10 +11,12 @@
   ],
   "compilerOptions": {
     // "paths": {
-    //   "~*": [
-    //     "./src/*"
-    //   ]
+    //   "~*": ["./src/*"]
     // },
+    "paths": {
+      "@/*": ["./src/app/*"]
+      // "react": ["./node_modules/@types/react"]
+    },
     "baseUrl": ".",
     "isolatedModules": true,
     "plugins": [
