@@ -14,7 +14,7 @@ import "../globals.css";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="eng">
-      <body className={`dark:bg-black`}>
+      <body className={`dark:bg-black ${inter.className}`}>
         <ThemeProvider
           enableSystem={false}
           attribute="class"

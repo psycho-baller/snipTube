@@ -3,6 +3,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef, type FC } from "react";
 import SnipBtn from "./SnipBtn";
+import { useSnipsStore } from "src/utils/store";
+import { getSnips } from "src/utils/storage";
 // import "./styles.module.css";
 
 const Demo: FC = () => {
@@ -19,6 +21,9 @@ const Demo: FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  const snips = useSnipsStore((state) => state.snips);
+  const setSnips = useSnipsStore((state) => state.setSnips);
 
   const getTimeFromSeconds = (seconds: number) => {
     const numMinutes = Math.floor(seconds / 60);
@@ -66,6 +71,8 @@ const Demo: FC = () => {
     }
   };
   useEffect(() => {
+    // getSnips().then((allSnips) => setSnips(allSnips));
+
     const videoElement = videoRef.current;
     const timelineContainer = timelineContainerRef.current;
     const videoContainer = videoContainerRef.current;
@@ -97,7 +104,7 @@ const Demo: FC = () => {
 
     // Timeline
     let isScrubbing = false;
-    let wasPaused;
+    let wasPaused: boolean;
     function toggleScrubbing(e: MouseEvent) {
       const rect = timelineContainer.getBoundingClientRect();
       const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
@@ -118,7 +125,7 @@ const Demo: FC = () => {
       const rect = timelineContainer.getBoundingClientRect();
       const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
       const previewImgNumber = Math.max(1, Math.floor((percent * videoElement.duration) / 10));
-      const previewImgSrc = `assets/previewImgs/preview${previewImgNumber}.jpg`;
+      const previewImgSrc = `demo-yt/previewImgs/preview${previewImgNumber}.jpg`;
       previewImg.src = previewImgSrc;
       timelineContainer.style.setProperty("--preview-position", percent.toString());
 
@@ -171,8 +178,20 @@ const Demo: FC = () => {
               ref={timelineContainerRef}
             >
               <div className="timeline">
+                {snips.map((snip) => {
+                  const startPercent = (snip.startTimestamp / videoRef.current?.duration * 100);
+                  const endPercent = (snip.endTimestamp / videoRef.current?.duration * 100);
+                  return (
+                  <div className="absolute h-full bg-meta transition-transform ease-in-out duration-150 transform z-40" key={snip.id}
+                  style={{
+                    left: `${startPercent}%`,
+                    width: `${endPercent - startPercent}%`
+                  }}
+                  />
+                  )
+                })}
                 <img className="preview-img" />
-                <div className="thumb-indicator"></div>
+                <div className="thumb-indicator z-50"/>
               </div>
             </div>
             <div className="controls">
@@ -243,7 +262,7 @@ const Demo: FC = () => {
                 <div className="current-time">{getTimeFromSeconds(currentTime)}</div>/
                 <div className="total-time">{getTimeFromSeconds(totalTime)}</div>
               </div>
-              <SnipBtn videoRef={videoRef} />
+              <SnipBtn videoRef={videoRef} className="w-8"/>
               <button className="captions-btn">
                 <svg viewBox="0 0 24 24">
                   <path
