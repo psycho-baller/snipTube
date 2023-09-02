@@ -2,8 +2,8 @@
 import React from "react";
 import SectionHeader from "../Common/SectionHeader";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Autoplay, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -50,7 +50,7 @@ const Testimonial = () => {
           {/* <!-- Slider main container --> */}
           <div className="swiper testimonial-01 pb-22.5 mb-20">
             {/* <!-- Additional required wrapper --> */}
-            <Swiper
+            {/* <Swiper
               spaceBetween={50}
               slidesPerView={2}
               autoplay={{
@@ -149,7 +149,7 @@ const Testimonial = () => {
                   </p>
                 </div>
               </SwiperSlide>
-            </Swiper>
+            </Swiper> */}
           </div>
         </motion.div>
       </section>
