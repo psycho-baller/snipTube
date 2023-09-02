@@ -1,5 +1,5 @@
 import Signin from "@/components/Auth/Signin";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Login Page - Solid SaaS Boilerplate",

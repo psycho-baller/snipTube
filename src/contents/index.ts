@@ -306,7 +306,6 @@ async function updateVideoSnips(snips?: Snip[]) {
     // });
     previewBar?.appendChild(snipElement);
   });
-  // if
 }
 
 chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
