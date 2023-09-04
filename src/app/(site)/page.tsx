@@ -12,6 +12,7 @@ import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Blog from "@/components/Blog";
 import Demo from "@/components/Demo";
+import OpenSource from "@/components/OpenSource";
 // import Testimonial from "@/components/Testimonial";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function Home() {
       <Pricing />
       <Contact />
       <Blog />
+      <OpenSource />
     </main>
   );
 }
