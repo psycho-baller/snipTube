@@ -3,7 +3,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef, type FC } from "react";
 import SnipBtn from "./SnipBtn";
-import { useSnipsStore } from "src/utils/store";
+import { useSnipsStore } from "~utils/store";
 import { getSnips } from "src/utils/storage";
 // import "./styles.module.css";
 

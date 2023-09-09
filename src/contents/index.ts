@@ -12,7 +12,7 @@ import {
 import { getVideoDetails } from "src/utils/youtube";
 import { getSnipTranscript } from "src/utils/youtube";
 import { URL, invalidStartOrEndTimeMessage } from "src/utils/constants";
-import { useContentScriptStore } from "src/utils/store";
+import { useContentScriptStore } from "~utils/store";
 export const config: PlasmoCSConfig = {
   matches: [
     "https://youtu.be/watch*",

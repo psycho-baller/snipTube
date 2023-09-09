@@ -1,6 +1,6 @@
 import { useState, type FC } from "react";
 import type { Snip, Tag } from "src/utils/types";
-import { useSnipsStore } from "src/utils/store";
+import { useSnipsStore } from "~utils/store";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
 import DynamicTextarea from "src/shared/components/DynamicTextarea";

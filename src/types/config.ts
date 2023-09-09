@@ -8,3 +8,11 @@ export type SiteConfig = {
     github: string
   }
 }
+
+export type Header = {
+  id: number;
+  title: string;
+  path?: string;
+  newTab: boolean;
+  submenu?: Header[];
+};

@@ -29,6 +29,7 @@
     "plasmo": "^0.82.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tailwind-merge": "^1.14.0",
     "youtube-caption-extractor": "^1.4.3",
     "zustand": "^4.4.0"
   },

@@ -10,10 +10,8 @@
     "next.config.js"
   ],
   "compilerOptions": {
-    // "paths": {
-    //   "~*": ["./src/*"]
-    // },
     "paths": {
+      "~*": ["./src/*"],
       "@/*": ["./src/app/*"]
       // "react": ["./node_modules/@types/react"]
     },

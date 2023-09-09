@@ -1,5 +1,5 @@
 import React from "react";
-import type { Feature } from "@/types/feature";
+import type { Feature } from "~types/feature";
 import Image from "next/image";
 import { motion } from "framer-motion";
 

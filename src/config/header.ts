@@ -1,6 +1,6 @@
-import type { Menu } from "@/types/menu";
+import type { Header } from "~types/config";
 
-const menuData: Menu[] = [
+export const headerRoutes: Header[] = [
   {
     id: 1,
     title: "Home",
@@ -76,5 +76,3 @@ const menuData: Menu[] = [
     path: "/support"
   },
 ];
-
-export default menuData;

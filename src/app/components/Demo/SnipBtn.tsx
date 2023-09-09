@@ -1,5 +1,5 @@
 import { useMemo, type FC } from "react";
-import { useSnipsStore } from "src/utils/store";
+import { useSnipsStore } from "~utils/store";
 
 interface Props extends React.ComponentPropsWithoutRef<"button"> {
   videoRef: React.RefObject<HTMLVideoElement>;

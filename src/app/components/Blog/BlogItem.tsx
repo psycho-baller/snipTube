@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import type{ Blog } from "@/types/blog";
+import type{ Blog } from "~types/blog";
 import Link from "next/link";
 import { motion } from "framer-motion";
 

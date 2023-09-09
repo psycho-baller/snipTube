@@ -1,4 +1,4 @@
-import type { SiteConfig } from "@/types/config"
+import type { SiteConfig } from "~types/config"
 
 export const siteConfig: SiteConfig = {
   name: "SnipTube",

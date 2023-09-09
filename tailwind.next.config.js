@@ -1,11 +1,23 @@
+const { fontFamily } = require("tailwindcss/defaultTheme")
+const colors = require('tailwindcss/colors')
+
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   // not in the app dir
   content: ["./src/app/**/*.{tsx,html}"],
   darkMode: "class",
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     fontFamily: {
       inter: ["Inter", "sans-serif"],
+      heading: ["var(--font-heading)", ...fontFamily.sans],
     },
     colors: {
       current: "currentColor",
@@ -29,6 +41,7 @@ module.exports = {
       alabaster: "#FBFBFB",
       zumthor: "#EDF5FF",
       socialicon: "#D1D8E0",
+      gray: colors.gray,
     },
     extend: {
       fontSize: {

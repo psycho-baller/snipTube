@@ -2,7 +2,7 @@ import { useEffect, useState, type FC } from "react";
 import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
 import "src/styles/tailwind.css";
-import { useContentScriptStore } from "src/utils/store";
+import { useContentScriptStore } from "~utils/store";
 
 interface Props {}
 

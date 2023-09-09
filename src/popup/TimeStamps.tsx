@@ -1,7 +1,7 @@
 import { useState, type FC, useEffect, type MouseEvent } from "react";
 import "src/styles/play-pause-btn.css";
 import { getVideoId } from "src/utils/storage";
-import { useContentScriptStore } from "src/utils/store";
+import { useContentScriptStore } from "~utils/store";
 
 interface Props {
   start: number;

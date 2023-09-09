@@ -1,6 +1,6 @@
 import { useState, useEffect, type FormEvent, type KeyboardEvent, type ChangeEvent } from "react";
 import { getDefaultSnipLength, getShowOverlayOnNewSnip } from "src/utils/storage";
-import { useContentScriptStore } from "src/utils/store";
+import { useContentScriptStore } from "~utils/store";
 import DynamicTextarea from "../shared/components/DynamicTextarea";
 import type { PlasmoCSConfig } from "plasmo";
 import cssText from "data-text:src/styles/tailwind.css";

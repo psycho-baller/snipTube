@@ -3,7 +3,7 @@ import { type Snip, type Tag } from "../utils/types";
 import Dropdown from "./Dropdown";
 import ExportButton from "./ExportButton";
 import SettingsButton from "./SettingsButton";
-import { useContentScriptStore } from "src/utils/store";
+import { useContentScriptStore } from "~utils/store";
 
 interface Props {
   tags: Tag[];

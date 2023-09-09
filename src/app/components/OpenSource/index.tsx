@@ -16,7 +16,7 @@ async function getGitHubStars(): Promise<string | null> {
           Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
         },
         next: {
-          revalidate: 60,
+          revalidate: 60 * 60 * 24, // 24 hours
         },
       }
     )
@@ -44,7 +44,7 @@ const openSource: FC<Props> = async (props) => {
             Proudly Open Source
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Taxonomy is open source and powered by open source software. <br />{" "}
+            SnipTube is open source and powered by open source software. <br />{" "}
             The code is available on{" "}
             <Link
               href={siteConfig.links.github}
