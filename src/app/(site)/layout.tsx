@@ -5,17 +5,27 @@ import Footer from "@/components/Footer";
 import Lines from "@/components/Lines";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Inter } from "next/font/google";
+import localFont from 'next/font/local'
 import { ThemeProvider } from "next-themes";
-const inter = Inter({ subsets: ["latin"] });
+// import ToasterContext from "../context/ToastContext";
 import "../globals.css";
 import type { ReactNode } from "react";
 
-// import ToasterContext from "../context/ToastContext";
+const fontSans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
+
+// Font files can be colocated inside of `pages`
+const fontHeading = localFont({
+  src: "../../../public/fonts/CalSans-SemiBold.woff2",
+  variable: "--font-heading",
+})
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="eng">
-      <body className={`dark:bg-black ${inter.className}`}>
+      <body className={`dark:bg-black font-sans ${fontSans.variable} ${fontHeading.variable}`}>
         <ThemeProvider
           enableSystem={false}
           attribute="class"

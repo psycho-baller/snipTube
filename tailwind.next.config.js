@@ -16,7 +16,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      inter: ["Inter", "sans-serif"],
+      sans: ["var(--font-sans)", ...fontFamily.sans],
       heading: ["var(--font-heading)", ...fontFamily.sans],
     },
     colors: {
@@ -150,8 +150,7 @@ module.exports = {
     },
   },
   plugins: [
-    // require('@tailwindcss/forms')({
-    //   strategy: 'class',
-    // })
+    // require("tailwindcss-animate"),
+    require("@tailwindcss/typography")
   ],
 }
