@@ -1,8 +1,8 @@
 import { useState, type FC } from "react";
-import type { Snip } from "src/utils/types";
+import type { Snip } from "~lib/types";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
-import { useAllSnipsStore, useSnipsStore } from "~utils/store";
+import { useAllSnipsStore, useSnipsStore } from "~lib/store";
 import DynamicTextarea from "src/shared/components/DynamicTextarea";
 
 interface Props {

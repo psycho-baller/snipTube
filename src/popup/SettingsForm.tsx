@@ -8,7 +8,7 @@ import {
   setPauseVideoOnNewSnip,
   setShowAddSnipDetailsFormOnNewSnip,
   setUseKeyboardShortcut,
-} from "src/utils/storage";
+} from "~lib/storage";
 interface Props {
   className?: string;
 }

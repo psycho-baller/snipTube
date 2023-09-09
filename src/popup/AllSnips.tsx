@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo } from "react";
-import type { Snip, Tag } from "../utils/types";
-import { useAllSnipsStore, useSnipsStore } from "~utils/store";
+import type { Snip, Tag } from "../lib/types";
+import { useAllSnipsStore, useSnipsStore } from "~lib/store";
 import Topbar from "./Topbar";
-import { getAllSnips } from "src/utils/storage";
+import { getAllSnips } from "~lib/storage";
 import OutsideSnip from "./OutsideSnip";
 import NoSnips from "./NoSnips";
-import { sortByOptions } from "src/utils/constants";
+import { sortByOptions } from "~lib/constants";
 
 interface Props {
   className?: string;

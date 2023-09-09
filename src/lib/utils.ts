@@ -1,4 +1,7 @@
 import type { Snip } from "./types";
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
 
 // TODO: settings to specify what format to export in and what data to include
 export function exportSnip(snip: Snip) {
@@ -58,4 +61,8 @@ ${tags?.length > 0 ? tags.map((tag) => `${tag.name}`).join(", ") + "\n\n" : ""}`
 //   return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 // }
 
-const formatMdTitle = (title: string) => {};
+// const formatMdTitle = (title: string) => {};
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}

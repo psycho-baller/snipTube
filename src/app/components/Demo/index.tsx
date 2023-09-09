@@ -3,8 +3,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef, type FC } from "react";
 import SnipBtn from "./SnipBtn";
-import { useSnipsStore } from "~utils/store";
-import { getSnips } from "src/utils/storage";
+import { useSnipsStore } from "~lib/store";
+import { getSnips } from "~lib/storage";
 // import "./styles.module.css";
 
 const Demo: FC = () => {

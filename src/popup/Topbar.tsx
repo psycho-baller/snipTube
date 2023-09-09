@@ -1,9 +1,9 @@
 import { type FC } from "react";
-import { type Snip, type Tag } from "../utils/types";
+import { type Snip, type Tag } from "../lib/types";
 import Dropdown from "./Dropdown";
 import ExportButton from "./ExportButton";
 import SettingsButton from "./SettingsButton";
-import { useContentScriptStore } from "~utils/store";
+import { useContentScriptStore } from "~lib/store";
 
 interface Props {
   tags: Tag[];

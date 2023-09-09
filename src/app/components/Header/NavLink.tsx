@@ -1,8 +1,7 @@
 
 import Link from "next/link";
 import { forwardRef, type ComponentPropsWithRef } from "react";
-import { twMerge } from "tailwind-merge";
-
+import { cn } from "~lib/utils";
 export interface NavLinkProps extends ComponentPropsWithRef<"a"> {
   isActive?: boolean;
   id?: string;
@@ -16,7 +15,7 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>((props, ref) => {
     <Link
       href={href}
       ref={ref}
-      className={twMerge(
+      className={cn(
         "block px-4 py-2 rounded-md font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100",
         activeClassName,
         className
