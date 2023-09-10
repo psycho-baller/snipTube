@@ -1,0 +1,47 @@
+.cta {
+  line-height: 1.8rem;
+  border-radius: 9.5px;
+  display: inline-flex;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  position: relative;
+  background-color: #18181b;
+  color: #f4f4f5;
+  transition: background-color 0.2s ease-in-out;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer; /* Not included according to website */
+}
+
+.cta:hover {
+  background-color: #0c0c0d;
+}
+
+.cta:before {
+  content: "";
+  position: absolute;
+  background: linear-gradient(
+    to right,
+    rgb(0, 220, 130),
+    rgb(54, 228, 218),
+    rgb(22, 167, 158)
+  );
+  inset: -2px;
+  z-index: -1;
+  border-radius: 12.5px;
+  transition: all 0.2s ease 0s;
+}
+
+.cta:hover:before {
+  box-shadow: rgba(0, 220, 130, 0.5) 0px 0px 10px 0px,
+    rgba(54, 228, 218, 0.5) 0px 0px 20px 0px;
+}
+
+.cta > span {
+  text-align: left;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+}

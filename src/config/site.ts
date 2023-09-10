@@ -7,7 +7,7 @@ export const siteConfig: SiteConfig = {
   url: "https://sniptube.vercel.app",
   ogImage: "https://sniptube.vercel.app/og.jpg",
   links: {
-    // twitter: "https://twitter.com/shadcn",
+    // twitter: "https://twitter.com/",
     github: "https://github.com/psycho-baller/sniptube",
   },
 }
