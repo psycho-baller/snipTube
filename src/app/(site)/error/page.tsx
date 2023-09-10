@@ -1,13 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import type { Metadata } from "next";
-
-
-export const metadata: Metadata = {
-  title: "Error Page - Solid SaaS Boilerplate",
-  description: "This is Error page for Solid Pro",
-  // other metadata
-};
 
 const ErroPage = () => {
   return (

@@ -1,12 +1,5 @@
 import BlogData from "~components/Blog/blogData";
 import BlogItem from "~components/Blog/BlogItem";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Blog Page - Solid SaaS Boilerplate",
-  description: "This is Blog page for Solid Pro",
-  // other metadata
-};
 
 const BlogPage = async () => {
   return (
