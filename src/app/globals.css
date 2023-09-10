@@ -24,28 +24,33 @@
 
 @layer base {
   :root {
-    --text: hsl(161, 0%, 40%);
-    --heading: hsl(161, 52%, 4%);
-    --background: hsl(0, 0%, 100%);
-    --primary: hsl(161, 55%, 66%);
-    --secondary: hsl(161, 57%, 89%);
-    --accent: hsl(161, 55%, 19%);
+    --text: 161deg 0% 40%;
+    --heading: 161deg 52% 4%;
+    --background: 0deg 0% 100%;
+    --primary: 161deg 55% 66%;
+    --primary-foreground: 161deg 55% 6%;
+    --secondary: 161deg 57% 94%;
+    --secondary-foreground: 161deg 57% 6%;
+    --accent: 161deg 55% 19%;
+
     --titlebgdark: #F2F2F2;
     --titlebg: #F2F2F2;
   }
   html.dark{
-    --text: hsl(161, 0%, 75%);
-    --heading: hsl(161, 0%, 100%);
-    --background: hsl(161, 52%, 4%);
-    --primary: hsl(161, 55%, 66%);
-    --secondary: hsl(161, 57%, 9%);
-    --accent: hsl(161, 55%, 49%);
+    --text: 161deg 0% 75%;
+    --heading: 161deg 0% 100%;
+    --background: 161deg 52% 6%;
+    --primary: 161deg 55% 66%;
+    --primary-foreground: 161deg 55% 6%;
+    --secondary: 161deg 57% 6%;
+    --secondary-foreground: 161deg 57% 94%;
+    --accent: 161deg 55% 49%;
   }
   body {
     @apply bg-background font-sans font-normal text-regular text-text relative z-1;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply text-heading;
+    @apply text-heading font-heading dark:text-white text-black;
   }
 }
 

@@ -1,15 +1,12 @@
-import Image from "next/image";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { siteConfig } from "~config/site";
 import { cn, buttonVariants } from "~lib/utils";
-import styles from "./Hero.module.css";
+import styles from "./styles.module.css";
 
 const Hero = () => {
 
   return (
-      <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
+      <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 mt-16">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
           {/* <Link
             href={siteConfig.links.github}
@@ -18,23 +15,23 @@ const Hero = () => {
           >
             Follow along on Twitter
           </Link> */}
-          <h1 className="font-heading dark:text-white text-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
             Unlock the knowledge in YouTube videos with AI
           </h1>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+          <p className="max-w-[42rem] leading-normal sm:text-xl sm:leading-8">
             {siteConfig.description}
           </p>
           <div className="space-x-4">
             <Link href="/login"
-            className={cn(buttonVariants({ size: "lg" }), styles.cta)}
+            className={cn(buttonVariants({ variant: "secondary" }), styles.cta)}
             >
-              <span>Get Started</span>
+              <span>Check it out</span>
             </Link>
             <Link
               href={siteConfig.links.github}
               target="_blank"
               rel="noreferrer"
-              className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+              className={cn(buttonVariants({ size: "lg" }))}
             >
               GitHub
             </Link>

@@ -3,7 +3,7 @@ import type { SiteConfig } from "~types/config"
 export const siteConfig: SiteConfig = {
   name: "SnipTube",
   description:
-    "Highlight, save, annotate, and export your favorite YouTube moments with the power of AI.",
+    "Eaisly highlight, save, annotate, and export your favorite YouTube moments with a click of a button.",
   url: "https://sniptube.vercel.app",
   ogImage: "https://sniptube.vercel.app/og.jpg",
   links: {
