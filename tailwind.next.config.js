@@ -4,8 +4,11 @@ const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // not in the app dir
-  content: ["./src/app/**/*.{tsx,html}"],
+  content: [
+    "./src/app/**/*.tsx",
+    "./src/components/**/*.tsx",
+    "./src/lib/**/*.ts"
+  ],
   darkMode: "class",
   theme: {
     container: {
@@ -30,10 +33,16 @@ module.exports = {
       titlebgdark: "#46495A",
       btndark: "#292E45",
       white: "#FFFFFF",
-      black: "#181C31",
+      black: "#000000",
+      primary: "var(--primary)",
+      secondary: "var(--secondary)",
+      text: "var(--text)",
+      heading: "var(--heading)",
+      background: "var(--background)",
+      accent: "var(--accent)",
       blackho: "#2C3149",
       blacksection: "#1C2136",
-      primary: "#006BFF",
+      // primary: "#006BFF",
       primaryho: "#0063EC",
       meta: "#20C5A8",
       waterloo: "#757693",

@@ -23,14 +23,35 @@
 }
 
 @layer base {
+  :root {
+    --text: hsl(161, 0%, 40%);
+    --heading: hsl(161, 52%, 4%);
+    --background: hsl(0, 0%, 100%);
+    --primary: hsl(161, 55%, 66%);
+    --secondary: hsl(161, 57%, 89%);
+    --accent: hsl(161, 55%, 19%);
+    --titlebgdark: #F2F2F2;
+    --titlebg: #F2F2F2;
+  }
+  html.dark{
+    --text: hsl(161, 0%, 75%);
+    --heading: hsl(161, 0%, 100%);
+    --background: hsl(161, 52%, 4%);
+    --primary: hsl(161, 55%, 66%);
+    --secondary: hsl(161, 57%, 9%);
+    --accent: hsl(161, 55%, 49%);
+  }
   body {
-    @apply font-normal text-regular text-waterloo relative dark:text-manatee z-1;
+    @apply bg-background font-sans font-normal text-regular text-text relative z-1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-heading;
   }
 }
 
 @layer components {
   .dropdown {
-    @apply flex-col gap-4 min-w-max lg:w-[250px] mt-2 lg:mt-0 bg-white dark:bg-black border border-stroke dark:border-strokedark shadow-solid-13 ease-in duration-300 px-8 py-5 rounded-md -left-7.5 hidden
+    @apply flex-col gap-4 min-w-max lg:w-[250px] mt-2 lg:mt-0 bg-background border border-stroke dark:border-strokedark shadow-solid-13 ease-in duration-300 px-8 py-5 rounded-md -left-7.5 hidden
     lg:translate-y-10 lg:opacity-0 lg:invisible lg:absolute lg:flex
     lg:before:absolute lg:before:-top-1.5 lg:before:left-10 lg:before:w-3 lg:before:h-3 lg:before:border-l lg:before:border-t lg:before:border-stroke lg:dark:before:border-strokedark lg:before:bg-white lg:dark:before:bg-black lg:before:rotate-45 
     lg:group-hover:translate-y-6.5 lg:group-hover:opacity-100 lg:group-hover:visible;

@@ -1,9 +1,9 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Lines from "@/components/Lines";
-import ScrollToTop from "@/components/ScrollToTop";
+import Header from "~components/Header";
+import Footer from "~components/Footer";
+import Lines from "~components/Lines";
+import ScrollToTop from "~components/ScrollToTop";
 import { Inter } from "next/font/google";
 import localFont from 'next/font/local'
 import { ThemeProvider } from "next-themes";
@@ -25,7 +25,7 @@ const fontHeading = localFont({
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="eng">
-      <body className={`dark:bg-black font-sans ${fontSans.variable} ${fontHeading.variable}`}>
+      <body className={`${fontSans.variable} ${fontHeading.variable}`}>
         <ThemeProvider
           enableSystem={false}
           attribute="class"

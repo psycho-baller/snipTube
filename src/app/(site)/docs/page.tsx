@@ -1,4 +1,4 @@
-import SidebarLink from "@/components/Docs/SidebarLink";
+import SidebarLink from "~components/Docs/SidebarLink";
 
 export default function DocsPage() {
   return (

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import SharePost from "@/components/Blog/SharePost";
-import RelatedPost from "@/components/Blog/RelatedPost";
+import SharePost from "~components/Blog/SharePost";
+import RelatedPost from "~components/Blog/RelatedPost";
 
 const SingleBlogPage = async () => {
   return (
