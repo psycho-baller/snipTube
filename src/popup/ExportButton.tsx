@@ -1,6 +1,6 @@
 import { useState, type FC, type MouseEvent } from "react";
-import type { Snip } from "src/utils/types";
-import { exportSnip, exportSnips } from "src/utils/helpers";
+import type { Snip } from "~lib/types";
+import { exportSnip, exportSnips } from "~lib/utils";
 interface Props {
   className?: string;
   snips?: Snip[];

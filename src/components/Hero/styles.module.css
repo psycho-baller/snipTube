@@ -1,0 +1,44 @@
+.cta {
+  /* line-height: 1.8rem; */
+  /* border-radius: 0.5rem; */
+  /* padding: 0rem 1rem; */
+  /* font-size: 1rem; */
+  height: 2.56rem;
+  position: relative;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cta:hover {
+  /* don't change */
+  background-color: hsl(var(--secondary));
+}
+
+.cta:before {
+  content: "";
+  position: absolute;
+  background: linear-gradient(
+    to right,
+    hsl(var(--accent) / 1),
+    hsl(var(--accent) / 0.8),
+    hsl(var(--accent) / 1)
+  );
+  inset: -2px;
+  z-index: -1;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease 0s;
+}
+
+.cta:hover:before {
+  box-shadow: hsl(var(--primary) / 0.5) 0px 0px 15px 0px,
+  hsl(var(--accent) / 0.5) 0px 0px 30px 0px;
+}
+
+/*
+.cta > span {
+   text-align: left;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all; 
+}*/

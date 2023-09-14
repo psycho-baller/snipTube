@@ -3,10 +3,10 @@
   "displayName": "SnipTube - Elevate Your YouTube Experience",
   "version": "0.2.1",
   "description": "Highlight, save, annotate, and export your favorite YouTube moments with the power of AI.",
-  "author": "Rami <rami.rami@ucalgary.ca>",
+  "author": "Rami <rami.rami@ucalgary.ca> (ramimaalouf.tech)",
   "license": "MIT",
   "contributors": [
-    "Rami <rami.rami@ucalgary.ca>"
+    "Rami <rami.rami@ucalgary.ca> (ramimaalouf.tech)"
   ],
   "scripts": {
     "start": "next start",
@@ -22,11 +22,17 @@
   },
   "dependencies": {
     "@plasmohq/storage": "^1.7.2",
+    "@tailwindcss/typography": "^0.5.10",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "framer-motion": "^10.12.16",
     "get-youtube-chapters": "^2.0.0",
     "next": "^13.4.12",
+    "next-themes": "^0.2.1",
     "plasmo": "^0.82.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tailwind-merge": "^1.14.0",
     "youtube-caption-extractor": "^1.4.3",
     "zustand": "^4.4.0"
   },

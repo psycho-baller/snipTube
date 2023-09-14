@@ -1,4 +1,4 @@
-import type { Snip, Subtitle, VidDetails } from "../utils/types";
+import type { Snip, Subtitle, VidDetails } from "../lib/types";
 import type { PlasmoCSConfig } from "plasmo";
 import {
   getDefaultSnipLength,
@@ -8,11 +8,11 @@ import {
   getUseKeyboardShortcut,
   setSnips,
   setVideoId,
-} from "src/utils/storage";
-import { getVideoDetails } from "src/utils/youtube";
-import { getSnipTranscript } from "src/utils/youtube";
-import { URL, invalidStartOrEndTimeMessage } from "src/utils/constants";
-import { useContentScriptStore } from "src/utils/store";
+} from "~lib/storage";
+import { getVideoDetails } from "~lib/youtube";
+import { getSnipTranscript } from "~lib/youtube";
+import { URL, invalidStartOrEndTimeMessage } from "~lib/constants";
+import { useContentScriptStore } from "~lib/store";
 export const config: PlasmoCSConfig = {
   matches: [
     "https://youtu.be/watch*",
@@ -306,7 +306,6 @@ async function updateVideoSnips(snips?: Snip[]) {
     // });
     previewBar?.appendChild(snipElement);
   });
-  // if
 }
 
 chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
