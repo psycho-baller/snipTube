@@ -1,5 +1,5 @@
 "use client";
-import React, { type FC, useState, useEffect, useRef } from "react";
+import { type FC, type ComponentPropsWithoutRef, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import ThemeToggler from "./ThemeToggler";
 import Navigation from "./Navigation";
 import { Logo } from "../Logo";
 
-interface Props extends React.ComponentPropsWithoutRef<"header"> {}
+interface Props extends ComponentPropsWithoutRef<"header"> {}
 
 const Header: FC<Props> = (props) => {
   const { ...rest } = props;

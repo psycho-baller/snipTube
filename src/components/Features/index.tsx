@@ -8,16 +8,17 @@ const Feature = () => {
   return (
     <>
       {/* <!-- ===== Features Start ===== --> */}
-      <section id="features" className="py-20 lg:py-25 xl:py-30">
+      <section
+        id="features"
+        className="py-20 lg:py-25 xl:py-30"
+      >
         <div className="mx-auto max-w-c-1315 px-4 md:px-8 xl:px-0">
           {/* <!-- Section Title Start --> */}
           <SectionHeader
             headerInfo={{
-              title: "SOLID FEATURES",
-              subtitle: "Core Features of Solid",
-              description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-            convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
-            ante in maximus.`,
+              title: "SNIPTUBE FEATURES",
+              subtitle: "Core Features of SnipTube",
+              description: "",
             }}
           />
           {/* <!-- Section Title End --> */}
@@ -26,7 +27,10 @@ const Feature = () => {
             {/* <!-- Features item Start --> */}
 
             {featuresData.map((feature, key) => (
-              <SingleFeature feature={feature} key={key} />
+              <SingleFeature
+                feature={feature}
+                key={key}
+              />
             ))}
             {/* <!-- Features item End --> */}
           </div>

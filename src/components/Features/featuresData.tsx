@@ -4,44 +4,42 @@ const featuresData: Feature[] = [
   {
     id: 1,
     icon: "/images/icon/icon-01.svg",
-    title: "Crafted for SaaS",
+    title: "Intelligent Summarization",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "SnipTube harnesses the power of advanced AI algorithms to automatically generate concise summaries for each snip. Say goodbye to the hassle of rewatching entire videos to find that one crucial detail - SnipTube will have it neatly summarized for you!",
   },
   {
     id: 2,
     icon: "/images/icon/icon-02.svg",
-    title: "High-quality Design",
+    title: "Organize and Tag",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Keep your snips neatly organized and easily searchable by assigning custom tags and annotations to each snip. Whether it's for educational purposes, research, or personal entertainment, SnipTube makes it effortless to navigate through your collection and recall important context for each snip",
   },
   {
     id: 3,
     icon: "/images/icon/icon-03.svg",
-    title: "Next.js 13 + TypeScript",
+    title: "A Collection of Your YouTube Gems",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Build an exquisite collection of your most cherished YouTube moments that you can revisit anytime, all in one place. No more digging through lengthy videos to find that one valuable piece of information!",
   },
   {
     id: 4,
     icon: "/images/icon/icon-04.svg",
-    title: "Sanity Blog and Docs",
+    title: "Export with Ease",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+      "Need to take your snips on the go? No problem! With a simple click of a button, you can easily export individual snips or the entire collection in Markdown format. Seamlessly import them into your favorite note-taking app and continue your learning journey",
   },
   {
     id: 5,
     icon: "/images/icon/icon-05.svg",
-    title: "DB, Auth and Stripe",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+    title: "Perfect for All Users",
+    description: "SnipTube caters to everyone, whether you're a student looking to ace your exams, a researcher seeking profound insights, or simply a casual YouTube enthusiast. Say goodbye to wasting time searching for that elusive moment in a video",
   },
   {
     id: 6,
     icon: "/images/icon/icon-06.svg",
-    title: "Regular Free Updates",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor.",
+    title: "Constantly Evolving",
+    description: "I am committed to providing you with the best experience possible, which is why I am continually updating and enhancing SnipTube. I strive to make it the ultimate YouTube companion for all users, and I am always open to feedback and suggestions",
   },
 ];
 

@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { siteConfig } from "~config/site";
 
 const CTA = () => {
   return (
@@ -29,12 +30,11 @@ const CTA = () => {
               className="animate_left md:w-[70%] lg:w-1/2"
             >
               <h2 className="text-black dark:text-white text-3xl xl:text-sectiontitle4 font-bold mb-4 w-11/12">
-                Join With Us Today & Increase Your Productivity
+                Be an Early Adopter and Make a Difference!
               </h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                convallis tortor eros. Donec vitae tortor lacus. Phasellus
-                aliquam ante in maximus.
+                Don't miss the chance to revolutionize your YouTube experience. Download SnipTube now and take control
+                of your favorite moments like never before!
               </p>
             </motion.div>
             <motion.div
@@ -64,10 +64,10 @@ const CTA = () => {
                   className="hidden xl:block"
                 />
                 <a
-                  href="signup.html"
+                  href={siteConfig.links.chrome}
                   className="inline-flex items-center gap-2.5 font-medium text-white dark:text-black bg-black dark:bg-white rounded-full py-3 px-6 hover:opacity-90"
                 >
-                  Sign up free
+                  <span>Download Now</span>
                   <Image
                     width={20}
                     height={20}

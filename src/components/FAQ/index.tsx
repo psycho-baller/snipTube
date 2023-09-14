@@ -4,6 +4,7 @@ import faqData from "./faqData";
 import FAQItem from "./FAQItem";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { siteConfig } from "~config/site";
 
 const FAQ = () => {
   const [activeFaq, setActiveFaq] = useState(1);
@@ -17,7 +18,7 @@ const FAQ = () => {
       {/* <!-- ===== FAQ Start ===== --> */}
       <section className="pb-20 lg:pb-25 xl:pb-30 overflow-hidden">
         <div className="mx-auto max-w-c-1235 px-4 md:px-8 xl:px-0 relative">
-          <div className="absolute -bottom-16 -z-1 w-full h-full">
+          {/* <div className="absolute -bottom-16 -z-1 w-full h-full">
             <Image
               fill
               src="/images/shape/shape-dotted-light.svg"
@@ -30,7 +31,7 @@ const FAQ = () => {
               alt="Dotted"
               className="hidden dark:block"
             />
-          </div>
+          </div> */}
           <div className="flex flex-wrap md:flex-nowrap md:items-center gap-8 xl:gap-32.5">
             <motion.div
               variants={{
@@ -50,9 +51,7 @@ const FAQ = () => {
               viewport={{ once: true }}
               className="animate_left md:w-2/5 lg:w-1/2"
             >
-              <h4 className="text-black dark:text-white font-medium uppercase">
-                OUR FAQS
-              </h4>
+              <h4 className="text-black dark:text-white font-medium uppercase">OUR FAQS</h4>
               <h2 className="relative font-bold text-black dark:text-white text-3xl xl:text-hero mb-6">
                 Frequently Asked
                 <span className="inline-block relative before:absolute before:bottom-2.5 before:left-0 before:w-full before:h-3 before:bg-titlebg2 dark:before:bg-titlebgdark before:-z-1">
@@ -61,7 +60,7 @@ const FAQ = () => {
               </h2>
 
               <a
-                href="#"
+                href={siteConfig.links.chrome}
                 className="flex items-center gap-2.5 text-black dark:text-white mt-7.5 hover:text-primary dark:hover:text-primary"
               >
                 <span className="hover:pr-2 duration-500">Know More</span>
