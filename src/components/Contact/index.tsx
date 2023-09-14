@@ -64,8 +64,8 @@ const Contact = () => {
               </h2>
 
               <form
-                action="https://formbold.com/s/unique_form_id"
-                method="POST"
+              // action="https://formbold.com/s/unique_form_id"
+              // method="POST"
               >
                 <div className="flex flex-col lg:flex-row lg:justify-between gap-7.5 lg:gap-14 mb-7.5">
                   <input
@@ -103,8 +103,8 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                <div className="flex flex-wrap xl:justify-between ">
-                  <div className="flex mb-4 md:mb-0">
+                <div className="flex flex-wrap xl:justify-end ">
+                  {/* <div className="flex mb-4 md:mb-0">
                     <input
                       id="default-checkbox"
                       type="checkbox"
@@ -117,7 +117,7 @@ const Contact = () => {
                     >
                       By clicking Checkbox, you agree to use our “Form” terms And consent cookie usage in browser.
                     </label>
-                  </div>
+                  </div> */}
 
                   <button
                     aria-label="send message"
