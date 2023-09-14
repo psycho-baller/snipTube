@@ -21,15 +21,15 @@ export default function Home() {
       {/* <Brands /> */}
       <Feature />
       {/* <Demo /> */}
-      <About />
-      <FeaturesTab />
-      <FunFact />
-      <Integration />
+      {/* <About /> */}
+      {/* <FeaturesTab /> */}
+      {/* <FunFact /> */}
+      {/* <Integration /> */}
       <CTA />
-      <FAQ />
+      {/* <FAQ /> */}
       {/* <Testimonial /> */}
       {/* <Pricing /> */}
-      <Contact />
+      {/* <Contact /> */}
       {/* <Blog /> */}
       <OpenSource />
     </main>

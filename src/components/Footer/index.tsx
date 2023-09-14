@@ -2,6 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Logo } from "~components/Logo";
+import { siteConfig } from "~config/site";
 
 const Footer = () => {
   return (
@@ -29,39 +31,20 @@ const Footer = () => {
                 viewport={{ once: true }}
                 className="animate_top w-1/2 lg:w-1/4"
               >
-                <a href="index.html" className="relative">
-                  <Image
-                    width={110}
-                    height={80}
-                    src="/images/logo/logo-light.svg"
-                    alt="Logo"
-                    className="dark:hidden"
-                  />
-                  <Image
-                    width={110}
-                    height={80}
-                    src="/images/logo/logo-dark.svg"
-                    alt="Logo"
-                    className="hidden dark:block"
-                  />
-                </a>
+                <Logo />
 
-                <p className="mt-5 mb-10">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
+                <p className="mt-5 mb-10"></p>
 
-                <p className="uppercase tracking-[5px] text-sectiontitle mb-1.5">
-                  contact
-                </p>
+                <p className="uppercase tracking-[5px] text-sectiontitle mb-1.5">contact</p>
                 <a
                   href="#"
                   className="text-black dark:text-white font-medium text-itemtitle"
                 >
-                  hello@solid.com
+                  ramim66809@gmail.com
                 </a>
               </motion.div>
 
-              <div className="w-full lg:w-2/3 xl:w-7/12 flex flex-col md:flex-row md:justify-between gap-8 md:gap-0">
+              {/* <div className="w-full lg:w-2/3 xl:w-7/12 flex flex-col md:flex-row md:justify-between gap-8 md:gap-0">
                 <motion.div
                   variants={{
                     hidden: {
@@ -80,9 +63,7 @@ const Footer = () => {
                   viewport={{ once: true }}
                   className="animate_top"
                 >
-                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">
-                    Quick Links
-                  </h4>
+                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">Quick Links</h4>
 
                   <ul>
                     <li>
@@ -138,9 +119,7 @@ const Footer = () => {
                   viewport={{ once: true }}
                   className="animate_top"
                 >
-                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">
-                    Support
-                  </h4>
+                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">Support</h4>
 
                   <ul>
                     <li>
@@ -196,12 +175,8 @@ const Footer = () => {
                   viewport={{ once: true }}
                   className="animate_top"
                 >
-                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">
-                    Newsletter
-                  </h4>
-                  <p className="mb-4 w-[90%]">
-                    Subscribe to receive future updates
-                  </p>
+                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">Newsletter</h4>
+                  <p className="mb-4 w-[90%]">Subscribe to receive future updates</p>
 
                   <form action="#">
                     <div className="relative">
@@ -211,7 +186,10 @@ const Footer = () => {
                         className="w-full dark:bg-black border border-stroke dark:border-strokedark shadow-solid-11 dark:shadow-none rounded-full focus:outline-none focus:border-primary dark:focus:border-primary py-3 px-6"
                       />
 
-                      <button aria-label="signup to newsletter" className="absolute right-0 p-4">
+                      <button
+                        aria-label="signup to newsletter"
+                        className="absolute right-0 p-4"
+                      >
                         <svg
                           className="fill-[#757693] dark:fill-white hover:fill-primary"
                           width="20"
@@ -228,7 +206,11 @@ const Footer = () => {
                           </g>
                           <defs>
                             <clipPath id="clip0_48_1487">
-                              <rect width="20" height="20" fill="white" />
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="white"
+                              />
                             </clipPath>
                           </defs>
                         </svg>
@@ -236,7 +218,7 @@ const Footer = () => {
                     </div>
                   </form>
                 </motion.div>
-              </div>
+              </div> */}
             </div>
           </div>
           {/* <!-- Footer Top --> */}
@@ -263,17 +245,26 @@ const Footer = () => {
             >
               <ul className="flex items-center gap-8">
                 <li>
-                  <a href="#" className="hover:text-primary">
+                  <a
+                    href="#"
+                    className="hover:text-primary"
+                  >
                     English
                   </a>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
+                {/* <li>
+                  <a
+                    href="#"
+                    className="hover:text-primary"
+                  >
                     Privacy Policy
                   </a>
-                </li>
+                </li> */}
                 <li>
-                  <a href="#" className="hover:text-primary">
+                  <a
+                    href="/contact"
+                    className="hover:text-primary"
+                  >
                     Support
                   </a>
                 </li>
@@ -298,7 +289,7 @@ const Footer = () => {
               viewport={{ once: true }}
               className="animate_top"
             >
-              <p>&copy; 2025 Solid. All rights reserved</p>
+              <p>&copy; 2023 SnipTube. All rights reserved</p>
             </motion.div>
 
             <motion.div
@@ -307,7 +298,6 @@ const Footer = () => {
                   opacity: 0,
                   y: -20,
                 },
-
                 visible: {
                   opacity: 1,
                   y: 0,
@@ -320,7 +310,7 @@ const Footer = () => {
               className="animate_top"
             >
               <ul className="flex items-center gap-5">
-                <li>
+                {/* <li>
                   <a href="#">
                     <svg
                       className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
@@ -338,13 +328,17 @@ const Footer = () => {
                       </g>
                       <defs>
                         <clipPath id="clip0_48_1499">
-                          <rect width="24" height="24" fill="white" />
+                          <rect
+                            width="24"
+                            height="24"
+                            fill="white"
+                          />
                         </clipPath>
                       </defs>
                     </svg>
                   </a>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <a href="#">
                     <svg
                       className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
@@ -362,14 +356,18 @@ const Footer = () => {
                       </g>
                       <defs>
                         <clipPath id="clip0_48_1502">
-                          <rect width="24" height="24" fill="white" />
+                          <rect
+                            width="24"
+                            height="24"
+                            fill="white"
+                          />
                         </clipPath>
                       </defs>
                     </svg>
                   </a>
-                </li>
+                </li> */}
                 <li>
-                  <a href="#">
+                  <a href={siteConfig.links.linkedin}>
                     <svg
                       className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
                       width="24"
@@ -386,13 +384,17 @@ const Footer = () => {
                       </g>
                       <defs>
                         <clipPath id="clip0_48_1505">
-                          <rect width="24" height="24" fill="white" />
+                          <rect
+                            width="24"
+                            height="24"
+                            fill="white"
+                          />
                         </clipPath>
                       </defs>
                     </svg>
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#">
                     <svg
                       className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
@@ -406,12 +408,16 @@ const Footer = () => {
                       </g>
                       <defs>
                         <clipPath id="clip0_48_1508">
-                          <rect width="24" height="24" fill="white" />
+                          <rect
+                            width="24"
+                            height="24"
+                            fill="white"
+                          />
                         </clipPath>
                       </defs>
                     </svg>
                   </a>
-                </li>
+                </li> */}
               </ul>
             </motion.div>
           </div>
