@@ -1,0 +1,124 @@
+.toggleTheme {
+  @apply transition-colors;
+
+  --transition-duration-long: 0.4s;
+
+  /* easings */
+   /* --ease-1: cubic-bezier(0.25, 0, 0.5, 1); */
+   /* --ease-2: cubic-bezier(0.25, 0, 0.4, 1); */
+  --ease-3: cubic-bezier(0.25, 0, 0.3, 1);
+   /* --ease-4: cubic-bezier(0.25, 0, 0.2, 1); */
+  --ease-5: cubic-bezier(0.25, 0, 0.1, 1);
+
+   /* --ease-out-1: cubic-bezier(0, 0, 0.75, 1); */
+   /* --ease-out-2: cubic-bezier(0, 0, 0.5, 1); */
+   /* --ease-out-3: cubic-bezier(0, 0, 0.3, 1); */
+   /* --ease-out-4: cubic-bezier(0, 0, 0.1, 1); */
+  --ease-out-5: cubic-bezier(0, 0, 0, 1);
+
+   /* --ease-elastic-1: cubic-bezier(0.5, 0.75, 0.75, 1.25); */
+   /* --ease-elastic-2: cubic-bezier(0.5, 1, 0.75, 1.25); */
+  --ease-elastic-3: cubic-bezier(0.5, 1.25, 0.75, 1.25);
+  --ease-elastic-4: cubic-bezier(0.5, 1.5, 0.75, 1.25);
+   /* --ease-elastic-5: cubic-bezier(0.5, 1.75, 0.75, 1.25); */
+
+}
+
+.moon,
+.sun,
+.sunBeams {
+  transform-origin: center center;
+}
+
+.sunDark {
+  transform: scale(1.75);
+}
+
+.sunBeamsDark {
+  opacity: 0;
+}
+
+.moonDark>circle {
+  transform: translateX(-7px);
+}
+
+@supports (cx: 1) {
+  .moonDark>circle {
+    transform: translateX(0);
+    cx: 17;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sun {
+    transition: transform var(--transition-duration-long) var(--ease-elastic-3);
+  }
+
+  .sunBeams {
+    transition: transform var(--transition-duration-long) var(--ease-elastic-4),
+      opacity var(--transition-duration-long) var(--ease-3);
+  }
+
+  .moon>circle {
+    transition: transform calc(var(--transition-duration-long) / 2) var(--ease-out-5);
+  }
+
+  @supports (cx: 1) {
+    .moon>circle {
+      transition: cx calc(var(--transition-duration-long) / 2) var(--ease-out-5);
+    }
+  }
+
+  .sunDark {
+    transform: scale(1.75);
+    transition-timing-function: var(--ease-3);
+    transition-duration: calc(var(--transition-duration-long) / 2);
+  }
+
+  .sunBeamsDark {
+    transform: rotateZ(-25deg);
+    transition-duration: calc(var(--transition-duration-long) / 3);
+  }
+
+  .moonDark>circle {
+    transition-delay: calc(var(--transition-duration-long) / 2);
+    transition-duration: var(--transition-duration-long);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global([data-theme='auto']) .sun {
+      transform: scale(1.75);
+    }
+
+    :global([data-theme='auto']) .sunBeams {
+      opacity: 0;
+    }
+
+    :global([data-theme='auto']) .moon>circle {
+      transform: translateX(-7px);
+    }
+
+    @supports (cx: 1) {
+      :global([data-theme='auto']) .moon>circle {
+        transform: translateX(0);
+        cx: 17;
+      }
+    }
+
+    :global([data-theme='auto']) .sun {
+      transform: scale(1.75);
+      transition-timing-function: var(--ease-3);
+      transition-duration: calc(var(--transition-duration-long) / 2);
+    }
+
+    :global([data-theme='auto']) .sunBeams {
+      transform: rotateZ(-25deg);
+      transition-duration: calc(var(--transition-duration-long) / 3);
+    }
+
+    :global([data-theme='auto']) .moon>circle {
+      transition-delay: calc(var(--transition-duration-long) / 2);
+      transition-duration: var(--transition-duration-long);
+    }
+  }
+}

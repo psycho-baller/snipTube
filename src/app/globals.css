@@ -10,7 +10,7 @@
   @apply w-2.5 h-2.5 bg-stroke opacity-100;
 }
 .testimonial-01 .swiper-pagination-bullet-active {
-  @apply bg-primary w-5 rounded-full;
+  @apply w-5 rounded-full bg-primary;
 }
 
 .testimonial-01 .swiper-pagination {
@@ -47,10 +47,10 @@
     --accent: 161deg 55% 49%;
   }
   body {
-    @apply bg-background font-sans font-normal text-regular text-text relative z-1;
+    @apply relative font-sans font-normal bg-background text-regular text-text z-1;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply text-heading font-heading dark:text-white text-black;
+    @apply text-black text-heading font-heading dark:text-white;
   }
 }
 
@@ -116,7 +116,7 @@
 
 .blog-details ul,
 .blog-details ol {
-  @apply mb-10 list-inside list-disc text-titlebgdark;
+  @apply mb-10 list-disc list-inside text-titlebgdark;
 }
 
 .blog-details li,
@@ -125,7 +125,7 @@
 }
 
 .blog-details blockquote {
-  @apply relative z-10 mb-10 overflow-hidden rounded-sm bg-manatee p-8 dark:bg-titlebgdark md:py-9 lg:px-10 text-center text-base font-medium italic text-black;
+  @apply relative z-10 p-8 mb-10 overflow-hidden text-base italic font-medium text-center text-black rounded-sm bg-manatee dark:bg-titlebgdark md:py-9 lg:px-10;
 }
 
 .blog-details blockquote::after {
@@ -139,7 +139,7 @@
 }
 
 pre {
-  @apply relative bg-strokedark px-4 py-2 rounded-lg mb-2;
+  @apply relative px-4 py-2 mb-2 rounded-lg bg-strokedark;
 }
 .prism-copy-button {
   @apply absolute top-2 right-2 h-[26px] rounded bg-white px-4 text-primary;
