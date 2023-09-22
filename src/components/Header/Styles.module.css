@@ -1,5 +1,5 @@
 .toggleTheme {
-  @apply transition-colors;
+  /* @apply transition-colors; */
 
   --transition-duration-long: 0.4s;
 

@@ -4,427 +4,250 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Logo } from "~components/Logo";
 import { siteConfig } from "~config/site";
+import Link from "next/link";
 
 const Footer = () => {
   return (
-    <>
       <footer className="bg-white dark:bg-blacksection border-t border-stroke dark:border-strokedark">
-        <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
-          {/* <!-- Footer Top --> */}
-          <div className="py-20 lg:py-25">
-            <div className="flex flex-wrap lg:justify-between gap-8 lg:gap-0">
-              <motion.div
-                variants={{
-                  hidden: {
-                    opacity: 0,
-                    y: -20,
-                  },
-
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                  },
-                }}
-                initial="hidden"
-                whileInView="visible"
-                transition={{ duration: 1, delay: 0.5 }}
-                viewport={{ once: true }}
-                className="animate_top w-1/2 lg:w-1/4"
+        <div className="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
+          <motion.nav
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: -20,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                },
+              }}
+              initial="hidden"
+              whileInView="visible"
+              transition={{ duration: 1, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="animate_top columns-2 sm:flex sm:justify-center sm:space-x-12"
+            aria-label="Footer"
+          >
+              <Link
+                href={siteConfig.links.portfolio}
+                className="text-sm leading-6 hover:text-primary"
               >
-                <Logo />
-
-                <p className="mt-5 mb-10"></p>
-
-                <p className="uppercase tracking-[5px] text-sectiontitle mb-1.5">contact</p>
-                <a
-                  href="#"
-                  className="text-black dark:text-white font-medium text-itemtitle"
-                >
-                  ramim66809@gmail.com
-                </a>
-              </motion.div>
-
-              {/* <div className="w-full lg:w-2/3 xl:w-7/12 flex flex-col md:flex-row md:justify-between gap-8 md:gap-0">
-                <motion.div
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      y: -20,
-                    },
-
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                    },
-                  }}
-                  initial="hidden"
-                  whileInView="visible"
-                  transition={{ duration: 1, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  className="animate_top"
-                >
-                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">Quick Links</h4>
-
-                  <ul>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Home
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Product
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Careers
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Pricing
-                      </a>
-                    </li>
-                  </ul>
-                </motion.div>
-
-                <motion.div
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      y: -20,
-                    },
-
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                    },
-                  }}
-                  initial="hidden"
-                  whileInView="visible"
-                  transition={{ duration: 1, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  className="animate_top"
-                >
-                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">Support</h4>
-
-                  <ul>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Company
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Press media
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Our Blog
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="inline-block hover:text-primary mb-3"
-                      >
-                        Contact Us
-                      </a>
-                    </li>
-                  </ul>
-                </motion.div>
-
-                <motion.div
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      y: -20,
-                    },
-
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                    },
-                  }}
-                  initial="hidden"
-                  whileInView="visible"
-                  transition={{ duration: 1, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  className="animate_top"
-                >
-                  <h4 className="font-medium text-black dark:text-white text-itemtitle2 mb-9">Newsletter</h4>
-                  <p className="mb-4 w-[90%]">Subscribe to receive future updates</p>
-
-                  <form action="#">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        placeholder="Email address"
-                        className="w-full dark:bg-black border border-stroke dark:border-strokedark shadow-solid-11 dark:shadow-none rounded-full focus:outline-none focus:border-primary dark:focus:border-primary py-3 px-6"
-                      />
-
-                      <button
-                        aria-label="signup to newsletter"
-                        className="absolute right-0 p-4"
-                      >
-                        <svg
-                          className="fill-[#757693] dark:fill-white hover:fill-primary"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_48_1487)">
-                            <path
-                              d="M3.1175 1.17318L18.5025 9.63484C18.5678 9.67081 18.6223 9.72365 18.6602 9.78786C18.6982 9.85206 18.7182 9.92527 18.7182 9.99984C18.7182 10.0744 18.6982 10.1476 18.6602 10.2118C18.6223 10.276 18.5678 10.3289 18.5025 10.3648L3.1175 18.8265C3.05406 18.8614 2.98262 18.8792 2.91023 18.8781C2.83783 18.8769 2.76698 18.857 2.70465 18.8201C2.64232 18.7833 2.59066 18.7308 2.55478 18.6679C2.51889 18.6051 2.50001 18.5339 2.5 18.4615V1.53818C2.50001 1.46577 2.51889 1.39462 2.55478 1.33174C2.59066 1.26885 2.64232 1.2164 2.70465 1.17956C2.76698 1.14272 2.83783 1.12275 2.91023 1.12163C2.98262 1.12051 3.05406 1.13828 3.1175 1.17318ZM4.16667 10.8332V16.3473L15.7083 9.99984L4.16667 3.65234V9.16651H8.33333V10.8332H4.16667Z"
-                              fill=""
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_48_1487">
-                              <rect
-                                width="20"
-                                height="20"
-                                fill="white"
-                              />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                      </button>
-                    </div>
-                  </form>
-                </motion.div>
-              </div> */}
-            </div>
-          </div>
-          {/* <!-- Footer Top --> */}
-
-          {/* <!-- Footer Bottom --> */}
-          <div className="border-t border-stroke dark:border-strokedark flex flex-wrap flex-col lg:flex-row items-center justify-center lg:justify-between gap-5 lg:gap-0 py-7">
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: -20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="animate_top"
+                About the creator
+              </Link>
+              <Link
+                href="/contact"
+                className="text-sm leading-6 hover:text-primary"
+              >
+                Contact us
+              </Link>
+              <Link
+              href={siteConfig.links.kofi}
+              className="text-sm leading-6 hover:text-primary"
+              >
+                Support us
+                </Link>
+            {/* <div className="pb-6">
+              <Link
+                href={}
+                className="text-sm leading-6 hover:text-primary"
+              >
+                Blog
+              </Link>
+            </div> */}
+            {/* <div className="pb-6">
+              <Link
+                href={}
+                className="text-sm leading-6 hover:text-primary"
+              >
+                Jobs
+              </Link>
+            </div> */}
+            {/* <div className="pb-6">
+              <Link
+                href={}
+                className="text-sm leading-6 hover:text-primary"
+              >
+                Press
+              </Link>
+            </div> */}
+            {/* <div className="pb-6">
+              <Link
+                href={}
+                className="text-sm leading-6 hover:text-primary"
+              >
+                Accessibility
+              </Link>
+            </div> */}
+            {/* <div className="pb-6">
+              <Link
+                href={}
+                className="text-sm leading-6 hover:text-primary"
+              >
+                Partners
+              </Link>
+            </div> */}
+          </motion.nav>
+          <motion.div
+            variants={{
+              hidden: {
+                opacity: 0,
+                y: -20,
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+              },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            transition={{ duration: 1, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="animate_top mt-10 flex justify-center space-x-10"
+          >
+            {/* <Link
+              href={}
+              className="hover:text-primary"
             >
-              <ul className="flex items-center gap-8">
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-primary"
-                  >
-                    English
-                  </a>
-                </li>
-                {/* <li>
-                  <a
-                    href="#"
-                    className="hover:text-primary"
-                  >
-                    Privacy Policy
-                  </a>
-                </li> */}
-                <li>
-                  <a
-                    href="/contact"
-                    className="hover:text-primary"
-                  >
-                    Support
-                  </a>
-                </li>
-              </ul>
-            </motion.div>
+              <span className="sr-only">Facebook</span>
+              <svg
+                className="h-6 w-6"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </Link> */}
 
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: -20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="animate_top"
+            <Link
+              href={siteConfig.links.instagram}
+              className="hover:text-primary"
             >
-              <p>&copy; 2023 SnipTube. All rights reserved</p>
-            </motion.div>
+              <span className="sr-only">Instagram</span>
+              <svg
+                className="h-6 w-6"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </Link>
 
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: -20,
-                },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="animate_top"
+            {/* <Link
+              className="hover:text-primary"
+              href={}
             >
-              <ul className="flex items-center gap-5">
-                {/* <li>
-                  <a href="#">
-                    <svg
-                      className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
+              <span className="sr-only">Twitter</span>
+              <svg
+                className="h-6 w-6"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+              </svg>
+            </Link> */}
+
+            <Link
+              className="hover:text-primary"
+              href={siteConfig.links.github}
+            >
+              <span className="sr-only">GitHub</span>
+              <svg
+                className="h-6 w-6"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </Link>
+
+            <Link
+              className="hover:text-primary"
+              href={siteConfig.links.youtube}
+            >
+              <span className="sr-only">YouTube</span>
+              <svg
+                className="h-6 w-6"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </Link>
+            <Link
+              className="hover:text-primary"
+              href={siteConfig.links.linkedin}
+            >
+              <svg
+                className=""
+                fill="currentColor"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                // fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clipPath="url(#clip0_48_1505)">
+                  <path
+                    d="M6.94 5.00002C6.93974 5.53046 6.72877 6.03906 6.35351 6.41394C5.97825 6.78883 5.46944 6.99929 4.939 6.99902C4.40857 6.99876 3.89997 6.78779 3.52508 6.41253C3.1502 6.03727 2.93974 5.52846 2.94 4.99802C2.94027 4.46759 3.15124 3.95899 3.5265 3.5841C3.90176 3.20922 4.41057 2.99876 4.941 2.99902C5.47144 2.99929 5.98004 3.21026 6.35492 3.58552C6.72981 3.96078 6.94027 4.46959 6.94 5.00002ZM7 8.48002H3V21H7V8.48002ZM13.32 8.48002H9.34V21H13.28V14.43C13.28 10.77 18.05 10.43 18.05 14.43V21H22V13.07C22 6.90002 14.94 7.13002 13.28 10.16L13.32 8.48002Z"
+                    // fill=""
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_48_1505">
+                    <rect
                       width="24"
                       height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_48_1499)">
-                        <path
-                          d="M14 13.5H16.5L17.5 9.5H14V7.5C14 6.47 14 5.5 16 5.5H17.5V2.14C17.174 2.097 15.943 2 14.643 2C11.928 2 10 3.657 10 6.7V9.5H7V13.5H10V22H14V13.5Z"
-                          fill=""
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_48_1499">
-                          <rect
-                            width="24"
-                            height="24"
-                            fill="white"
-                          />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </a>
-                </li> */}
-                {/* <li>
-                  <a href="#">
-                    <svg
-                      className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_48_1502)">
-                        <path
-                          d="M22.162 5.65593C21.3985 5.99362 20.589 6.2154 19.76 6.31393C20.6337 5.79136 21.2877 4.96894 21.6 3.99993C20.78 4.48793 19.881 4.82993 18.944 5.01493C18.3146 4.34151 17.4803 3.89489 16.5709 3.74451C15.6615 3.59413 14.7279 3.74842 13.9153 4.18338C13.1026 4.61834 12.4564 5.30961 12.0771 6.14972C11.6978 6.98983 11.6067 7.93171 11.818 8.82893C10.1551 8.74558 8.52832 8.31345 7.04328 7.56059C5.55823 6.80773 4.24812 5.75098 3.19799 4.45893C2.82628 5.09738 2.63095 5.82315 2.63199 6.56193C2.63199 8.01193 3.36999 9.29293 4.49199 10.0429C3.828 10.022 3.17862 9.84271 2.59799 9.51993V9.57193C2.59819 10.5376 2.93236 11.4735 3.54384 12.221C4.15532 12.9684 5.00647 13.4814 5.95299 13.6729C5.33661 13.84 4.6903 13.8646 4.06299 13.7449C4.32986 14.5762 4.85 15.3031 5.55058 15.824C6.25117 16.345 7.09712 16.6337 7.96999 16.6499C7.10247 17.3313 6.10917 17.8349 5.04687 18.1321C3.98458 18.4293 2.87412 18.5142 1.77899 18.3819C3.69069 19.6114 5.91609 20.2641 8.18899 20.2619C15.882 20.2619 20.089 13.8889 20.089 8.36193C20.089 8.18193 20.084 7.99993 20.076 7.82193C20.8949 7.2301 21.6016 6.49695 22.163 5.65693L22.162 5.65593Z"
-                          fill=""
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_48_1502">
-                          <rect
-                            width="24"
-                            height="24"
-                            fill="white"
-                          />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </a>
-                </li> */}
-                <li>
-                  <a href={siteConfig.links.linkedin}>
-                    <svg
-                      className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_48_1505)">
-                        <path
-                          d="M6.94 5.00002C6.93974 5.53046 6.72877 6.03906 6.35351 6.41394C5.97825 6.78883 5.46944 6.99929 4.939 6.99902C4.40857 6.99876 3.89997 6.78779 3.52508 6.41253C3.1502 6.03727 2.93974 5.52846 2.94 4.99802C2.94027 4.46759 3.15124 3.95899 3.5265 3.5841C3.90176 3.20922 4.41057 2.99876 4.941 2.99902C5.47144 2.99929 5.98004 3.21026 6.35492 3.58552C6.72981 3.96078 6.94027 4.46959 6.94 5.00002ZM7 8.48002H3V21H7V8.48002ZM13.32 8.48002H9.34V21H13.28V14.43C13.28 10.77 18.05 10.43 18.05 14.43V21H22V13.07C22 6.90002 14.94 7.13002 13.28 10.16L13.32 8.48002Z"
-                          fill=""
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_48_1505">
-                          <rect
-                            width="24"
-                            height="24"
-                            fill="white"
-                          />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </a>
-                </li>
-                {/* <li>
-                  <a href="#">
-                    <svg
-                      className="fill-[#D1D8E0] hover:fill-primary transition-all duration-300"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_48_1508)">
-                        <path d="M7.443 5.3501C8.082 5.3501 8.673 5.4001 9.213 5.5481C9.70301 5.63814 10.1708 5.82293 10.59 6.0921C10.984 6.3391 11.279 6.6861 11.475 7.1311C11.672 7.5761 11.77 8.1211 11.77 8.7141C11.77 9.4071 11.623 10.0001 11.279 10.4451C10.984 10.8911 10.492 11.2861 9.902 11.5831C10.738 11.8311 11.377 12.2761 11.77 12.8691C12.164 13.4631 12.41 14.2051 12.41 15.0461C12.41 15.7391 12.262 16.3321 12.016 16.8271C11.77 17.3221 11.377 17.7671 10.934 18.0641C10.4528 18.3825 9.92084 18.6165 9.361 18.7561C8.771 18.9051 8.181 19.0041 7.591 19.0041H1V5.3501H7.443ZM7.049 10.8901C7.59 10.8901 8.033 10.7421 8.377 10.4951C8.721 10.2481 8.869 9.8021 8.869 9.2581C8.869 8.9611 8.819 8.6641 8.721 8.4671C8.623 8.2691 8.475 8.1201 8.279 7.9721C8.082 7.8731 7.885 7.7741 7.639 7.7251C7.393 7.6751 7.148 7.6751 6.852 7.6751H4V10.8911H7.05L7.049 10.8901ZM7.197 16.7281C7.492 16.7281 7.787 16.6781 8.033 16.6291C8.28138 16.5819 8.51628 16.4805 8.721 16.3321C8.92139 16.1873 9.08903 16.002 9.213 15.7881C9.311 15.5411 9.41 15.2441 9.41 14.8981C9.41 14.2051 9.213 13.7101 8.82 13.3641C8.426 13.0671 7.885 12.9191 7.246 12.9191H4V16.7291H7.197V16.7281ZM16.689 16.6781C17.082 17.0741 17.672 17.2721 18.459 17.2721C19 17.2721 19.492 17.1241 19.885 16.8771C20.279 16.5801 20.525 16.2831 20.623 15.9861H23.033C22.639 17.1731 22.049 18.0141 21.263 18.5581C20.475 19.0531 19.541 19.3501 18.41 19.3501C17.6864 19.3523 16.9688 19.2179 16.295 18.9541C15.6887 18.7266 15.148 18.3529 14.721 17.8661C14.2643 17.4107 13.9267 16.8498 13.738 16.2331C13.492 15.5901 13.393 14.8981 13.393 14.1061C13.393 13.3641 13.492 12.6721 13.738 12.0281C13.9745 11.4082 14.3245 10.8378 14.77 10.3461C15.213 9.9011 15.754 9.5061 16.344 9.2581C17.0007 8.99416 17.7022 8.85969 18.41 8.8621C19.246 8.8621 19.984 9.0111 20.623 9.3571C21.263 9.7031 21.754 10.0991 22.148 10.6931C22.5499 11.2636 22.8494 11.8998 23.033 12.5731C23.131 13.2651 23.18 13.9581 23.131 14.7491H16C16 15.5411 16.295 16.2831 16.689 16.6791V16.6781ZM19.787 11.4841C19.443 11.1381 18.902 10.9401 18.262 10.9401C17.82 10.9401 17.475 11.0391 17.18 11.1871C16.885 11.3361 16.689 11.5341 16.492 11.7321C16.311 11.9234 16.1912 12.1643 16.148 12.4241C16.098 12.6721 16.049 12.8691 16.049 13.0671H20.475C20.377 12.3251 20.131 11.8311 19.787 11.4841V11.4841ZM15.459 6.2901H20.967V7.6261H15.46V6.2901H15.459Z" />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_48_1508">
-                          <rect
-                            width="24"
-                            height="24"
-                            fill="white"
-                          />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </a>
-                </li> */}
-              </ul>
-            </motion.div>
-          </div>
-          {/* <!-- Footer Bottom --> */}
+                      fill="currentColor"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            </Link>
+          </motion.div>
+          <motion.div
+            variants={{
+              hidden: {
+                opacity: 0,
+                y: -20,
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+              },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            transition={{ duration: 1, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="animate_top"
+          >
+            <p className="mt-10 text-center text-xs leading-5 text-text/90">
+              &copy; 2023 SnipTube. All rights reserved.
+            </p>
+          </motion.div>
         </div>
       </footer>
-    </>
   );
 };
 

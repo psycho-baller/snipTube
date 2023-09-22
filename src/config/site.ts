@@ -12,5 +12,8 @@ export const siteConfig: SiteConfig = {
     chrome: "https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk",
     kofi: "https://ko-fi.com/ramimaalouf",
     linkedin: "https://www.linkedin.com/in/rami--maalouf/",
+    youtube: "https://youtube.com/@ramimaalouf",
+    instagram: "https://www.instagram.com/psycho.baller/",
+    portfolio: "https://ramimaalouf.tech",
   },
 };

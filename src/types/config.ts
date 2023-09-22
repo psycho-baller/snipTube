@@ -10,6 +10,9 @@ export type SiteConfig = {
     github: string;
     kofi: string;
     linkedin: string;
+    youtube: string;
+    instagram: string;
+    portfolio: string;
   };
 };
 
