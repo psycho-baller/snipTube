@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, type FC } from "react";
 import SnipBtn from "./SnipBtn";
 import { useSnipsStore } from "~lib/store";
 import { getSnips } from "~lib/storage";
+import SectionHeader from "~components/Common/SectionHeader";
 // import "./styles.module.css";
 
 const Demo: FC = () => {
@@ -164,6 +165,16 @@ const Demo: FC = () => {
     <>
       {/* <!-- ===== Demo Start ===== --> */}
       <section className="py-20 lg:py-25 xl:py-30 px-4 md:px-8 2xl:px-0 overflow-hidden">
+        {/* <!-- Section Title Start --> */}
+        <SectionHeader
+          className="pb-12.5 lg:pb-15 xl:pb-20"
+          headerInfo={{
+            title: "DEMO",
+            subtitle: "SnipTube in Action",
+            description: "Give SnipTube a try and see how it can help you!",
+          }}
+        />
+        {/* <!-- Section Title End --> */}
         <div
           ref={videoContainerRef}
           className={`video-container ${isPaused ? "paused" : ""} ${isFullScreen ? "full-screen" : ""} ${
@@ -179,19 +190,21 @@ const Demo: FC = () => {
             >
               <div className="timeline">
                 {snips.map((snip) => {
-                  const startPercent = (snip.startTimestamp / videoRef.current?.duration * 100);
-                  const endPercent = (snip.endTimestamp / videoRef.current?.duration * 100);
+                  const startPercent = (snip.startTimestamp / videoRef.current?.duration) * 100;
+                  const endPercent = (snip.endTimestamp / videoRef.current?.duration) * 100;
                   return (
-                  <div className="absolute h-full bg-meta transition-transform ease-in-out duration-150 transform z-40" key={snip.id}
-                  style={{
-                    left: `${startPercent}%`,
-                    width: `${endPercent - startPercent}%`
-                  }}
-                  />
-                  )
+                    <div
+                      className="absolute h-full bg-meta transition-transform ease-in-out duration-150 transform z-40"
+                      key={snip.id}
+                      style={{
+                        left: `${startPercent}%`,
+                        width: `${endPercent - startPercent}%`,
+                      }}
+                    />
+                  );
                 })}
                 <img className="preview-img" />
-                <div className="thumb-indicator z-50"/>
+                <div className="thumb-indicator z-50" />
               </div>
             </div>
             <div className="controls">
@@ -262,7 +275,10 @@ const Demo: FC = () => {
                 <div className="current-time">{getTimeFromSeconds(currentTime)}</div>/
                 <div className="total-time">{getTimeFromSeconds(totalTime)}</div>
               </div>
-              <SnipBtn videoRef={videoRef} className="w-8"/>
+              <SnipBtn
+                videoRef={videoRef}
+                className="w-8"
+              />
               <button className="captions-btn">
                 <svg viewBox="0 0 24 24">
                   <path

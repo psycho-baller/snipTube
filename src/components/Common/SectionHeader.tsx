@@ -1,14 +1,20 @@
 "use client";
-import React from "react";
+import { type ComponentPropsWithoutRef, type FC } from "react";
 import { motion } from "framer-motion";
+import { title } from "process";
+import { cn } from "~lib/utils";
 
 type HeaderInfo = {
   title?: string;
   subtitle: string;
   description: string;
 };
+interface Props extends ComponentPropsWithoutRef<"div"> {
+  headerInfo: HeaderInfo;
+}
 
-const SectionHeader = ({ headerInfo }: { headerInfo: HeaderInfo }) => {
+const SectionHeader: FC<Props> = (props) => {
+  const { className, headerInfo } = props;
   const { title, subtitle, description } = headerInfo;
 
   return (
@@ -30,7 +36,7 @@ const SectionHeader = ({ headerInfo }: { headerInfo: HeaderInfo }) => {
         whileInView="visible"
         transition={{ duration: 1, delay: 0.1 }}
         viewport={{ once: true }}
-        className="animate_top text-center mx-auto"
+        className={cn("animate_top text-center mx-auto", className)}
       >
         {title && (
           <div className="bg-zumthor dark:bg-blacksection dark:border dark:border-strokedark inline-block rounded-full py-1.5 px-4.5 mb-4">
