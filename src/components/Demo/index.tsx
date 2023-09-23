@@ -189,19 +189,34 @@ const Demo: FC = () => {
               className="timeline-container"
               ref={timelineContainerRef}
             >
-              <div className="timeline overflow-hidden">
+              <div className="timeline">
                 {snips.map((snip) => {
                   const startPercent = (snip.startTimestamp / videoRef.current?.duration) * 100;
                   const endPercent = (snip.endTimestamp / videoRef.current?.duration) * 100;
                   return (
+                    <>
                     <div
-                      className="absolute h-full bg-meta transition-transform ease-in-out duration-150 transform z-40"
+                      className="absolute h-full bg-primary transition-transform ease-in-out duration-150 transform z-40"
                       key={snip.id}
                       style={{
-                        left: `${startPercent}%`,
-                        width: `${endPercent - startPercent}%`,
+                        left: Math.max(startPercent, 0) + "%",
+                        width: endPercent - Math.max(startPercent, 0) + "%",
                       }}
                     />
+                    {/* add illustration to tell user of the outcome of creating the snip */}
+                    <div
+                      // initial={{ opacity: 0 }}
+                      // animate={{ opacity: 1 }}
+                      // exit={{ opacity: 0 }}
+                      className="absolute top-10 transform w-36 z-40 font-sketch text-white"
+                      style={{
+                        left: Math.max(startPercent, 0) + "%",
+                        width: Math.max(endPercent - Math.max(startPercent, 0), 10) + "%",
+                      }}
+                    >
+                      This snip will be taken to our powerful AI to summarize it then will be stored for you to visit whenever it suits you
+                    </div>
+                    </>
                   );
                 })}
                 <img className="preview-img" />

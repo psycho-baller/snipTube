@@ -21,6 +21,7 @@ module.exports = {
     fontFamily: {
       sans: ["var(--font-sans)", ...fontFamily.sans],
       heading: ["var(--font-heading)", ...fontFamily.sans],
+      sketch: ["var(--font-sketch)", ...fontFamily.sans],
     },
     colors: {
       current: "currentColor",

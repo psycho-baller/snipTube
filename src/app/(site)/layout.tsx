@@ -21,6 +21,10 @@ const fontHeading = localFont({
   src: "../../../public/fonts/CalSans-SemiBold.woff2",
   variable: "--font-heading",
 })
+const fontSketch = localFont({
+  src: "../../../public/fonts/One Little Font Regular.otf",
+  variable: "--font-sketch",
+})
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +33,9 @@ export const metadata: Metadata = {
 },
   description: siteConfig.description,
   keywords: [
+    "Chrome Extension",
+    "Browser Extension",
+    "Extensions",
     "SnipTube",
     "AI",
     "Artificial Intelligence",
@@ -77,7 +84,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="eng">
-      <body className={`${fontSans.variable} ${fontHeading.variable}`}>
+      <body className={`${fontSans.variable} ${fontHeading.variable} ${fontSketch.variable}`}>
         <ThemeProvider
           enableSystem={false}
           attribute="class"

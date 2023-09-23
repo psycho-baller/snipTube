@@ -72,15 +72,19 @@ const SnipBtn: FC<Props> = (props) => {
           />
         </svg>
       </button>
+      {/* add floatingillustration above button */}
+      <div className="absolute top-0 transform w-24 -z-1">
+        
+      </div>
       {/* add floating illustrations below button */}
-      {/* <div className="absolute top-full transform left-1/2 -translate-x-1/2 w-24">
+      <div className="absolute top-full transform w-24 -z-1">
         <ArrowSvg
           width={size}
           height={size}
-          transform="scale(-10, 10) translate(-5, 0.5) rotate(-45)"
+          transform="scale(10) translate(15,0.5)"
+          className="dark:text-white text-black"
         />
-        create your first snip!
-      </div> */}
+      </div>
     </div>
   );
 };
