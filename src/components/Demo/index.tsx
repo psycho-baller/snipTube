@@ -24,7 +24,6 @@ const Demo: FC = () => {
   const videoContainerRef = useRef<HTMLDivElement>(null);
 
   const snips = useSnipsStore((state) => state.snips);
-  const setSnips = useSnipsStore((state) => state.setSnips);
 
   const getTimeFromSeconds = (seconds: number) => {
     const numMinutes = Math.floor(seconds / 60);
@@ -125,8 +124,7 @@ const Demo: FC = () => {
     function handleTimelineUpdate(e: MouseEvent) {
       const rect = timelineContainer.getBoundingClientRect();
       const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
-      const previewImgNumber = Math.max(1, Math.floor((percent * videoElement.duration) / 10));
-      const previewImgSrc = `demo-yt/previewImgs/preview${previewImgNumber}.jpg`;
+      const previewImgSrc = "demo-yt/preview.png";
       previewImg.src = previewImgSrc;
       timelineContainer.style.setProperty("--preview-position", percent.toString());
 
@@ -164,7 +162,10 @@ const Demo: FC = () => {
   return (
     <>
       {/* <!-- ===== Demo Start ===== --> */}
-      <section className="py-20 lg:py-25 xl:py-30 px-4 md:px-8 2xl:px-0 overflow-hidden">
+      <section
+        id="demo"
+        className="py-20 lg:py-25 xl:py-30 px-4 md:px-8 2xl:px-0 overflow-hidden"
+      >
         {/* <!-- Section Title Start --> */}
         <SectionHeader
           className="pb-12.5 lg:pb-15 xl:pb-20"
@@ -277,7 +278,7 @@ const Demo: FC = () => {
               </div>
               <SnipBtn
                 videoRef={videoRef}
-                className="w-8"
+                className=""
               />
               <button className="captions-btn">
                 <svg viewBox="0 0 24 24">
@@ -340,7 +341,7 @@ const Demo: FC = () => {
           </div>
           <video
             ref={videoRef}
-            src="demo-yt/Video.mp4"
+            src="demo-yt/demo-video.webm"
           >
             <track
               kind="captions"

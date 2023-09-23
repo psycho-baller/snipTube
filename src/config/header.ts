@@ -13,6 +13,12 @@ export const headerRoutes: Header[] = [
     newTab: false,
     path: "/#features",
   },
+  {
+    id: 3,
+    title: "Demo",
+    newTab: false,
+    path: "/#demo",
+  },
   // {
   //   id: 2.1,
   //   title: "Blog",
