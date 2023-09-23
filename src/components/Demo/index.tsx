@@ -189,7 +189,7 @@ const Demo: FC = () => {
               className="timeline-container"
               ref={timelineContainerRef}
             >
-              <div className="timeline">
+              <div className="timeline overflow-hidden">
                 {snips.map((snip) => {
                   const startPercent = (snip.startTimestamp / videoRef.current?.duration) * 100;
                   const endPercent = (snip.endTimestamp / videoRef.current?.duration) * 100;
