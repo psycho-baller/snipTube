@@ -23,6 +23,16 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/chrome',
+        destination: 'https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk',
+        permanent: false,
+        basePath: false
+      },
+    ]
+  },
   async headers() {
     return [
       {
