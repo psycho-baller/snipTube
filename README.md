@@ -11,7 +11,7 @@
 
 ## What is SnipTube?
 
-Are you tired of trying to remember the best moments in those lengthy YouTube videos? Look no further! SnipTube empowers you to effortlessly highlight, tag, and annotate the most captivating parts of your favorite YouTube videos (we call these snips). Plus, with the magic of AI, it generates summaries for each snip, making it a breeze to revisit. Let's take a closer look at what SnipTube has to offer:
+Are you tired of trying to remember the best moments in those lengthy YouTube videos? Look no further! SnipTube empowers you to effortlessly highlight, tag, annotate, and export the most captivating parts of your favorite YouTube videos (we call these snips). Plus, with the magic of AI, it generates summaries for these snips, making it a breeze to revisit. Let's take a closer look at what SnipTube has to offer:
 
 ### Features
 
