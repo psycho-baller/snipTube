@@ -52,6 +52,10 @@
   h1, h2, h3, h4, h5, h6 {
     @apply text-black text-heading font-heading dark:text-white;
   }
+
+  p {
+    @apply text-black text-regular dark:text-white;
+  }
 }
 
 @layer components {

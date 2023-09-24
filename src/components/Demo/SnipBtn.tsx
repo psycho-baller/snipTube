@@ -81,7 +81,7 @@ const SnipBtn: FC<Props> = (props) => {
         <ArrowSvg
           width={size}
           height={size}
-          transform="scale(10) translate(15,0.5)"
+          transform="scale(10) translate(15,1)"
           className="dark:text-white text-black"
         />
       </div>

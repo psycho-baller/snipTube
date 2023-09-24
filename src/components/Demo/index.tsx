@@ -204,18 +204,18 @@ const Demo: FC = () => {
                       }}
                     />
                     {/* add illustration to tell user of the outcome of creating the snip */}
-                    <div
+                    <p
                       // initial={{ opacity: 0 }}
                       // animate={{ opacity: 1 }}
                       // exit={{ opacity: 0 }}
-                      className="absolute top-10 transform w-36 z-40 font-sketch text-white"
+                      className="absolute top-10 transform z-40 font-sketch text-2xl text-center"
                       style={{
                         left: Math.max(startPercent, 0) + "%",
                         width: Math.max(endPercent - Math.max(startPercent, 0), 10) + "%",
                       }}
                     >
                       This snip will be taken to our powerful AI to summarize it then will be stored for you to visit whenever it suits you
-                    </div>
+                    </p>
                     </>
                   );
                 })}
