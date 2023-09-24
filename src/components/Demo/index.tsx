@@ -15,7 +15,7 @@ const Demo: FC = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isTheaterMode, setIsTheaterMode] = useState(false);
   const [isMiniPlayer, setIsMiniPlayer] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(30);
   const [totalTime, setTotalTime] = useState(0);
   const [captionsVisible, setCaptionsVisible] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
@@ -74,6 +74,7 @@ const Demo: FC = () => {
     // getSnips().then((allSnips) => setSnips(allSnips));
 
     const videoElement = videoRef.current;
+    videoElement.currentTime = currentTime;
     const timelineContainer = timelineContainerRef.current;
     const videoContainer = videoContainerRef.current;
     const previewImg = document.querySelector(".preview-img") as HTMLImageElement;
