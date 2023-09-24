@@ -1,7 +1,8 @@
-import { type MouseEvent, type FC } from "react";
+import { type MouseEvent, type FC, useState } from "react";
 import { useSnipsStore } from "~lib/store";
 import { cn } from "~lib/utils";
 import ArrowSvg from "./ArrowSvg";
+import { motion } from 'framer-motion';
 
 interface Props extends React.ComponentPropsWithoutRef<"div"> {
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -14,14 +15,25 @@ const SnipBtn: FC<Props> = (props) => {
   const snips = useSnipsStore((state) => state.snips);
   const addSnipStore = useSnipsStore((state) => state.addSnip);
 
+  const [userCreatedSnip, setUserCreatedSnip] = useState(false);
+  const [showBoom, setShowBoom] = useState(false);
+
   // useMemo(() => {
   // place snips in the store into the video p
 
   function addSnip(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-
     const video = videoRef.current;
     if (!video) return;
+
+    if (!userCreatedSnip) {
+      // show boom for 1 second
+      setShowBoom(true);
+      setTimeout(() => {
+        setShowBoom(false);
+      }, 1000);
+    }
+    setUserCreatedSnip(true);
     const currentTime = ~~video.currentTime;
     const videoId = snips.length.toString();
     addSnipStore({
@@ -73,18 +85,41 @@ const SnipBtn: FC<Props> = (props) => {
         </svg>
       </button>
       {/* add floatingillustration above button */}
-      <div className="absolute top-0 transform w-24 -z-1">
-        
-      </div>
+      <motion.div
+            initial={{ scale: 0, rotate: 30 }}
+            animate={{ scale: showBoom ? 1 : 0 }}
+            exit={{ scale: 0 }}
+
+            transition={{ duration: 0.05,  }}
+      className="absolute -top-14 transform uppercase text-4xl font-sketch">
+        boom!
+      </motion.div>
       {/* add floating illustrations below button */}
-      <div className="absolute top-full transform w-24 -z-1">
+      <motion.div
+      variants={{
+        hidden: {
+          opacity: 0,
+          y: 10,
+        },
+
+        visible: {
+          opacity: 1,
+          y: 0,
+        },
+      }}
+      initial="hidden"
+      whileInView="visible"
+      // initial={{ opacity: 0 }}
+      animate={{ opacity: userCreatedSnip ? 0 : 1 }}
+      transition={{ duration: 1, delay: 0.1 }}
+      className="absolute top-full transform -z-1">
         <ArrowSvg
           width={size}
           height={size}
           transform="scale(10) translate(15,1)"
           className="dark:text-white text-black"
         />
-      </div>
+      </motion.div>
     </div>
   );
 };
