@@ -54,7 +54,7 @@
   }
 
   p {
-    @apply text-black text-regular dark:text-white;
+    @apply text-black text-regular dark:text-white font-sans;
   }
 }
 

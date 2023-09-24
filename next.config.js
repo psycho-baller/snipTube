@@ -5,10 +5,11 @@ const nextConfig = {
     domains: ["localhost"],
     remotePatterns: [
       {
+        // https://icons8.com/icon/z3YMXqHDYl9X/brain
         protocol: "https",
-        hostname: "cdn.sanity.io",
+        hostname: "img.icons8.com",
         port: "",
-      },
+      }
     ],
   },
   rewrites: async () => {
