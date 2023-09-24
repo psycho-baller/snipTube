@@ -15,7 +15,7 @@ const Demo: FC = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isTheaterMode, setIsTheaterMode] = useState(false);
   const [isMiniPlayer, setIsMiniPlayer] = useState(false);
-  const [currentTime, setCurrentTime] = useState(30);
+  const [currentTime, setCurrentTime] = useState(36);
   const [totalTime, setTotalTime] = useState(0);
   const [captionsVisible, setCaptionsVisible] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
