@@ -32,7 +32,7 @@ app = FastAPI(docs_url="/api/llm/docs", redoc_url="/api/llm/redoc", openapi_url=
 origins = [
     "https://www.youtube.com",
     "http://localhost:3000",
-    "https://sniptube.vercel.app",
+    "https://sniptube.tech",
     "chrome-extension://fidajdajcfpjlbmgmpbcobkofibhkimk",
 ]
 

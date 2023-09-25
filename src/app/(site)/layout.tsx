@@ -11,6 +11,7 @@ import { siteConfig } from "~config/site";
 import { TailwindIndicator } from "~components/TailwindIndicator";
 // import ToasterContext from "../context/ToastContext";
 import "../globals.css";
+import Script from "next/script";
 
 
 const fontSans = Inter({
@@ -84,10 +85,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="eng">
-      <head>
-      <script async src="https://analytics.umami.is/script.js" data-website-id="3e1a11da-09f4-444a-be40-3e8034f770a0"
-></script>
-      </head>
+      <Script async src="https://analytics.umami.is/script.js" data-website-id="3e1a11da-09f4-444a-be40-3e8034f770a0"/>
       <body className={`${fontSans.variable} ${fontHeading.variable} ${fontSketch.variable}`}>
         <ThemeProvider
           enableSystem={false}
