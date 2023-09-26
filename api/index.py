@@ -32,8 +32,7 @@ app = FastAPI(docs_url="/api/llm/docs", redoc_url="/api/llm/redoc", openapi_url=
 origins = [
     "https://www.youtube.com",
     "http://localhost:3000",
-    "https://sniptube.tech",
-    "chrome-extension://fidajdajcfpjlbmgmpbcobkofibhkimk",
+    "https://www.sniptube.tech",
 ]
 
 app.add_middleware(
@@ -53,6 +52,8 @@ async def summarizeSnip(item: SummarizeSnip):
     # set up model
     # llm = GPT4All(model=model_path, temp=0.1)
     # llm = Cohere(model="summarize-xlarge", cohere_api_key=COHERE_API_KEY, temperature=0.1)
+    # OpenAI(temperature=0.6) if not dev else 
+    llm = OpenAI(temperature=0.6) if not dev else HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
     
     if item.encoded:
         # decode from base64
@@ -63,9 +64,6 @@ async def summarizeSnip(item: SummarizeSnip):
         title = item.title
         text = item.transcript
         summary = item.summary if item.summary else None
-    # OpenAI(temperature=0.6) if not dev else 
-    llm = OpenAI(temperature=0.6) if not dev else HuggingFaceHub(repo_id="tiiuae/falcon-7b-instruct", model_kwargs={"temperature": 0.6, 'max_new_tokens': 1000 })
-    print("llm", llm)
     PROMPT_SNIP_SUMMARY = PromptTemplate(template=snip_summary_template.format(title=title, text='{text}'), input_variables=["text"])
     # TODO: refine chain? https://python.langchain.com/docs/modules/chains/popular/summarize#the-refine-chain
     chain = load_summarize_chain(llm, chain_type="stuff", verbose=True, prompt=PROMPT_SNIP_SUMMARY)

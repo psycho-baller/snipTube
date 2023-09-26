@@ -41,6 +41,7 @@ type contentScriptActions = {
   setCancelSnipRequest: (cancelSnipRequest: boolean) => void;
 };
 
+//TODO: if you wanna persist storage with store - https://docs.pmnd.rs/zustand/integrations/persisting-store-data#how-can-i-use-a-custom-storage-engine
 export const useSnipsStore = create<State & Actions>((set, get) => ({
   snips: [],
   sortBy: "Newest",

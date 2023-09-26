@@ -1,5 +1,5 @@
 export const URL =
-  process.env.NODE_ENV === "production" ? `https://sniptube.tech/api` : "http://localhost:3000/api";
+  process.env.NODE_ENV === "production" ? `https://www.sniptube.tech/api` : "http://localhost:3000/api";
 
 export const sortByOptions = ["Newest", "Oldest", "Timestamp", "Reverse timestamp", "A-Z", "Z-A"] as const;
 

@@ -10,23 +10,23 @@
 // });
 export {};
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  // console.log("background running", "3");
+  console.log("background running", "3");
   if (changeInfo.status === "complete" && tab.active) {
-    // console.log("background running", "4");
+    console.log("background running", "4");
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
-    // console.log("background running", "5");
+    console.log("background running", "5");
+    console.log("activeTab", activeTab);
     if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
-      // console.log("background running", "6");
+      console.log("background running", "6");
 
-      // console.log("tabId", tabId);
+      console.log("tabId", tabId);
       const queryParameters = activeTab.url.split("?")[1];
       const urlParameters = new URLSearchParams(queryParameters);
       const vidId = urlParameters.get("v");
       console.log("vidId", vidId);
 
       chrome.tabs.sendMessage(activeTab.id, {
-        // new
         type: "NEW",
         vidId,
       });
@@ -36,16 +36,17 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   }
 });
 
-//
+/**
+ * This listener is triggered when the user is switching between tabs.
+ */
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
-  // console.log("background running onActivated", activeInfo.tabId);
 
   // Retrieve information about the newly activated tab
   const activeTab = await chrome.tabs.get(activeInfo.tabId);
 
   // Your existing code for checking the URL and sending messages
   if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
-    // console.log("background running onActivated", "youtube tab activated");
+    console.log("background running onActivated", activeTab.url);
 
     const queryParameters = activeTab.url.split("?")[1];
     const urlParameters = new URLSearchParams(queryParameters);
@@ -59,14 +60,15 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
 });
 
 // chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
+//   console.log("webNavigation running", details);
 //   if (details.url && details.url.includes("youtube.com/watch")) {
+//     console.log("webNavigation running", "youtube tab activated");
 //     const queryParameters = details.url.split("?")[1];
 //     const urlParameters = new URLSearchParams(queryParameters);
 //     const vidId = urlParameters.get("v");
 //     console.log("vidId", vidId);
 
 //     chrome.tabs.sendMessage(details.tabId, {
-//       // new
 //       type: "NEW",
 //       vidId,
 //     });

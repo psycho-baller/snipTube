@@ -14,6 +14,7 @@ const Popup: FC<Props> = () => {
   //   chrome.action.setBadgeText({ text: count.toString() });
   // }, [count]);
 
+  // TODO: this does not run when the popup is first opened, gotta find an alternative way to do this
   useEffect(() => {
     // get the current video id
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
