@@ -85,7 +85,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="eng">
+      <head/>
       <Script async src="https://analytics.umami.is/script.js" data-website-id="3e1a11da-09f4-444a-be40-3e8034f770a0"/>
+      {/* </head> */}
       <body className={`${fontSans.variable} ${fontHeading.variable} ${fontSketch.variable}`}>
         <ThemeProvider
           enableSystem={false}
