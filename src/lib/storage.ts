@@ -43,7 +43,7 @@ export const setDefaultSnipLength = async (length: number) => {
 };
 
 export const getDefaultSnipLength = async () => {
-  const defaultSnipLength: number = await storage.get("defaultSnipLength");
+  const defaultSnipLength: number = await storage.get("defaultSnipLength") || await setDefaultSnipLength(30);
   return defaultSnipLength;
 };
 
@@ -62,7 +62,7 @@ export const setPauseVideoOnNewSnip = async (pause: boolean) => {
 };
 
 export const getPauseVideoOnNewSnip = async () => {
-  const pauseVideoOnNewSnip: boolean = await storage.get("pauseVideoOnNewSnip");
+  const pauseVideoOnNewSnip: boolean = await storage.get("pauseVideoOnNewSnip") || await setPauseVideoOnNewSnip(true);
   return pauseVideoOnNewSnip;
 };
 
@@ -72,7 +72,7 @@ export const setUseKeyboardShortcut = async (use: boolean) => {
 };
 
 export const getUseKeyboardShortcut = async () => {
-  const useKeyboardShortcut: boolean = await storage.get("useKeyboardShortcut");
+  const useKeyboardShortcut: boolean = await storage.get("useKeyboardShortcut") || await setUseKeyboardShortcut(true);
   return useKeyboardShortcut;
 };
 
