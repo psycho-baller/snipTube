@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { siteConfig } from 'src/config/site';
 import SectionHeader from "~components/Common/SectionHeader";
 import { motion } from 'framer-motion';
+import AnimateOnView from '~components/shared/AnimateOnView';
 
 interface Props {
 
@@ -52,22 +53,7 @@ const openSource: FC<Props> = async (props) => {
             description: "",
           }}
         />
-        {/* <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">Proudly Open Source</h2> */}
-        <motion.p
-                    variants={{
-                      hidden: {
-                        opacity: 0,
-                        y: -20,
-                      },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                      },
-                    }}
-                    initial="hidden"
-                    whileInView="visible"
-                    transition={{ duration: 1, delay: 0.1 }}
-                    viewport={{ once: true }}
+        <AnimateOnView 
         className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
           Creating and maintaining SnipTube has been a labor of love, and I'm thrilled to offer it as a free tool for
           everyone to enjoy. If you find SnipTube valuable and wish to support its development, consider{" "}
@@ -82,7 +68,7 @@ const openSource: FC<Props> = async (props) => {
           . Your contribution will directly contribute to making SnipTube even better and more feature-rich.
           Additionally, show your appreciation by starring the open-source repository on GitHub and feel free to
           contribute your ideas and skills to enhance SnipTube's functionality
-        </motion.p>
+        </AnimateOnView>
         {stars && (
           <Link
             href={siteConfig.links.github}
