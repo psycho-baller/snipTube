@@ -53,7 +53,8 @@ const openSource: FC<Props> = async (props) => {
             description: "",
           }}
         />
-        <AnimateOnView 
+        <AnimateOnView
+        as='p'
         className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
           Creating and maintaining SnipTube has been a labor of love, and I'm thrilled to offer it as a free tool for
           everyone to enjoy. If you find SnipTube valuable and wish to support its development, consider{" "}

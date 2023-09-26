@@ -1,17 +1,23 @@
 "use client";
 import { motion } from 'framer-motion';
-import { type ComponentPropsWithoutRef, type FC } from 'react';
+import { type ComponentPropsWithoutRef, type ElementType } from 'react';
 import { cn } from '~lib/utils';
 
-interface Props extends ComponentPropsWithoutRef<"div"> {
+export function AnimateOnView<T extends ElementType = 'div'>({
   // TODO: add things like framer motion props, direction, etc
-}
+  as,
+  className,
+  children,
+}: Omit<ComponentPropsWithoutRef<T>, 'as' | 'className'> & {
+  as?: T
+  className?: string
+}) {
+  let Component = as ?? 'div';
 
-const Component: FC<Props> = (props) => {
-const { children, className } = props;
+  const MotionComponent = motion(Component);
 
   return (
-    <motion.div
+    <MotionComponent
     variants={{
       hidden: {
         opacity: 0,
@@ -28,8 +34,8 @@ const { children, className } = props;
     viewport={{ once: true }}
     className={cn("animate_top", className)}>
       {children}
-    </motion.div>
+    </MotionComponent>
   );
 };
 
-export default Component;
+export default AnimateOnView;
