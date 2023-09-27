@@ -49,10 +49,11 @@ export const getDefaultSnipLength = async () => {
 
 export const setShowAddSnipDetailsFormOnNewSnip = async (show: boolean) => {
   await storage.set("showAddSnipDetailsFormOnNewSnip", show);
+  return show;
 };
 
 export const getShowOverlayOnNewSnip = async () => {
-  const showAddSnipDetailsFormOnNewSnip: boolean = await storage.get("showAddSnipDetailsFormOnNewSnip");
+  const showAddSnipDetailsFormOnNewSnip: boolean = await storage.get("showAddSnipDetailsFormOnNewSnip") || await setShowAddSnipDetailsFormOnNewSnip(true);
   return showAddSnipDetailsFormOnNewSnip;
 };
 
