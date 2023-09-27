@@ -15,11 +15,11 @@ const YtSnip: FC<Props> = (props) => {
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
   // no longer used (for now)
-  const [showNote, setShowNote] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(note);
 
   function updateData(note: string): void {
-    // setShowNote((prev) => !prev);
+    // setOpenModal((prev) => !prev);
     const newSnips = snips.map((s: Snip) => {
       if (s.id === id) {
         return { ...s, note: note };
@@ -55,7 +55,7 @@ const YtSnip: FC<Props> = (props) => {
           id={id}
         />
         <ActionButtons
-          setShowNote={setShowNote}
+          setOpenModal={setOpenModal}
           snip={snip}
         />
       </div>

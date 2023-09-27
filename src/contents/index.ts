@@ -243,7 +243,7 @@ async function addNewSnipEventHandler() {
 async function updateVideoSnips(snips?: Snip[]) {
   // console.log("videoId", videoId);
 
-  // videoIdSnips = await getSnips() as Snip[];
+  // TODO: Optimize
   previewBar = document.getElementById("snip-preview-bar") as HTMLUListElement | null;
   previewBar?.remove();
   previewBar = document.createElement("ul") as HTMLUListElement;

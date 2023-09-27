@@ -4,6 +4,7 @@ import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
 import { useAllSnipsStore, useSnipsStore } from "~lib/store";
 import DynamicTextarea from "src/shared/components/DynamicTextarea";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
 interface Props {
   snip: Snip;
@@ -13,14 +14,16 @@ const OutsideSnip: FC<Props> = (props) => {
   const { snip } = props;
   const { id, startTimestamp, endTimestamp, title, videoId, note = "" } = snip;
 
+  const [snipComponent, enableAnimations] = useAutoAnimate();
+
+
   const snips = useAllSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
-  // no longer used (for now)
-  const [showNote, setShowNote] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(note);
 
   function updateData(note: string): void {
-    // setShowNote((prev) => !prev);
+    // setShowDetails((prev) => !prev);
     let vidId: string;
     const newSnips = snips.map((s: Snip) => {
       if (s.id === id) {
@@ -39,15 +42,72 @@ const OutsideSnip: FC<Props> = (props) => {
   }
 
   return (
-    <li className="flex flex-col mb-4 bg-gray-800 rounded-xl group/snip">
+    <>
+    {/* add bg blur to everything except the modal */}
+    {/* {showDetails && (
+      <div className="blur fixed inset-0 z-50"/>
+      // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      //   <div className="relative z-50 w-[30rem] h-[20rem] bg-gray-800 rounded-xl">
+      //     <div className="absolute top-0 right-0 flex items-center justify-center w-8 h-8 bg-gray-700 rounded-full">
+      //       <button
+      //         className="w-4 h-4 text-white"
+      //         onClick={() => setShowDetails(false)}
+      //       >
+      //         <svg
+      //           className="w-full h-full"
+      //           viewBox="0 0 256 256"
+      //           xmlns="http://www.w3.org/2000/svg"
+      //         >
+      //           <rect
+      //             fill="none"
+      //             height="256"
+      //             width="256"
+      //           />
+      //           <line
+      //             fill="none"
+      //             stroke="currentColor"
+      //             strokeLinecap="round"
+      //             strokeLinejoin="round"
+      //             strokeWidth="20"
+      //             x1="216"
+      //             x2="40"
+      //             y1="40"
+      //             y2="216"
+      //           />
+      //           <line
+      //             fill="none"
+      //             stroke="currentColor"
+      //             strokeLinecap="round"
+      //             strokeLinejoin="round"
+      //             strokeWidth="20"
+      //             x1="216"
+      //             x2="40"
+      //             y1="216"
+      //             y2="40"
+      //           />
+      //         </svg>
+      //       </button>
+      //     </div>
+      //     <DynamicTextarea
+      //       note={textareaValue}
+      //       setNote={setTextareaValue}
+      //       className="w-full h-full p-2"
+      //       defaultHeight={20}
+      //       updateData={updateData}
+      //       // onKeyDown={stopPropagation}
+      //     />
+      //   </div>
+      // </div>
+    )} */}
+    <li ref={snipComponent} className="flex flex-col mb-4 bg-gray-800 rounded-xl cursor-pointer" onClick={() => setShowDetails((prev) => !prev)} onBlur={() => setShowDetails(false)}>
       <div className="flex flex-row">
         <img
-          className={`w-1/3 h-full transition-all rounded-l-xl group-hover/snip:rounded-bl-none`}
+          className={`w-1/3 h-full transition-all rounded-l-xl ${showDetails ? "rounded-bl-none" : ""}`}
           src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
           alt="thumbnail"
         />
         <div className="flex flex-col justify-between w-full gap-2 p-2 overflow-hidden bg-gray-800 rounded-r-xl">
-          <p className="overflow-hidden font-bold whitespace-nowrap overflow-ellipsis">{title}</p>
+          <p className={`font-bold ${showDetails ? "" : "whitespace-nowrap overflow-ellipsis overflow-hidden"}`}>{title}</p>
           <div className="grid w-full grid-cols-2 gap-2">
             <TimeStamps
               start={startTimestamp}
@@ -57,13 +117,16 @@ const OutsideSnip: FC<Props> = (props) => {
               tab={1}
             />
             <ActionButtons
-              setShowNote={setShowNote}
+              setShowDetails={setShowDetails}
               snip={snip}
             />
           </div>
         </div>
       </div>
-      <div className={`hidden group-hover/snip:block transition-all duration-300 w-full p-3 pb-1.5`}>
+      {/* hidden group-hover/snip:block */}
+      {showDetails && (
+        
+      <div className={`transition-all duration-300 w-full p-3 pb-1.5`}>
         <DynamicTextarea
           note={textareaValue}
           setNote={setTextareaValue}
@@ -73,7 +136,9 @@ const OutsideSnip: FC<Props> = (props) => {
           // onKeyDown={stopPropagation}
         />
       </div>
+      )}
     </li>
+    </>
   );
 };
 

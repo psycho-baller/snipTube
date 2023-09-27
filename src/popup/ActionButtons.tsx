@@ -5,19 +5,19 @@ import ExportButton from "./ExportButton";
 
 interface Props {
   snip: Snip;
-  setShowNote: Dispatch<SetStateAction<boolean>>;
+  setShowDetails: Dispatch<SetStateAction<boolean>>;
   width?: string;
 }
 
 const ActionButtons: FC<Props> = (props) => {
-  const { snip, setShowNote, width = "w-5" } = props;
+  const { snip, setShowDetails, width = "w-5" } = props;
   const { id } = snip;
 
   const removeSnip = useSnipsStore((state) => state.removeSnip);
 
   function editSnip(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    setShowNote((prev) => !prev);
+    setShowDetails((prev) => !prev);
   }
 
   function deleteSnip(e: MouseEvent<HTMLButtonElement>): void {
