@@ -16,7 +16,6 @@ const OutsideSnip: FC<Props> = (props) => {
 
   const [snipComponent, enableAnimations] = useAutoAnimate();
 
-
   const snips = useAllSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
   const [showDetails, setShowDetails] = useState<boolean>(false);
@@ -99,10 +98,10 @@ const OutsideSnip: FC<Props> = (props) => {
       //   </div>
       // </div>
     )} */}
-    <li ref={snipComponent} className="flex flex-col mb-4 bg-gray-800 rounded-xl cursor-pointer" onClick={() => setShowDetails((prev) => !prev)} onBlur={() => setShowDetails(false)}>
+    <li ref={snipComponent} className="flex flex-col mb-4 bg-gray-800 rounded-xl" onMouseOver={() => setShowDetails(true)} onMouseLeave={() => setShowDetails(false)}>
       <div className="flex flex-row">
         <img
-          className={`w-1/3 h-full transition-all rounded-l-xl ${showDetails ? "rounded-bl-none" : ""}`}
+          className={`w-1/3 h-[5.25rem] transition-all rounded-l-xl ${showDetails ? "rounded-bl-none" : ""}`}
           src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
           alt="thumbnail"
         />

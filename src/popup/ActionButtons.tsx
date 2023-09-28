@@ -5,20 +5,14 @@ import ExportButton from "./ExportButton";
 
 interface Props {
   snip: Snip;
-  setShowDetails: Dispatch<SetStateAction<boolean>>;
   width?: string;
 }
 
 const ActionButtons: FC<Props> = (props) => {
-  const { snip, setShowDetails, width = "w-5" } = props;
+  const { snip, width = "w-5" } = props;
   const { id } = snip;
 
   const removeSnip = useSnipsStore((state) => state.removeSnip);
-
-  function editSnip(e: MouseEvent<HTMLButtonElement>): void {
-    e.preventDefault();
-    setShowDetails((prev) => !prev);
-  }
 
   function deleteSnip(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();

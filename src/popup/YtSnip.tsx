@@ -4,6 +4,7 @@ import { useSnipsStore } from "~lib/store";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
 import DynamicTextarea from "src/shared/components/DynamicTextarea";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 interface Props {
   snip: Snip;
 }
@@ -12,10 +13,11 @@ const YtSnip: FC<Props> = (props) => {
   const { snip } = props;
   const { id, startTimestamp, endTimestamp, title, tags, videoId, note = "" } = snip;
 
+  const [snipComponent, enableAnimations] = useAutoAnimate();
+
   const snips = useSnipsStore((state) => state.snips);
   const setSnips = useSnipsStore((state) => state.setSnips);
-  // no longer used (for now)
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
   const [textareaValue, setTextareaValue] = useState<string>(note);
 
   function updateData(note: string): void {
@@ -30,7 +32,7 @@ const YtSnip: FC<Props> = (props) => {
   }
 
   return (
-    <li className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl group/snip">
+    <li ref={snipComponent} className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl group/snip" onMouseOver={() => setShowDetails(true)} onMouseLeave={() => setShowDetails(false)}>
       <p className="text-lg font-medium text-gray-100">{title}</p>
       {/* grid of 3 equal sized columns in 1 row */}
       <div className="grid w-full grid-cols-3 gap-2">
@@ -55,7 +57,6 @@ const YtSnip: FC<Props> = (props) => {
           id={id}
         />
         <ActionButtons
-          setOpenModal={setOpenModal}
           snip={snip}
         />
       </div>
