@@ -116,7 +116,6 @@ const OutsideSnip: FC<Props> = (props) => {
               tab={1}
             />
             <ActionButtons
-              setShowDetails={setShowDetails}
               snip={snip}
             />
           </div>
