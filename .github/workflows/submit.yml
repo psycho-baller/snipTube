@@ -58,4 +58,4 @@ jobs:
           # edge-file: "edge/myext_edge_${{ env.EXT_VERSION }}.zip"
           # edge-notes: "This is a test submission"
           # version-file: "src/manifest.json"
-          verbose: true
+          # verbose: true
