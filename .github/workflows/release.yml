@@ -1,0 +1,10 @@
+steps:
+  - name: Browser Platform Publish
+    uses: PlasmoHQ/bpp@v3
+    with:
+      keys: ${{ secrets.PUBLISHING_KEYS }}
+      chrome-file: "chrome/myext_chromium_${{ env.EXT_VERSION }}.zip"
+      edge-file: "edge/myext_edge_${{ env.EXT_VERSION }}.zip"
+      edge-notes: "This is a test submission"
+      version-file: "src/manifest.json"
+      verbose: true
