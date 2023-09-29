@@ -77,6 +77,11 @@ export const getUseKeyboardShortcut = async () => {
   return useKeyboardShortcut;
 };
 
+export const deleteAllDataFromStorage = async () => {
+  await storage.removeAll();
+
+}
+
 // export const getChapters = async () => {
 //   return new Promise<Chapter[]>((resolve, reject) => {
 //     chrome.storage.sync.get(['chapters'], (result) => {

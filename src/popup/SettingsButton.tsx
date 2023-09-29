@@ -4,10 +4,11 @@ import SettingsForm from "./SettingsForm";
 interface Props {
   className?: string;
   stickRight?: boolean;
+  takeUpFullHeight?: boolean;
 }
 
 const SettingsButton: FC<Props> = (props) => {
-  const { className = "w-5", stickRight } = props;
+  const { className = "w-5", stickRight, takeUpFullHeight } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -74,10 +75,11 @@ const SettingsButton: FC<Props> = (props) => {
       </button>
 
       <SettingsForm
+      takeUpFullHeight={takeUpFullHeight}
         className={
-          "absolute space-y-6 w-72 top-7 pt-2 pb-4 mt-2 bg-gray-900 rounded-md shadow-2xl origin-top duration-200 z-10 max-w-md p-4 mx-auto border-2 border-gray-700 ease-out" +
+          "absolute w-72 top-7 mt-2 bg-gray-900 rounded-md shadow-2xl origin-top duration-200 z-10 max-w-md mx-auto border-2 border-gray-700 ease-out" +
           " " +
-          (stickRight ? "-right-3" : "-right-[4.25rem]") +
+          (stickRight ? "-right-2" : "-right-[4.25rem]") +
           " " +
           (isOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible")
         }

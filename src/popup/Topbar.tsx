@@ -18,6 +18,7 @@ const Header: FC<Props> = (props) => {
   const inYoutube = useContentScriptStore((state) => state.inYoutube);
 
   const hasMoreThanFour = allSnips?.length > 4 || snips?.length > 4;
+  const takeUpFullHeight = allSnips?.length > 6 || snips?.length > 2;
 
   return (
     <header className={"flex sticky bg-gray-950 py-3 -mx-4 z-10" + (inYoutube ? "  top-[3.8rem]" : " top-0")}>
@@ -37,7 +38,7 @@ const Header: FC<Props> = (props) => {
       {/* sort at the right corner */}
       <div className={`flex justify-end flex-1 gap-2 ${hasMoreThanFour ? "" : "pr-4"}`}>
         <ExportButton snips={allSnips ?? snips} />
-        <SettingsButton stickRight={!hasMoreThanFour} />
+        <SettingsButton stickRight={!hasMoreThanFour} takeUpFullHeight={takeUpFullHeight} />
         {hasMoreThanFour && <Dropdown />}
       </div>
     </header>

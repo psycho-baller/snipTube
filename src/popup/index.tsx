@@ -8,6 +8,7 @@ interface Props {}
 
 const Popup: FC<Props> = () => {
   const [count, setCount] = useState<number>(0);
+  
   const inYoutube = useContentScriptStore((state) => state.inYoutube);
   const setInYoutube = useContentScriptStore((state) => state.setInYoutube);
   // useEffect(() => {
@@ -51,7 +52,7 @@ const Popup: FC<Props> = () => {
   // };
 
   return (
-    <div className="w-[30rem] flex flex-col min-h-[29.8rem] dark:bg-gray-950 dark:text-white">
+    <div className="w-[30rem] flex flex-col min-h-[30rem] dark:bg-gray-950 dark:text-white">
       {inYoutube ? (
         <Tabs className="flex-grow h-full" />
       ) : (

@@ -11,7 +11,7 @@ type Actions = {
   addSnip?: (snip: Snip) => void;
   removeSnip: (snipId: string) => void;
   // updateSnip: (snip: Snip) => void;
-  setSnips?: (snips: Snip[], vidId?: string) => void;
+  setSnips: (snips: Snip[], vidId?: string) => void;
   setSortBy?: (sortBy: SortByOptionsType) => void;
 };
 

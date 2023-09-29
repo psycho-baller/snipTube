@@ -1,5 +1,6 @@
-import { useState, type FC, useRef, useEffect, type ChangeEvent } from "react";
+import { useState, type FC, useEffect, type ChangeEvent, useMemo } from "react";
 import {
+  deleteAllDataFromStorage,
   getDefaultSnipLength,
   getPauseVideoOnNewSnip,
   getShowOverlayOnNewSnip,
@@ -9,20 +10,28 @@ import {
   setShowAddSnipDetailsFormOnNewSnip,
   setUseKeyboardShortcut,
 } from "~lib/storage";
+import { useAllSnipsStore, useSnipsStore } from "~lib/store";
 interface Props {
   className?: string;
+  takeUpFullHeight?: boolean;
 }
 
 const SettingsForm: FC<Props> = (props) => {
-  const { className } = props;
+  const { className, takeUpFullHeight } = props;
 
+  const setAllSnips = useAllSnipsStore((state) => state.setSnips);
+  const setSnips = useSnipsStore((state) => state.setSnips);
+
+  // get viewport height
+  
+  
   const [showAddSnipDetailsFormOnNewSnipState, setShowAddSnipDetailsFormOnNewSnipState] = useState<boolean>(true);
   const [pauseVideoOnNewSnipState, setPauseVideoOnNewSnipState] = useState<boolean>(true);
   const [useKeyboardShortcutState, setUseKeyboardShortcutState] = useState<boolean>(true);
   const [length, setLength] = useState<number>(30);
 
   const handleSave = async () => {
-    console.log("save", length);
+    console.log("autosave", length);
     await setDefaultSnipLength(length);
   };
 
@@ -76,122 +85,139 @@ const SettingsForm: FC<Props> = (props) => {
       });
     });
   }, []);
+
+  async function deleteAllData() {
+    await deleteAllDataFromStorage();
+    setAllSnips([]);
+    setSnips([]);
+  }
+
   return (
-    <section className={className + ""}>
-      <div className="flex items-center justify-between">
-        {/* keep in single line:  overflow-ellipsis whitespace-nowrap  */}
-        <h2 className="-mb-2 overflow-hidden text-2xl font-medium">Settings</h2>
-        {/* <button
-          type="button"
-          className="text-gray-500 bg-transparent hover:text-gray-700"
-          aria-label="Add Note After Saving Snip Info"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+    <section className={className}>
+      <div
+      className={"overflow-scroll flex flex-col gap-y-6 px-4 pt-2 pb-4 " + (takeUpFullHeight ? "" : "max-h-[22.5rem]")}>
+        <div className="flex items-center justify-between">
+          {/* keep in single line:  overflow-ellipsis whitespace-nowrap  */}
+          <h2 className="-mb-2 overflow-hidden text-2xl font-medium">Settings</h2>
+          {/* <button
+            type="button"
+            className="text-gray-500 bg-transparent hover:text-gray-700"
+            aria-label="Add Note After Saving Snip Info"
           >
-            ?
-          </svg>
-        </button> */}
-      </div>
-
-      <div className="">
-        <label
-          htmlFor="addNoteAfterSaving"
-          className="text-base"
-        >
-          Create snip with the 's' key
-        </label>
-        <div className="flex items-center mt-2">
-          <input
-            type="checkbox"
-            checked={useKeyboardShortcutState}
-            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
-            onChange={handleUseKeyboardShortcutChange}
-          />
-          {/* <label
-            htmlFor="addNoteAfterSaving"
-            className="ml-2"
-          >
-            Enable
-          </label> */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              ?
+            </svg>
+          </button> */}
         </div>
-      </div>
-
-      <div className="">
-        <label
-          htmlFor="addNoteAfterSaving"
-          className="text-base"
-        >
-          Add note after creating snip
-        </label>
-        <div className="flex items-center mt-2">
-          <input
-            type="checkbox"
-            checked={showAddSnipDetailsFormOnNewSnipState}
-            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
-            onChange={handleShowOverlayOnNewSnipChange}
-          />
-          {/* <label
+        <div className="">
+          <label
             htmlFor="addNoteAfterSaving"
-            className="ml-2"
+            className="text-base"
           >
-            Enable
-          </label> */}
+            Create snip with the 's' key
+          </label>
+          <div className="flex items-center mt-2">
+            <input
+              type="checkbox"
+              checked={useKeyboardShortcutState}
+              className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+              onChange={handleUseKeyboardShortcutChange}
+            />
+            {/* <label
+              htmlFor="addNoteAfterSaving"
+              className="ml-2"
+            >
+              Enable
+            </label> */}
+          </div>
         </div>
-      </div>
-
-      <div className={"" + (showAddSnipDetailsFormOnNewSnipState ? " " : " hidden")}>
-        <label
-          htmlFor="showAddSnipDetailsFormOnNewSnip"
-          className="text-base"
-        >
-          Pause video when creating snip
-        </label>
-        <div className="flex items-center mt-2">
-          <input
-            checked={pauseVideoOnNewSnipState}
-            type="checkbox"
-            className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
-            onChange={handlePauseVideoOnNewSnipChange}
-          />
-          {/* <label
+        <div className="">
+          <label
+            htmlFor="addNoteAfterSaving"
+            className="text-base"
+          >
+            Add note after creating snip
+          </label>
+          <div className="flex items-center mt-2">
+            <input
+              type="checkbox"
+              checked={showAddSnipDetailsFormOnNewSnipState}
+              className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+              onChange={handleShowOverlayOnNewSnipChange}
+            />
+            {/* <label
+              htmlFor="addNoteAfterSaving"
+              className="ml-2"
+            >
+              Enable
+            </label> */}
+          </div>
+        </div>
+        <div className={"" + (showAddSnipDetailsFormOnNewSnipState ? " " : " hidden")}>
+          <label
             htmlFor="showAddSnipDetailsFormOnNewSnip"
-            className="ml-2"
+            className="text-base"
           >
-            Enable
-          </label> */}
+            Pause video when creating snip
+          </label>
+          <div className="flex items-center mt-2">
+            <input
+              checked={pauseVideoOnNewSnipState}
+              type="checkbox"
+              className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
+              onChange={handlePauseVideoOnNewSnipChange}
+            />
+            {/* <label
+              htmlFor="showAddSnipDetailsFormOnNewSnip"
+              className="ml-2"
+            >
+              Enable
+            </label> */}
+          </div>
         </div>
-      </div>
-
-      <div className="">
-        <label
-          htmlFor="defaultSnipLength"
-          className="text-base"
-        >
-          Default Snip Length
-        </label>
-        <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
-          <input
-            type="number"
-            className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
-            value={length}
-            onChange={handleLengthChange}
-            onBlur={handleSave}
-            min={20}
-            max={120}
-          />
-          <input
-            type="range"
-            className="w-full mr-3 focus:outline-none"
-            value={length}
-            onChange={handleLengthChange}
-            onBlur={handleSave}
-            min={20}
-            max={120}
-          />
+        <div className="">
+          <label
+            htmlFor="defaultSnipLength"
+            className="text-base"
+          >
+            Default Snip Length
+          </label>
+          <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
+            <input
+              type="number"
+              className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
+              value={length}
+              onChange={handleLengthChange}
+              onBlur={handleSave}
+              min={20}
+              max={120}
+            />
+            <input
+              type="range"
+              className="w-full mr-3 focus:outline-none"
+              value={length}
+              onChange={handleLengthChange}
+              onBlur={handleSave}
+              min={20}
+              max={120}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <h3 className="text-lg font-medium pb-1">Danger Zone</h3>
+          <button
+            type="button"
+            className="w-full px-4 py-2 mt-2 text-sm font-medium text-red-500 bg-transparent border border-red-500 rounded-md hover:bg-red-500 hover:text-white transition-all duration-200 ease-in-out"
+            aria-label="Erase all data"
+            onClick={deleteAllData}
+          >
+            Reset all your app data
+          </button>
         </div>
       </div>
     </section>
