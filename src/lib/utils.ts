@@ -15,10 +15,10 @@ export function exportSnip(snip: Snip) {
   navigator.clipboard.writeText(
     `## [${vidTitle}](https://www.youtube.com/watch?v=${videoId}&t=${startTimestamp})
 
-    ### ${cleanedTitle} | (${startTimestampMinutes}:${startTimestampSeconds} - ${endTimestampMinutes}:${endTimestampSeconds})
-    ${note}
+### ${cleanedTitle} | (${startTimestampMinutes}:${startTimestampSeconds} - ${endTimestampMinutes}:${endTimestampSeconds})
+${note}
 
-    ${tags?.map((tag) => `${tag.name}`).join(", ") ?? ""}`
+${tags?.map((tag) => `${tag.name}`).join(", ") ?? ""}`
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import { type FC, useEffect, useMemo } from "react";
 import type { Snip, Tag } from "../lib/types";
 import { useAllSnipsStore, useSnipsStore } from "~lib/store";
 import Topbar from "./Topbar";
@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-const AllSnips: React.FC<Props> = (props) => {
+const AllSnips: FC<Props> = (props) => {
   const { className } = props;
 
   const snips: Snip[] = useAllSnipsStore((state) => state.snips);
@@ -46,7 +46,7 @@ const AllSnips: React.FC<Props> = (props) => {
         setAllVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
         break;
     }
-  }, [sortBy]);
+  }, [sortBy, snips]);
 
   // a list of all the tags for the current video
   const tags = useMemo<Tag[]>(() => {

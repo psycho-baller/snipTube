@@ -60,8 +60,7 @@ const YtSnip: FC<Props> = (props) => {
           snip={snip}
         />
       </div>
-
-      <div className={`group-hover/snip:block hidden transition-all duration-300 -mb-`}>
+      {showDetails && (
         <DynamicTextarea
           note={textareaValue}
           setNote={setTextareaValue}
@@ -70,7 +69,7 @@ const YtSnip: FC<Props> = (props) => {
           updateData={updateData}
           // onKeyDown={stopPropagation}
         />
-      </div>
+      )}
     </li>
   );
 };

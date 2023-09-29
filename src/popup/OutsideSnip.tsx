@@ -31,7 +31,6 @@ const OutsideSnip: FC<Props> = (props) => {
       }
       return s;
     }) as Snip[];
-    console.log("vidId test:", vidId);
     // only update the snips for the video that this snip belongs to
     setSnips(
       // this is the setSnips from useSnipsStore (not useAllSnipsStore)
@@ -105,8 +104,8 @@ const OutsideSnip: FC<Props> = (props) => {
           src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
           alt="thumbnail"
         />
-        <div className="flex flex-col justify-between w-full gap-2 p-2 overflow-hidden bg-gray-800 rounded-r-xl">
-          <p className={`font-bold ${showDetails ? "" : "whitespace-nowrap overflow-ellipsis overflow-hidden"}`}>{title}</p>
+        <div className={"flex flex-col justify-between w-full gap-2 px-2 pt-2 overflow-hidden bg-gray-800 rounded-r-xl " + (showDetails ? "pb-0" : "pb-2")}>
+          <p className={`font-bold text-xs ${showDetails ? "" : "whitespace-nowrap overflow-ellipsis overflow-hidden"}`}>{title}</p>
           <div className="grid w-full grid-cols-2 gap-2">
             <TimeStamps
               start={startTimestamp}
@@ -124,7 +123,7 @@ const OutsideSnip: FC<Props> = (props) => {
       {/* hidden group-hover/snip:block */}
       {showDetails && (
         
-      <div className={`transition-all duration-300 w-full p-3 pb-1.5`}>
+      <div className="w-full px-3 pb-1.5 pt-3">
         <DynamicTextarea
           note={textareaValue}
           setNote={setTextareaValue}
