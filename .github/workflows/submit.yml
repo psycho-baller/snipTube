@@ -31,24 +31,24 @@ jobs:
       - name: Upload ChromeExtension to release
         uses: Shopify/upload-to-release@master
         with:
-          content_type: application/zip
+          content-type: application/zip
           path: build/chrome-mv3-prod.zip
           name: ChromeExtension.zip
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload SafariExtension to release
         uses: Shopify/upload-to-release@master
         with:
-          content_type: application/zip
+          content-type: application/zip
           path: build/safari-mv2-prod.zip
           name: SafariExtension.zip
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload EdgeExtension to release
         uses: Shopify/upload-to-release@master
         with:
-          content_type: application/zip
+          content-type: application/zip
           path: build/chrome-mv3-prod.zip
           name: EdgeExtension.zip
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       
       # - name: Browser Platform Publish
       #   uses: PlasmoHQ/bpp@v3
