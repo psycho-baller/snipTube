@@ -1,5 +1,5 @@
 name: "Submit to Web Store"
-on:
+on: [release]
   workflow_dispatch:
 
 jobs:
@@ -30,31 +30,31 @@ jobs:
         run: pnpm build:plasmo --target=safari-mv2 --zip
 
       - name: Upload ChromeExtension to release
-        uses: Shopify/upload-to-release@07611424e04f1475ddf550e1c0dd650b867d5467
+        uses: Shopify/upload-to-release@master
         with:
-          args: build/chrome-mv3-prod.zip
+          content_type: application/zip
           path: build/chrome-mv3-prod.zip
           name: ChromeExtension.zip
           repo_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload SafariExtension to release
-        uses: Shopify/upload-to-release@07611424e04f1475ddf550e1c0dd650b867d5467
+        uses: Shopify/upload-to-release@master
         with:
-          args: build/safari-mv2-prod.zip
+          content_type: application/zip
           path: build/safari-mv2-prod.zip
           name: SafariExtension.zip
           repo_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload EdgeExtension to release
-        uses: Shopify/upload-to-release@07611424e04f1475ddf550e1c0dd650b867d5467
+        uses: Shopify/upload-to-release@master
         with:
-          args: build/chrome-mv3-prod.zip
+          content_type: application/zip
           path: build/chrome-mv3-prod.zip
           name: EdgeExtension.zip
           repo_token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Browser Platform Publish
-        uses: PlasmoHQ/bpp@v3
-        with:
-          keys: ${{ secrets.PUBLISHING_KEYS }}
+      # - name: Browser Platform Publish
+      #   uses: PlasmoHQ/bpp@v3
+      #   with:
+      #     keys: ${{ secrets.PUBLISHING_KEYS }}
           # chrome-file: "build/myext_chromium_${{ env.EXT_VERSION }}.zip"
           # edge-file: "edge/myext_edge_${{ env.EXT_VERSION }}.zip"
           # edge-notes: "This is a test submission"
