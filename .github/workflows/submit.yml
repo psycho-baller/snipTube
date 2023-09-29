@@ -1,6 +1,5 @@
 name: "Submit to Web Store"
-on: [release]
-  workflow_dispatch:
+on: [release, workflow_dispatch]
 
 jobs:
   build:
