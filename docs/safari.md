@@ -17,7 +17,18 @@ xcrun safari-web-extension-converter /path/to/extension
 
 3. Click run in the top of Xcode
 
-![image](https://user-images.githubusercontent.com/12688112/123013186-bc6e5c80-d391-11eb-8ddc-5fec61cc2975.png)
+![image](https://github.com/psycho-baller/snipTube/assets/81759594/442fbfcd-20fd-4cce-bdc4-eca4ee671a45)
+
+
+if you get an error that says: 
+
+```txt
+/Users/rami-ibm/Downloads/SnipTube - Elevate Your YouTube Experience/SnipTube - Elevate Your YouTube Experience.xcodeproj: Signing for "SnipTube - Elevate Your YouTube Experience (iOS)" requires a development team. Select a development team in the Signing & Capabilities editor.
+```
+
+Create and add a development team here:
+![image](https://github.com/psycho-baller/snipTube/assets/81759594/e87261b0-f3be-4d93-a6b6-1d7f64d18d85)
+
 
 4. [Configure Safari in macOS to Run Unsigned Extensions](https://developer.apple.com/documentation/safariservices/safari_web_extensions/running_your_safari_web_extension#3744467)
 
@@ -26,8 +37,6 @@ To develop without a certificate, tell Safari to load unsigned extensions using 
 - Select the Advanced tab.
 - Check the “Show Develop menu in menu bar” option.
 - Then, choose Develop > Allow Unsigned Extensions. The Allow Unsigned Extensions setting is reset when you quit Safari; set it again the next time you launch Safari.
-
-![image](https://user-images.githubusercontent.com/12688112/123013258-e0ca3900-d391-11eb-9ab2-4a6a932ec89a.png)
 
 5. Now enable the extension
 - Choose Safari > Preferences.
