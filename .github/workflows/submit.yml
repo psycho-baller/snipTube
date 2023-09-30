@@ -23,10 +23,11 @@ jobs:
           node-version: '18'
           cache: "pnpm"
 
-      # Chromium based browsers
       - name: Build the chromium based extension and zip it
         run: pnpm build:plasmo --zip
-        
+      - name: Build the safari based extension and zip it
+        run: pnpm build:plasmo --target=safari-mv2 --zip
+
       - name: Upload ChromeExtension to release
         uses: Shopify/upload-to-release@master
         with:
@@ -34,24 +35,19 @@ jobs:
           path: ./build/chrome-mv3-prod.zip
           name: ChromeExtension.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload EdgeExtension to release
-        uses: Shopify/upload-to-release@master
-        with:
-          content-type: application/zip
-          path: ./build/chrome-mv3-prod.zip
-          name: EdgeExtension.zip
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Safari
-      - name: Build the safari based extension and zip it
-        run: pnpm build:plasmo --target=safari-mv2 --zip
-
       - name: Upload SafariExtension to release
         uses: Shopify/upload-to-release@master
         with:
           content-type: application/zip
           path: ./build/safari-mv2-prod.zip
           name: SafariExtension.zip
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload EdgeExtension to release
+        uses: Shopify/upload-to-release@master
+        with:
+          content-type: application/zip
+          path: ./build/chrome-mv3-prod.zip
+          name: EdgeExtension.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       
       # - name: Browser Platform Publish
