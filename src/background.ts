@@ -1,3 +1,4 @@
+import browser from "webextension-polyfill";
 // chrome.runtime.onInstalled.addListener(() => {
 // predefine the snip store
 // setSnips([]);
@@ -9,11 +10,11 @@
 // });
 // });
 export {};
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   console.log("background running", "3");
   if (changeInfo.status === "complete" && tab.active) {
     console.log("background running", "4");
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
     console.log("background running", "5");
     console.log("activeTab", activeTab);
@@ -26,7 +27,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       const vidId = urlParameters.get("v");
       console.log("vidId", vidId);
 
-      chrome.tabs.sendMessage(activeTab.id, {
+      sendMessageToContentScript(tabId, {
         type: "NEW",
         vidId,
       });
@@ -39,10 +40,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 /**
  * This listener is triggered when the user is switching between tabs.
  */
-chrome.tabs.onActivated.addListener(async (activeInfo) => {
-
+browser.tabs.onActivated.addListener(async (activeInfo) => {
   // Retrieve information about the newly activated tab
-  const activeTab = await chrome.tabs.get(activeInfo.tabId);
+  const activeTab = await browser.tabs.get(activeInfo.tabId);
 
   // Your existing code for checking the URL and sending messages
   if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
@@ -77,20 +77,27 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
 
 // https://stackoverflow.com/questions/10994324/chrome-extension-content-script-re-injection-after-upgrade-or-install
 // another possible solution: https://stackoverflow.com/a/76126272
-// chrome.runtime.onInstalled.addListener(async () => {
-//   //this introduces another unseen error: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
+// browser.runtime.onInstalled.addListener(async () => {
+//   //   //this introduces another unseen error: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
 
-//   for (const cs of chrome.runtime.getManifest().content_scripts) {
-//     for (const tab of await chrome.tabs.query({ url: cs.matches })) {
-//       chrome.scripting.executeScript(
-//         {
+// });
+
+// browser.runtime.connect().onDisconnect.addListener(async () => {
+//   // clean up when content script gets disconnected
+//   console.log("content script disconnected");
+//   for (const cs of browser.runtime.getManifest().content_scripts) {
+//     for (const tab of await browser.tabs.query({ url: cs.matches })) {
+//       browser.scripting
+//         .executeScript({
 //           target: { tabId: tab.id },
 //           files: cs.js,
-//         },
-//         (data) => {
-//           console.log("injected", data);
-//         }
-//       );
+//         })
+//         .then(() => {
+//           console.log("content script injected");
+//         })
+//         .catch((err) => {
+//           console.log("error injecting content script", err);
+//         });
 //     }
 //   }
 // });
@@ -99,7 +106,9 @@ const maxRetryAttempts = 3;
 
 async function sendMessageToContentScript(tabId, message, retryCount = 0) {
   try {
-    await chrome.tabs.sendMessage(tabId, message);
+    browser.tabs.sendMessage(tabId, message).then((response) => {
+      console.log("response", response);
+    });
   } catch (error) {
     if (retryCount < maxRetryAttempts) {
       setTimeout(() => {

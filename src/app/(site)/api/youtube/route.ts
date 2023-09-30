@@ -20,9 +20,7 @@ export async function GET(req: NextRequest) {
       {
         headers: {
           "Access-Control-Allow-Origin": "https://www.youtube.com",
-          "Access-Control-Allow-Headers": "content-type",
           "Access-Control-Allow-Methods": "GET",
-          "Content-Type": "application/json",
         },
       }
     );

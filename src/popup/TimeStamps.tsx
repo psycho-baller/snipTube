@@ -2,6 +2,7 @@ import { useState, type FC, useEffect, type MouseEvent } from "react";
 import "src/styles/play-pause-btn.css";
 import { getVideoId } from "~lib/storage";
 import { useContentScriptStore } from "~lib/store";
+import browser from "webextension-polyfill";
 
 interface Props {
   start: number;
@@ -29,25 +30,21 @@ const TimeStamps: FC<Props> = (props) => {
 
     if (inYoutube && currentVideoId === storedVideoId) {
       // send message to content script to play the snip
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const tab = tabs[0];
-        if (tab.id) {
-          chrome.tabs.sendMessage(
-            tab.id,
-            {
-              type: "PLAY_SNIP",
-              value: start,
-            },
-            (response) => {
-              console.log(response);
-            }
-          );
-        }
-      });
+      const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+      const tab = tabs[0];
+      if (tab.id) {
+        await browser.tabs.sendMessage(
+          tab.id,
+          {
+            type: "PLAY_SNIP",
+            value: start,
+          }
+        );
+      }
     } else {
       // TODO: play the video/audio in the popup itself (thumbnail becomes the video player)
       // for now open a new tab with the youtube video
-      chrome.tabs.create({ url: `https://www.youtube.com/watch?v=${id}&t=${start}` });
+      await browser.tabs.create({ url: `https://www.youtube.com/watch?v=${id}&t=${start}` });
     }
   };
 

@@ -14,6 +14,7 @@ import { getVideoDetails } from "~lib/youtube";
 import { getSnipTranscript } from "~lib/youtube";
 import { URL, invalidStartOrEndTimeMessage } from "~lib/constants";
 import { useContentScriptStore } from "~lib/store";
+import browser from "webextension-polyfill";
 export const config: PlasmoCSConfig = {
   matches: [
     "https://youtu.be/watch*",
@@ -91,7 +92,7 @@ const newVideoLoaded = async () => {
   // section 2: add the snips to the video
   await updateVideoSnips();
 
-  const { transcript, title } = (await getVideoDetails(videoId)) as VidDetails;
+  const { transcript, title } = await getVideoDetails(videoId);
   // vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
   vidTranscript = transcript;
   vidTitle = title;
@@ -228,7 +229,7 @@ async function addNewSnipEventHandler() {
     endTimestamp: currentTime,
     // join the video id with the current time to make a unique id
     id: videoId + "-" + currentTime,
-    videoId: videoId || await getVideoId(),
+    videoId: videoId || (await getVideoId()),
     createdAt: date.getTime(),
     updatedAt: date.getTime(),
   };
@@ -285,7 +286,7 @@ async function updateVideoSnips(snips?: Snip[]) {
   snips.forEach((snip) => {
     const { startTimestamp, endTimestamp, tags = [], id } = snip;
     // if the snip is already on the video, don't add it again
-    if (document.getElementById(`snip-${ id }`)) {
+    if (document.getElementById(`snip-${id}`)) {
       return;
     }
     const snipElement = document.createElement("li");
@@ -308,7 +309,7 @@ async function updateVideoSnips(snips?: Snip[]) {
   });
 }
 
-chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
+browser.runtime.onMessage.addListener(async (obj) => {
   const { type, value, vidId } = obj;
 
   if (type === "NEW") {
@@ -323,14 +324,14 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
   } else if (type === "UPDATE_SNIPS") {
     await updateVideoSnips(value);
   }
-  response({ type: "SUCCESS" });
+  return true;
 });
 
-// let port: chrome.runtime.Port;
+// let port: browser.Runtime.Port;
 
-// // test this vs injecting: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
+// test this vs injecting: https://stackoverflow.com/questions/53939205/how-to-avoid-extension-context-invalidated-errors-when-messaging-after-an-exte
 // function connect() {
-//   port = chrome.runtime.connect({ name: "content-script" });
+//   port = browser.runtime.connect({ name: "content-script" });
 //   // console.log("connecting");
 //   port.onDisconnect.addListener(() => {
 //     // console.log("disconnected");
@@ -341,3 +342,4 @@ chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
 
 // // Call the connect function to establish the initial connection
 // connect();
+// newVideoLoaded();

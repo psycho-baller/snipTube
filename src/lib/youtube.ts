@@ -3,10 +3,10 @@ import { URL, invalidStartOrEndTimeMessage } from "./constants";
 
 export const getVideoDetails = async (videoId: string) => {
   // check local storage for transcript
-  const transcript = localStorage.getItem(videoId);
-  if (transcript) {
-    return JSON.parse(transcript) as VidDetails;
-  }
+  // const transcript = localStorage.getItem(videoId);
+  // if (transcript) {
+  //   return JSON.parse(transcript) as VidDetails;
+  // }
   // const res = await fetch(`http://127.0.0.1:8000/transcript/${videoId}?format=json`);
   // const res = await getSubtitles({ videoID: videoId, lang: 'en' });
   try {
@@ -15,7 +15,7 @@ export const getVideoDetails = async (videoId: string) => {
       method: "GET",
     });
     if (!res.ok) {
-      return null;
+      throw new Error(`${res.status}`);
     }
     const data = (await res.json()) as VidDetails;
     // localStorage.setItem(videoId, JSON.stringify(data));

@@ -3,7 +3,7 @@ import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
 import "src/styles/tailwind.css";
 import { useContentScriptStore } from "~lib/store";
-
+import browser from "webextension-polyfill";
 interface Props {}
 
 const Popup: FC<Props> = () => {
@@ -18,9 +18,9 @@ const Popup: FC<Props> = () => {
   // TODO: this does not run when the popup is first opened, gotta find an alternative way to do this
   useEffect(() => {
     // get the current video id
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const tab = tabs[0] as chrome.tabs.Tab;
-      const url = tab.url as string;
+    browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+      const tab = tabs[0];
+      const url = tab.url ?? "";
       const queryParameters = url.split("?")[1];
       const urlParameters = new URLSearchParams(queryParameters);
       const currentVideo = urlParameters.get("v");
