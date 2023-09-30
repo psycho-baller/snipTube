@@ -50,10 +50,10 @@ jobs:
           name: EdgeExtension.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       
-      # - name: Browser Platform Publish
-      #   uses: PlasmoHQ/bpp@v3
-      #   with:
-      #     keys: ${{ secrets.PUBLISHING_KEYS }}
+      - name: Browser Platform Publish
+        uses: PlasmoHQ/bpp@v3
+        with:
+          keys: ${{ secrets.PUBLISHING_KEYS }}
           # chrome-file: "build/myext_chromium_${{ env.EXT_VERSION }}.zip"
           # edge-file: "edge/myext_edge_${{ env.EXT_VERSION }}.zip"
           # edge-notes: "This is a test submission"
