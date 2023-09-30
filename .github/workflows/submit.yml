@@ -26,7 +26,7 @@ jobs:
       - name: Build the chromium based extension and zip it
         run: pnpm build:plasmo --zip
       - name: Build the safari based extension and zip it
-        run: pnpm build:plasmo --target=safari-mv2 --zip
+        run: pnpm build:plasmo --target=safari-mv3 --zip
       - name: Build the firefox based extension and zip it
         run: pnpm build:plasmo --target=firefox-mv3 --zip
       - name: Build the edge based extension and zip it
@@ -43,7 +43,7 @@ jobs:
         uses: Shopify/upload-to-release@master
         with:
           content-type: application/zip
-          path: ./build/safari-mv2-prod.zip
+          path: ./build/safari-mv3-prod.zip
           name: SafariExtension.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload FirefoxExtension to release
