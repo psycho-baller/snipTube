@@ -15,6 +15,7 @@
     "dev:plasmo": "plasmo dev",
     "dev:next": "next dev --port 3000",
     "dev:fastapi": "source venv/bin/activate && uvicorn api.index:app --reload",
+    "dev:backend": "run-p dev:fastapi dev:next",
     "build": "run-p build:*",
     "build:plasmo": "plasmo build",
     "build:next": "next build",
@@ -62,7 +63,7 @@
     ],
     "browser_specific_settings": {
       "gecko": {
-        "id": "your-id@example.com"
+        "id": "sniptube@ramimaalouf.tech"
       }
     },
     "host_permissions": [

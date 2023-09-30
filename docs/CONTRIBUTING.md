@@ -8,6 +8,40 @@
 
 ## Development
 
+### Chrome Extension
+
 To run the browser extension, run `pnpm dev:plasmo` in the root folder, then you will find the extension in the `build/chrome-mv3-dev` folder. You can then load the extension in chrome by going to `chrome://extensions` and clicking on `Load unpacked` and selecting that folder.
 
-To also run the backend alongside the extension, run `pnpm dev` in the root folder, this will start the Next.js and the FastAPI server.
+To also run the backend alongside the extension, alternatively run `pnpm dev` in the root folder, this will start the Next.js and the FastAPI server as well as the extension.
+
+### Firefox Extension
+
+To run the browser extension, run `pnpm dev:plasmo --target=firefox-mv3` in the root folder, then you will find the extension in the `build/firefox-mv3-dev` folder. You can then load the extension in firefox by going to `about:debugging` and clicking on `This Firefox` and then `Load Temporary Add-on...` and selecting the `manifest.json` file in that folder.
+
+To also run the backend alongside the extension, run `pnpm dev:backend` in the root folder as well (in another terminal), this will start the Next.js and the FastAPI server.
+
+You can also run each backend separately by running `pnpm dev:next` and `pnpm dev:fastapi` in the root folder.
+
+### Edge Extension
+
+To run the browser extension, run `pnpm dev:plasmo --target=edge-mv3` in the root folder, then you will find the extension in the `build/edge-mv3-dev` folder. You can then load the extension in edge by going to `edge://extensions` and clicking on `Load unpacked` and selecting that folder.
+
+To also run the backend alongside the extension, run `pnpm dev:backend` in the root folder as well (in another terminal), this will start the Next.js and the FastAPI server.
+
+You can also run each backend separately by running `pnpm dev:next` and `pnpm dev:fastapi` in the root folder.
+
+### Safari Extension
+
+Visit [this page](./docs/safari.md) to learn how to run the extension in safari.
+
+## Production
+
+To build the extension for production, run `pnpm build:plasmo` in the root folder, then you will find the extension in the `build/<browser>-mv3-prod` folder.
+
+By default, the extension will be built for chrome, but you can change that by passing the `--target` flag with the browser name and version you want to build for (e.g: `pnpm build:plasmo --target=firefox-mv3`).
+
+To zip the extension, simply add the `--zip` flag (e.g: `pnpm build:plasmo --target=firefox-mv3 --zip`).
+
+## Testing
+
+Oh, just realized that I haven't added any tests yet. I'll add them soon.
