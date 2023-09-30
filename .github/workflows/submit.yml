@@ -32,21 +32,21 @@ jobs:
         uses: Shopify/upload-to-release@master
         with:
           content-type: application/zip
-          path: build/chrome-mv3-prod.zip
+          path: ./build/chrome-mv3-prod.zip
           name: ChromeExtension.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload SafariExtension to release
         uses: Shopify/upload-to-release@master
         with:
           content-type: application/zip
-          path: build/safari-mv2-prod.zip
+          path: ./build/safari-mv2-prod.zip
           name: SafariExtension.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload EdgeExtension to release
         uses: Shopify/upload-to-release@master
         with:
           content-type: application/zip
-          path: build/chrome-mv3-prod.zip
+          path: ./build/chrome-mv3-prod.zip
           name: EdgeExtension.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       
