@@ -2,6 +2,10 @@
 
 ## Prerequisites
 
+- [nodejs](https://nodejs.org/en/download/) (only tested with v18)
+- [pnpm](https://pnpm.io/) (or npm or yarn)
+- [python3](https://www.python.org/downloads/) (and pip)
+
 - run `pnpm i` in the root folder to install all the node dependencies.
 - create a virtual environment with `python3 -m venv venv` and activate it with `source venv/bin/activate` then run `pip install -r requirements.txt` to install all the python dependencies.
 - run `cp .env.example .env` to create a `.env` file and fill in the required environment variables.
@@ -44,4 +48,4 @@ To zip the extension, simply add the `--zip` flag (e.g: `pnpm build:plasmo --tar
 
 ## Testing
 
-Oh, just realized that I haven't added any tests yet. I'll add them soon.
+Oh, just realized that I haven't added any tests yet. I'll add them someday... maybe.
