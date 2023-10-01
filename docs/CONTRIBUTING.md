@@ -36,7 +36,7 @@ You can also run each backend separately by running `pnpm dev:next` and `pnpm de
 
 ### Safari Extension
 
-Visit [this page](./docs/safari.md) to learn how to run the extension in safari.
+Visit [this page](./safari.md) to learn how to run the extension in safari.
 
 ## Production
 
