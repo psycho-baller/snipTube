@@ -67,7 +67,7 @@ const CTA = () => {
                   className="hidden xl:block"
                 />
                 <Link
-                  href={siteConfig.links[browserName]
+                  href={siteConfig.links[browserName]}
                   className="inline-flex items-center gap-2.5 font-medium text-white dark:text-black bg-black dark:bg-white rounded-full py-3 px-6 hover:opacity-90"
                 >
                   <span>Download Now</span>
