@@ -56,9 +56,9 @@ Your input is my inspiration, and together, we'll make SnipTube even better!
 
 ### Get Involved - Support & Contribute! 💙
 
-Creating and maintaining SnipTube has been a labor of love, and I'm thrilled to offer it as a free tool for everyone to enjoy. If you find SnipTube valuable and wish to support its development, consider [making a donation](ko-fi.com/ramimaalouf). Your contribution will directly contribute to making SnipTube even better and more feature-rich. Additionally, show your appreciation by starring the open-source repository on GitHub and feel free to contribute your ideas and skills to enhance SnipTube's functionality.
+Creating and maintaining SnipTube has been a labor of love, and I'm thrilled to offer it as a free tool for everyone to enjoy. If you find SnipTube valuable and wish to support its development, consider [making a donation](https://ko-fi.com/ramimaalouf). Your contribution will directly contribute to making SnipTube even better and more feature-rich. Additionally, show your appreciation by starring the open-source repository on GitHub and feel free to contribute your ideas and skills to enhance SnipTube's functionality.
 
-Don't miss the chance to revolutionize your YouTube experience. [Download SnipTube now](https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk) and take control of your favorite moments like never before!
+Don't miss the chance to revolutionize your YouTube experience. [Download SnipTube now](https://sniptube.tech) and take control of your favorite moments like never before!
 
 ## 🤝 Contributing
 
