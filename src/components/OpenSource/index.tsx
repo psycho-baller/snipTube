@@ -1,44 +1,39 @@
-import { type FC } from 'react';
-import Link from 'next/link';
-import { siteConfig } from 'src/config/site';
+import { type FC } from "react";
+import Link from "next/link";
+import { siteConfig } from "src/config/site";
 import SectionHeader from "~components/Common/SectionHeader";
-import { motion } from 'framer-motion';
-import AnimateOnView from '~components/shared/AnimateOnView';
+import { motion } from "framer-motion";
+import AnimateOnView from "~components/shared/AnimateOnView";
 
-interface Props {
-
-}
+interface Props {}
 
 async function getGitHubStars(): Promise<string | null> {
   try {
-    const response = await fetch(
-      "https://api.github.com/repos/psycho-baller/SnipTube",
-      {
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
-        },
-        next: {
-          revalidate: 60 * 60 * 24, // 24 hours
-        },
-      }
-    )
+    const response = await fetch("https://api.github.com/repos/psycho-baller/SnipTube", {
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
+      },
+      next: {
+        revalidate: 60 * 60, // 1 hour
+      },
+    });
 
     if (!response?.ok) {
-      return null
+      return null;
     }
 
-    const json = await response.json()
+    const json = await response.json();
 
-    return parseInt(json["stargazers_count"]).toLocaleString()
+    return parseInt(json["stargazers_count"]).toLocaleString();
   } catch (error) {
-    return null
+    return null;
   }
 }
 
 const openSource: FC<Props> = async (props) => {
-  const stars = await getGitHubStars()
-  const { } = props;
+  const stars = await getGitHubStars();
+  const {} = props;
 
   return (
     <section
@@ -54,8 +49,9 @@ const openSource: FC<Props> = async (props) => {
           }}
         />
         <AnimateOnView
-        as='p'
-        className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+          as="p"
+          className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7"
+        >
           Creating and maintaining SnipTube has been a labor of love, and I'm thrilled to offer it as a free tool for
           everyone to enjoy. If you find SnipTube valuable and wish to support its development, consider{" "}
           <Link
