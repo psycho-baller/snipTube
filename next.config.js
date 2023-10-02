@@ -18,7 +18,7 @@ const nextConfig = {
         source: "/api/llm/:path*",
         destination:
           process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/api/llm/:path*"
+            ? "http://0.0.0.0:80/api/llm/:path*"
             : "/api/",
       },
     ];
