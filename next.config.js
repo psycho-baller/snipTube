@@ -31,6 +31,24 @@ const nextConfig = {
         permanent: false,
         basePath: false
       },
+      {
+        source: '/firefox',
+        destination: 'https://addons.mozilla.org/en-US/firefox/addon/sniptube/',
+        permanent: false,
+        basePath: false
+      },
+      {
+        source: '/edge',
+        destination: 'https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk',
+        permanent: false,
+        basePath: false
+      },
+      {
+        source: '/safari',
+        destination: 'https://github.com/psycho-baller/snipTube/blob/main/docs/safari.md',
+        permanent: false,
+        basePath: false
+      },
     ]
   },
   async headers() {

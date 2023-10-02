@@ -1,10 +1,19 @@
-# [SnipTube - Elevate Your YouTube Experience](https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk)
-
 <picture>
 <!--   <source media="(prefers-color-scheme: dark)" srcset="assets/SnipTube logo-dark.svg"> -->
   <source media="(prefers-color-scheme: light)" srcset="assets/SnipTube logo.svg">
   <img width="100%" alt="Shows a black logo in light color mode and a white one in dark color mode." src="assets/SnipTube logo-dark.svg">
 </picture>
+
+<h1 align="center">SnipTube - Elevate Your YouTube Experience</h1>
+
+<p align="center">
+  <b>Download:</b>
+  <a href="https://sniptube.tech/chrome">Chrome/Chromium</a> |
+  <a href="https://sniptube.tech/firefox">Firefox</a> |
+  <a href="https://sniptube.tech/edge">Edge</a> |
+  <a href="/docs/safari.md">Safari for MacOS and iOS</a> |
+  <a href="https://sniptube.tech">Website</a>
+</p>
 
 🤹🏼‍♂️ Hours spent code juggling this project:
 <a href="https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/7432176a-d08e-48bd-96fb-6cba5c9f4fa2"><img src="https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/7432176a-d08e-48bd-96fb-6cba5c9f4fa2.svg" alt="wakatime"></a>
@@ -59,10 +68,11 @@ Please see [docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md) to get started.
 
 - ✅ **Bootstrapping**: A mix of [Nextjs + FastAPI](https://github.com/psycho-baller/nextjs-and-fastapi-backend) and [Plasmo's Nextjs starter](https://github.com/PlasmoHQ/examples/tree/main/with-nextjs)
 - ✅ **Framework**:
-  - [Nextjs 13 + Typescript](https://nextjs.org/) for the marketing website, and some API endpoints.
+  - [Nextjs 13 + Typescript](https://nextjs.org/) for the marketing website, some API endpoints, and just making it possible to connect all these different technologies together.
   - [FastAPI](https://fastapi.tiangolo.com/) for the rest of the API endpoints (the ones that involve AI)
   - [LangChain](https://www.langchain.com/) for enhancing and simplifying the process of interacting with LLMs like GPT-3.5-turbo (which is what I'm using for the summarization feature).
   - [Plasmo](https://plasmo.com) for the browser extension.
+  - [React](https://reactjs.org/) for the browser extension frontend.
 - ✅ **CI/CD**: [GitHub Actions](https://github.com/features/actions) to automate the process of packaging and publishing the browser extension to the Chrome Web Store, Firefox Add-ons Store, and Edge Add-ons Store.
 - ✅ **Deployment**: [Vercel](https://vercel.com/)
 - ✅ **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
