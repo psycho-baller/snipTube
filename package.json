@@ -57,9 +57,7 @@
   "manifest": {
     "permissions": [
       "storage",
-      "tabs",
-      "scripting",
-      "activeTab"
+      "tabs"
     ],
     "browser_specific_settings": {
       "gecko": {
