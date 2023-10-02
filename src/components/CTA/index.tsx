@@ -3,8 +3,11 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { siteConfig } from "~config/site";
+import Link from "next/link";
+import useBrowserName from "~hooks/useBrowserName";
 
 const CTA = () => {
+  const browserName = useBrowserName();
   return (
     <>
       {/* <!-- ===== CTA Start ===== --> */}
@@ -63,8 +66,8 @@ const CTA = () => {
                   alt="Saly"
                   className="hidden xl:block"
                 />
-                <a
-                  href={siteConfig.links.chrome}
+                <Link
+                  href={siteConfig.links[browserName]
                   className="inline-flex items-center gap-2.5 font-medium text-white dark:text-black bg-black dark:bg-white rounded-full py-3 px-6 hover:opacity-90"
                 >
                   <span>Download Now</span>
@@ -82,7 +85,7 @@ const CTA = () => {
                     alt="Arrow"
                     className="hidden dark:block"
                   />
-                </a>
+                </Link>
               </div>
             </motion.div>
           </div>
