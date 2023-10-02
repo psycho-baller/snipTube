@@ -9,11 +9,11 @@
 🤹🏼‍♂️ Hours spent code juggling this project:
 <a href="https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/7432176a-d08e-48bd-96fb-6cba5c9f4fa2"><img src="https://wakatime.com/badge/user/33addb7e-f5e6-470b-a55b-0a8babc62ebb/project/7432176a-d08e-48bd-96fb-6cba5c9f4fa2.svg" alt="wakatime"></a>
 
-## What is SnipTube?
+## 🧐 What is SnipTube?
 
 Are you tired of trying to remember the best moments in those lengthy YouTube videos? Look no further! SnipTube empowers you to effortlessly highlight, tag, annotate, and export the most captivating parts of your favorite YouTube videos (we call these snips). Plus, with the magic of AI, it generates summaries for these snips, making it a breeze to revisit. Let's take a closer look at what SnipTube has to offer:
 
-### Features
+### ⚡️ Features
 
 🎯 **Intelligent Summarization**:
 SnipTube harnesses the power of advanced AI algorithms to automatically generate concise summaries for each snip. Say goodbye to the hassle of rewatching entire videos to find that one crucial detail - SnipTube will have it neatly summarized for you!
@@ -51,11 +51,24 @@ Creating and maintaining SnipTube has been a labor of love, and I'm thrilled to 
 
 Don't miss the chance to revolutionize your YouTube experience. [Download SnipTube now](https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk) and take control of your favorite moments like never before!
 
-## Contributing
+## 🤝 Contributing
 
-Please see [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md) to get started.
+Please see [docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md) to get started.
 
-## License
+## 🚀 Tech Stack
+
+- ✅ **Bootstrapping**: A mix of [Nextjs + FastAPI](https://github.com/psycho-baller/nextjs-and-fastapi-backend) and [Plasmo's Nextjs starter](https://github.com/PlasmoHQ/examples/tree/main/with-nextjs)
+- ✅ **Framework**:
+  - [Nextjs 13 + Typescript](https://nextjs.org/) for the marketing website, and some API endpoints.
+  - [FastAPI](https://fastapi.tiangolo.com/) for the rest of the API endpoints (the ones that involve AI)
+  - [LangChain](https://www.langchain.com/) for enhancing and simplifying the process of interacting with LLMs like GPT-3.5-turbo (which is what I'm using for the summarization feature).
+  - [Plasmo](https://plasmo.com) for the browser extension.
+- ✅ **CI/CD**: [GitHub Actions](https://github.com/features/actions) to automate the process of packaging and publishing the browser extension to the Chrome Web Store, Firefox Add-ons Store, and Edge Add-ons Store.
+- ✅ **Deployment**: [Vercel](https://vercel.com/)
+- ✅ **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
+- ✅ **Styling**: [TailwindCSS](https://tailwindcss.com).
+
+## 📝 License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
