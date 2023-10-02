@@ -173,7 +173,8 @@ const Demo: FC = () => {
           headerInfo={{
             title: "DEMO",
             subtitle: "SnipTube in Action",
-            description: "Give SnipTube a try and see how it can help you!",
+            description:
+              "Give SnipTube a try and see how it can help you. This is just a simplified demo, there's a lot more you can do with SnipTube like annotating, writing your own notes, exporting and more!",
           }}
         />
         {/* <!-- Section Title End --> */}
@@ -192,7 +193,12 @@ const Demo: FC = () => {
             >
               <div className="timeline">
                 {snips.map((snip, index) => (
-                  <TimelineSnip key={index} snip={snip} videoRef={videoRef} firstSnip={index === 0} />
+                  <TimelineSnip
+                    key={index}
+                    snip={snip}
+                    videoRef={videoRef}
+                    firstSnip={index === 0}
+                  />
                 ))}
                 <img className="preview-img" />
                 <div className="thumb-indicator z-50" />

@@ -7,6 +7,9 @@ export type SiteConfig = {
   links: {
     // twitter: string
     chrome: string;
+    firefox: string;
+    edge: string;
+    safari: string;
     github: string;
     kofi: string;
     linkedin: string;
@@ -23,3 +26,5 @@ export type Header = {
   newTab: boolean;
   submenu?: Header[];
 };
+
+export type Browsers = "chrome" | "firefox" | "edge" | "safari";

@@ -1,4 +1,4 @@
-import type { SiteConfig } from "~types/config"
+import type { SiteConfig } from "~types/config";
 
 export const siteConfig: SiteConfig = {
   name: "SnipTube",
@@ -9,7 +9,10 @@ export const siteConfig: SiteConfig = {
   links: {
     // twitter: "https://twitter.com/",
     github: "https://github.com/psycho-baller/sniptube",
-    chrome: "https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk",
+    chrome: "/chrome",
+    firefox: "/firefox",
+    edge: "/edge",
+    safari: "/safari",
     kofi: "https://ko-fi.com/ramimaalouf",
     linkedin: "https://www.linkedin.com/in/rami--maalouf/",
     youtube: "https://youtube.com/@ramimaalouf",
