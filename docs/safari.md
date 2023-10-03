@@ -1,6 +1,7 @@
 # Installing SnipTube as a Safari extension
 
-<!-- [Source code](https://github.com/psycho-baller/) -->
+Source code: https://github.com/psycho-baller/SniptubeSafari
+
 I'm currently not willing to pay Apple $99/year to be able to distribute this extension through the App Store because [Safari sucks](https://www.reddit.com/media?url=https://preview.redd.it/safari-is-just-the-new-ie-v0-8h038hccu8x91.png?auto%3Dwebp%26s%3D7f63af0589883e983bfab5c8097503f78a6fcd77), but if you still want to use it there, you'll have to build it yourself, which takes about 5 minutes.
 
 ## Build it yourself
