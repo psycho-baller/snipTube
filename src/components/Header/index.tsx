@@ -26,14 +26,14 @@ const Header: FC<Props> = (props) => {
     return scrollY.on("change", (latest) => setY(latest));
   }, [scrollY]);
 
-  const bg = y > ref.current?.getBoundingClientRect().height ? "bg-whiteAlpha-700" : "bg-opacity-70";
+  // const bg = y > ref.current?.getBoundingClientRect().height ? "bg-whiteAlpha-700" : "bg-opacity-70";
 
   // TODO: hide when scrolling down, show when scrolling up (using framer-motion)
   return (
     <header
       ref={ref}
-      className={`fixed transition duration-300 top-0 w-full ${bg} backdrop-blur-md z-50 ${
-        y > ref.current?.getBoundingClientRect().height ? "shadow-b shadow-lg dark:shadow-gray-800" : ""
+      className={`fixed transition duration-300 top-0 w-full backdrop-blur-xl z-50 border-white border-opacity-10 ${
+        y > ref.current?.getBoundingClientRect().height ? "shadow-b shadow-lg dark:border-b dark:shadow-none" : ""
       } ${y > ref.current?.getBoundingClientRect().height ? "" : ""}`}
       {...rest}
     >
@@ -204,7 +204,5 @@ const Header: FC<Props> = (props) => {
     // </header>
   );
 };
-
-// w-full delay-300
 
 export default Header;

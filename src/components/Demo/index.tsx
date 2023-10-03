@@ -201,7 +201,7 @@ const Demo: FC = () => {
                   />
                 ))}
                 <img className="preview-img" />
-                <div className="thumb-indicator z-50" />
+                <div className="thumb-indicator z-40" />
               </div>
             </div>
             <div className="controls">
@@ -381,7 +381,7 @@ const Demo: FC = () => {
             left: 0;
             right: 0;
             color: white;
-            z-index: 100;
+            z-index: 30;
             opacity: 0;
             transition: opacity 150ms ease-in-out;
           }
