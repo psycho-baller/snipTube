@@ -1,8 +1,7 @@
 import { cva } from "class-variance-authority";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import type { Snip } from "./types";
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
 
 // TODO: settings to specify what format to export in and what data to include
 export function exportSnip(snip: Snip) {
@@ -65,7 +64,7 @@ ${tags?.length > 0 ? tags.map((tag) => `${tag.name}`).join(", ") + "\n\n" : ""}`
 // const formatMdTitle = (title: string) => {};
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const buttonVariants = cva(
@@ -74,12 +73,9 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/80",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "underline-offset-4 hover:underline text-primary",
       },
@@ -94,4 +90,4 @@ export const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);

@@ -2,7 +2,7 @@
 import { type FC, type ComponentPropsWithoutRef, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useScroll } from "framer-motion";
 
 import ThemeToggler from "./ThemeToggler";
@@ -17,7 +17,6 @@ const Header: FC<Props> = (props) => {
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
 
-  const pathUrl = usePathname();
   const router = useRouter();
   const ref = useRef<HTMLHeadElement>(null);
   const [y, setY] = useState<number>(0);
