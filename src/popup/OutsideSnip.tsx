@@ -2,9 +2,9 @@ import { useState, type FC } from "react";
 import type { Snip } from "~lib/types";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
-import { useAllSnipsStore, useSnipsStore } from "~lib/store";
+import { useAllSnipsStore, useSnipsStore } from "~stores/sniptube";
 import DynamicTextarea from "src/shared/components/DynamicTextarea";
-import {useAutoAnimate} from "@formkit/auto-animate/react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 interface Props {
   snip: Snip;
@@ -41,8 +41,8 @@ const OutsideSnip: FC<Props> = (props) => {
 
   return (
     <>
-    {/* add bg blur to everything except the modal */}
-    {/* {showDetails && (
+      {/* add bg blur to everything except the modal */}
+      {/* {showDetails && (
       <div className="blur fixed inset-0 z-50"/>
       // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       //   <div className="relative z-50 w-[30rem] h-[20rem] bg-gray-800 rounded-xl">
@@ -97,44 +97,57 @@ const OutsideSnip: FC<Props> = (props) => {
       //   </div>
       // </div>
     )} */}
-    <li ref={snipComponent} className="flex flex-col mb-4 bg-gray-800 rounded-xl" onMouseOver={() => setShowDetails(true)} onMouseLeave={() => setShowDetails(false)}>
-      <div className="flex flex-row">
-        <img
-          className={`w-1/3 h-[5.25rem] transition-all rounded-l-xl ${showDetails ? "rounded-bl-none" : ""}`}
-          src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-          alt="thumbnail"
-        />
-        <div className={"flex flex-col justify-between w-full gap-2 px-2 pt-2 overflow-hidden bg-gray-800 rounded-r-xl " + (showDetails ? "pb-0" : "pb-2")}>
-          <p className={`font-bold text-xs ${showDetails ? "" : "whitespace-nowrap overflow-ellipsis overflow-hidden"}`}>{title}</p>
-          <div className="grid w-full grid-cols-2 gap-2">
-            <TimeStamps
-              start={startTimestamp}
-              end={endTimestamp}
-              currentVideoId={videoId}
-              id={id}
-              tab={1}
-            />
-            <ActionButtons
-              snip={snip}
-            />
+      <li
+        ref={snipComponent}
+        className="flex flex-col mb-4 bg-gray-800 rounded-xl"
+        onMouseOver={() => setShowDetails(true)}
+        onMouseLeave={() => setShowDetails(false)}
+      >
+        <div className="flex flex-row">
+          <img
+            className={`w-1/3 h-[5.25rem] transition-all rounded-l-xl ${showDetails ? "rounded-bl-none" : ""}`}
+            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+            alt="thumbnail"
+          />
+          <div
+            className={
+              "flex flex-col justify-between w-full gap-2 px-2 pt-2 overflow-hidden bg-gray-800 rounded-r-xl " +
+              (showDetails ? "pb-0" : "pb-2")
+            }
+          >
+            <p
+              className={`font-bold text-xs ${
+                showDetails ? "" : "whitespace-nowrap overflow-ellipsis overflow-hidden"
+              }`}
+            >
+              {title}
+            </p>
+            <div className="grid w-full grid-cols-2 gap-2">
+              <TimeStamps
+                start={startTimestamp}
+                end={endTimestamp}
+                currentVideoId={videoId}
+                id={id}
+                tab={1}
+              />
+              <ActionButtons snip={snip} />
+            </div>
           </div>
         </div>
-      </div>
-      {/* hidden group-hover/snip:block */}
-      {showDetails && (
-        
-      <div className="w-full px-3 pb-1.5 pt-3">
-        <DynamicTextarea
-          note={textareaValue}
-          setNote={setTextareaValue}
-          className="text-sm px-2 py-1.5"
-          defaultHeight={1.5}
-          updateData={updateData}
-          // onKeyDown={stopPropagation}
-        />
-      </div>
-      )}
-    </li>
+        {/* hidden group-hover/snip:block */}
+        {showDetails && (
+          <div className="w-full px-3 pb-1.5 pt-3">
+            <DynamicTextarea
+              note={textareaValue}
+              setNote={setTextareaValue}
+              className="text-sm px-2 py-1.5"
+              defaultHeight={1.5}
+              updateData={updateData}
+              // onKeyDown={stopPropagation}
+            />
+          </div>
+        )}
+      </li>
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useMemo, type FC, useEffect } from "react";
 import type { Snip, Tag } from "~lib/types";
 import Topbar from "./Topbar";
 import YtSnip from "./YtSnip";
-import { useSnipsStore } from "~lib/store";
+import { useSnipsStore } from "~stores/sniptube";
 import { getSnips } from "~lib/storage";
 import NoSnips from "./NoSnips";
 import { sortByOptions } from "~lib/constants";

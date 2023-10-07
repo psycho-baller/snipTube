@@ -13,7 +13,7 @@ import {
 import { getVideoDetails } from "~lib/youtube";
 import { getSnipTranscript } from "~lib/youtube";
 import { URL, invalidStartOrEndTimeMessage } from "~lib/constants";
-import { useContentScriptStore } from "~lib/store";
+import { useContentScriptStore } from "~stores/sniptube";
 import browser from "webextension-polyfill";
 export const config: PlasmoCSConfig = {
   matches: [

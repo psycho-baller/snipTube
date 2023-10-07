@@ -1,6 +1,6 @@
 import { type FC, useEffect, useRef, useState } from "react";
 import { sortByOptions } from "~lib/constants";
-import { useSnipsStore } from "~lib/store";
+import { useSnipsStore } from "~stores/sniptube";
 
 interface Props {}
 

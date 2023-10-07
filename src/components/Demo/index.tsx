@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef, type FC } from "react";
 import SnipBtn from "./SnipBtn";
-import { useSnipsStore } from "~lib/store";
+import { useSnipsStore } from "~stores/sniptube";
 import { getSnips } from "~lib/storage";
 import SectionHeader from "~components/Common/SectionHeader";
 import TimelineSnip from "./TimelineSnip";

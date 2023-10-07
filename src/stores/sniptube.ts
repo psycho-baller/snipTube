@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { Snip, SortByOptionsType } from "~lib/types";
-import { setDefaultSnipLength, setSnips } from "./storage";
+import { setDefaultSnipLength, setSnips } from "../lib/storage";
 
 type State = {
   snips: Snip[];

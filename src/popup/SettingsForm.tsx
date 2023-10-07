@@ -10,7 +10,7 @@ import {
   setShowAddSnipDetailsFormOnNewSnip,
   setUseKeyboardShortcut,
 } from "~lib/storage";
-import { useAllSnipsStore, useSnipsStore } from "~lib/store";
+import { useAllSnipsStore, useSnipsStore } from "~stores/sniptube";
 interface Props {
   className?: string;
   takeUpFullHeight?: boolean;
@@ -23,8 +23,7 @@ const SettingsForm: FC<Props> = (props) => {
   const setSnips = useSnipsStore((state) => state.setSnips);
 
   // get viewport height
-  
-  
+
   const [showAddSnipDetailsFormOnNewSnipState, setShowAddSnipDetailsFormOnNewSnipState] = useState<boolean>(true);
   const [pauseVideoOnNewSnipState, setPauseVideoOnNewSnipState] = useState<boolean>(true);
   const [useKeyboardShortcutState, setUseKeyboardShortcutState] = useState<boolean>(true);
@@ -95,7 +94,10 @@ const SettingsForm: FC<Props> = (props) => {
   return (
     <section className={className}>
       <div
-      className={"overflow-scroll flex flex-col gap-y-6 px-4 pt-2 pb-4 " + (takeUpFullHeight ? "" : "max-h-[22.5rem]")}>
+        className={
+          "overflow-scroll flex flex-col gap-y-6 px-4 pt-2 pb-4 " + (takeUpFullHeight ? "" : "max-h-[22.5rem]")
+        }
+      >
         <div className="flex items-center justify-between">
           {/* keep in single line:  overflow-ellipsis whitespace-nowrap  */}
           <h2 className="-mb-2 overflow-hidden text-2xl font-medium">Settings</h2>

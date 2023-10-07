@@ -1,7 +1,7 @@
 import { useState, type FC, useEffect, type MouseEvent } from "react";
 import "src/styles/play-pause-btn.css";
 import { getVideoId } from "~lib/storage";
-import { useContentScriptStore } from "~lib/store";
+import { useContentScriptStore } from "~stores/sniptube";
 import browser from "webextension-polyfill";
 
 interface Props {
@@ -33,13 +33,10 @@ const TimeStamps: FC<Props> = (props) => {
       const tabs = await browser.tabs.query({ active: true, currentWindow: true });
       const tab = tabs[0];
       if (tab.id) {
-        await browser.tabs.sendMessage(
-          tab.id,
-          {
-            type: "PLAY_SNIP",
-            value: start,
-          }
-        );
+        await browser.tabs.sendMessage(tab.id, {
+          type: "PLAY_SNIP",
+          value: start,
+        });
       }
     } else {
       // TODO: play the video/audio in the popup itself (thumbnail becomes the video player)

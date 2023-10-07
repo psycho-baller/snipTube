@@ -2,13 +2,13 @@ import { useEffect, useState, type FC } from "react";
 import Tabs from "./Tabs";
 import AllSnips from "./AllSnips";
 import "src/styles/tailwind.css";
-import { useContentScriptStore } from "~lib/store";
+import { useContentScriptStore } from "~stores/sniptube";
 import browser from "webextension-polyfill";
 interface Props {}
 
 const Popup: FC<Props> = () => {
   const [count, setCount] = useState<number>(0);
-  
+
   const inYoutube = useContentScriptStore((state) => state.inYoutube);
   const setInYoutube = useContentScriptStore((state) => state.setInYoutube);
   // useEffect(() => {

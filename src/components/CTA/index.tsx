@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { siteConfig } from "~config/site";
 import Link from "next/link";
-import useBrowserName from "~hooks/useBrowserName";
+import useBrowserName from "~hooks/use-browser-name";
 
 const CTA = () => {
   const browserName = useBrowserName();

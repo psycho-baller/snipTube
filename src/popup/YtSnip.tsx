@@ -1,6 +1,6 @@
 import { useState, type FC } from "react";
 import type { Snip, Tag } from "~lib/types";
-import { useSnipsStore } from "~lib/store";
+import { useSnipsStore } from "~stores/sniptube";
 import TimeStamps from "./TimeStamps";
 import ActionButtons from "./ActionButtons";
 import DynamicTextarea from "src/shared/components/DynamicTextarea";
@@ -32,7 +32,12 @@ const YtSnip: FC<Props> = (props) => {
   }
 
   return (
-    <li ref={snipComponent} className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl group/snip" onMouseOver={() => setShowDetails(true)} onMouseLeave={() => setShowDetails(false)}>
+    <li
+      ref={snipComponent}
+      className="flex flex-col justify-between w-full gap-2 p-3 mb-4 bg-gray-800 shadow-md rounded-xl group/snip"
+      onMouseOver={() => setShowDetails(true)}
+      onMouseLeave={() => setShowDetails(false)}
+    >
       <p className="text-lg font-medium text-gray-100">{title}</p>
       {/* grid of 3 equal sized columns in 1 row */}
       <div className="grid w-full grid-cols-3 gap-2">
@@ -56,9 +61,7 @@ const YtSnip: FC<Props> = (props) => {
           currentVideoId={videoId}
           id={id}
         />
-        <ActionButtons
-          snip={snip}
-        />
+        <ActionButtons snip={snip} />
       </div>
       {showDetails && (
         <DynamicTextarea

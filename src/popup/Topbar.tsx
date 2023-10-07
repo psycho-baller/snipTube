@@ -3,7 +3,7 @@ import { type Snip, type Tag } from "../lib/types";
 import Dropdown from "./Dropdown";
 import ExportButton from "./ExportButton";
 import SettingsButton from "./SettingsButton";
-import { useContentScriptStore } from "~lib/store";
+import { useContentScriptStore } from "~stores/sniptube";
 
 interface Props {
   tags: Tag[];
@@ -38,7 +38,10 @@ const Header: FC<Props> = (props) => {
       {/* sort at the right corner */}
       <div className={`flex justify-end flex-1 gap-2 ${hasMoreThanFour ? "" : "pr-4"}`}>
         <ExportButton snips={allSnips ?? snips} />
-        <SettingsButton stickRight={!hasMoreThanFour} takeUpFullHeight={takeUpFullHeight} />
+        <SettingsButton
+          stickRight={!hasMoreThanFour}
+          takeUpFullHeight={takeUpFullHeight}
+        />
         {hasMoreThanFour && <Dropdown />}
       </div>
     </header>

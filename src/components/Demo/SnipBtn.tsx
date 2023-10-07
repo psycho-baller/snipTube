@@ -1,8 +1,8 @@
 import { type MouseEvent, type FC, useState } from "react";
-import { useSnipsStore } from "~lib/store";
+import { useSnipsStore } from "~stores/sniptube";
 import { cn } from "~lib/utils";
 import ArrowSvg from "./ArrowSvg";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface Props extends React.ComponentPropsWithoutRef<"div"> {
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -86,33 +86,34 @@ const SnipBtn: FC<Props> = (props) => {
       </button>
       {/* add floatingillustration above button */}
       <motion.div
-            initial={{ scale: 0, rotate: 30 }}
-            animate={{ scale: showBoom ? 1 : 0 }}
-            exit={{ scale: 0 }}
-
-            transition={{ duration: 0.05,  }}
-      className="absolute -top-14 transform uppercase text-4xl font-sketch">
+        initial={{ scale: 0, rotate: 30 }}
+        animate={{ scale: showBoom ? 1 : 0 }}
+        exit={{ scale: 0 }}
+        transition={{ duration: 0.05 }}
+        className="absolute -top-14 transform uppercase text-4xl font-sketch"
+      >
         boom!
       </motion.div>
       {/* add floating illustrations below button */}
       <motion.div
-      variants={{
-        hidden: {
-          opacity: 0,
-          y: 10,
-        },
+        variants={{
+          hidden: {
+            opacity: 0,
+            y: 10,
+          },
 
-        visible: {
-          opacity: 1,
-          y: 0,
-        },
-      }}
-      initial="hidden"
-      whileInView="visible"
-      // initial={{ opacity: 0 }}
-      animate={{ opacity: userCreatedSnip ? 0 : 1 }}
-      transition={{ duration: 1, delay: 0.1 }}
-      className="absolute top-full transform -z-1">
+          visible: {
+            opacity: 1,
+            y: 0,
+          },
+        }}
+        initial="hidden"
+        whileInView="visible"
+        // initial={{ opacity: 0 }}
+        animate={{ opacity: userCreatedSnip ? 0 : 1 }}
+        transition={{ duration: 1, delay: 0.1 }}
+        className="absolute top-full transform -z-1"
+      >
         <ArrowSvg
           width={size}
           height={size}

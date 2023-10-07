@@ -1,5 +1,5 @@
 import { type FC, type MouseEvent, type Dispatch, type SetStateAction } from "react";
-import { useSnipsStore } from "~lib/store";
+import { useSnipsStore } from "~stores/sniptube";
 import type { Snip } from "~lib/types";
 import ExportButton from "./ExportButton";
 
