@@ -19,13 +19,6 @@ const Header: FC<Props> = (props) => {
 
   const router = useRouter();
   const ref = useRef<HTMLHeadElement>(null);
-  const [y, setY] = useState<number>(0);
-  const { scrollY } = useScroll();
-  useEffect(() => {
-    return scrollY.on("change", (latest) => setY(latest));
-  }, [scrollY]);
-  console.log(y, ref.current?.getBoundingClientRect().height * 2.6);
-  const bg = y > ref.current?.getBoundingClientRect().height ? "backdrop-brightness-80" : "";
 
   // TODO: hide when scrolling down, show when scrolling up (using framer-motion)
   return (
@@ -36,7 +29,7 @@ const Header: FC<Props> = (props) => {
       // } ${y > ref.current?.getBoundingClientRect().height ? "" : ""}`}
       {...rest}
     >
-      <Navigation bg={bg} />
+      <Navigation />
 
       <div className="container mx-auto px-8 pt-8 z-50">
         <div className="lg:flex items-center justify-between hidden">

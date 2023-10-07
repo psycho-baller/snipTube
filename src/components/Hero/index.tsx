@@ -1,11 +1,17 @@
+"use client";
 import Link from "next/link";
 import { siteConfig } from "~config/site";
 import { cn, buttonVariants } from "~lib/utils";
 import DownloadExtensionButton from "./DownloadExtensionButton";
+import { useStore } from "~stores/website";
 
 const Hero = () => {
+  const heroTextRef = useStore((state) => state.heroTextRef);
   return (
-    <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-36 mt-16">
+    <section
+      ref={heroTextRef}
+      className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-36 mt-16"
+    >
       <div className="container flex max-w-[70rem] flex-col items-center gap-4 text-center">
         {/* <Link
             href={siteConfig.links.github}
