@@ -24,20 +24,22 @@ const Header: FC<Props> = (props) => {
   useEffect(() => {
     return scrollY.on("change", (latest) => setY(latest));
   }, [scrollY]);
-
-  // const bg = y > ref.current?.getBoundingClientRect().height ? "bg-whiteAlpha-700" : "bg-opacity-70";
+  console.log(y, ref.current?.getBoundingClientRect().height * 2.6);
+  const bg = y > ref.current?.getBoundingClientRect().height ? "backdrop-brightness-80" : "";
 
   // TODO: hide when scrolling down, show when scrolling up (using framer-motion)
   return (
     <header
       ref={ref}
-      className={`fixed transition duration-300 top-0 w-full backdrop-blur-xl z-50 border-white border-opacity-10 ${
-        y > ref.current?.getBoundingClientRect().height ? "shadow-b shadow-lg dark:border-b dark:shadow-none" : ""
-      } ${y > ref.current?.getBoundingClientRect().height ? "" : ""}`}
+      className="transition duration-300 w-full "
+      //   ${y > ref.current?.getBoundingClientRect().height ? "shadow-b shadow-lg dark:border-b dark:shadow-none" : ""
+      // } ${y > ref.current?.getBoundingClientRect().height ? "" : ""}`}
       {...rest}
     >
-      <div className="container mx-auto px-8 py-4">
-        <div className="flex items-center justify-between">
+      <Navigation bg={bg} />
+
+      <div className="container mx-auto px-8 pt-8 z-50">
+        <div className="lg:flex items-center justify-between hidden">
           <Logo
             width={200}
             className="cursor-pointer"
@@ -53,7 +55,6 @@ const Header: FC<Props> = (props) => {
               }
             }}
           />
-          <Navigation />
           <ThemeToggler />
         </div>
       </div>

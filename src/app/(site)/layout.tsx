@@ -3,7 +3,7 @@ import Footer from "~components/Footer";
 import Lines from "~components/Lines";
 import ScrollToTop from "~components/ScrollToTop";
 import { Inter } from "next/font/google";
-import localFont from 'next/font/local'
+import localFont from "next/font/local";
 import ThemeProvider from "~components/ThemeProvider";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -13,25 +13,28 @@ import { TailwindIndicator } from "~components/TailwindIndicator";
 import "../globals.css";
 import Script from "next/script";
 
-
 const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-})
+});
 const fontHeading = localFont({
   src: "../../../public/fonts/CalSans-SemiBold.woff2",
   variable: "--font-heading",
-})
+});
 const fontSketch = localFont({
   src: "../../../public/fonts/One Little Font Regular.otf",
   variable: "--font-sketch",
-})
+});
+// const fontAcorn = localFont({
+//   src: "../../../public/fonts/acorn.woff",
+//   variable: "--font-acorn",
+// });
 
 export const metadata: Metadata = {
   title: {
     default: `${siteConfig.name} | ${siteConfig.slogan}`,
     template: `%s | ${siteConfig.name}`,
-},
+  },
   description: siteConfig.description,
   keywords: [
     "Chrome Extension",
@@ -80,13 +83,17 @@ export const metadata: Metadata = {
   //   apple: "/apple-touch-icon.png",
   // },
   manifest: `${siteConfig.url}/site.webmanifest`,
-}
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="eng">
-      <head/>
-      <Script async src="https://analytics.umami.is/script.js" data-website-id="3e1a11da-09f4-444a-be40-3e8034f770a0"/>
+      <head />
+      <Script
+        async
+        src="https://analytics.umami.is/script.js"
+        data-website-id="3e1a11da-09f4-444a-be40-3e8034f770a0"
+      />
       {/* </head> */}
       <body className={`${fontSans.variable} ${fontHeading.variable} ${fontSketch.variable}`}>
         <ThemeProvider

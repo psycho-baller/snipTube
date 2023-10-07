@@ -1,22 +1,21 @@
-
 import Link from "next/link";
 import { forwardRef, type ComponentPropsWithRef } from "react";
 import { cn } from "~lib/utils";
 export interface NavLinkProps extends ComponentPropsWithRef<"a"> {
-  isActive?: boolean;
+  isActive: boolean;
   id?: string;
 }
 
 const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>((props, ref) => {
   const { href, type, isActive, className, ...rest } = props;
-  const activeClassName = isActive ? "text-blue-500 dark:text-blue-400" : "";
+  const activeClassName = isActive ? "dark:bg-white/10 bg-secondary/40" : "";
 
   return (
     <Link
       href={href}
       ref={ref}
       className={cn(
-        "block px-4 py-2 rounded-md font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100",
+        "block px-3.5 sm:px-6 py-1 sm:py-1.5 font-medium rounded-full text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100",
         activeClassName,
         className
       )}

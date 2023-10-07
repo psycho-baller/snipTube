@@ -47,10 +47,10 @@
     --accent: 161deg 55% 49%;
   }
   body {
-    @apply relative font-sans font-normal bg-background text-regular text-text z-1;
+    @apply relative font-sans font-normal bg-background text-regular text-text z-1 selection:text-gray-50 dark:selection:text-gray-800 selection:bg-primary;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply text-black text-heading font-heading dark:text-white;
+    @apply text-black text-heading font-heading dark:text-white selection:text-gray-50 dark:selection:text-gray-800 selection:bg-primary;
   }
 
   p {
