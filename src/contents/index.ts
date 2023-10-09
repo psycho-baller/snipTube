@@ -1,4 +1,4 @@
-import type { Snip, Subtitle, VidDetails } from "../lib/types";
+import type { Snip, Subtitle } from "../lib/types";
 import type { PlasmoCSConfig } from "plasmo";
 import {
   getDefaultSnipLength,
@@ -79,14 +79,23 @@ const newVideoLoaded = async () => {
     // add it before the first button
     firstRightButton?.parentElement?.insertBefore(snipBtn, firstRightButton);
     snipBtn.addEventListener("click", addNewSnipEventHandler);
-    // if usr clicks 's' then add a snip (if they have that setting enabled)
 
-    document.addEventListener("keydown", async (e) => {
-      // only when the user is not typing in an input field
-      if ((await getUseKeyboardShortcut()) && e.key === "s" && !(document.activeElement instanceof HTMLInputElement)) {
+    // if user clicks 's' then add a snip (if they have that setting enabled)
+    async function addSnipUsingKeyboardShortcut(e: KeyboardEvent) {
+      const userClickedTheSnipHotkey = e.key === "s";
+      const isTypingInTextArea = document.activeElement instanceof HTMLTextAreaElement;
+      const isTypingInInput = document.activeElement instanceof HTMLInputElement;
+      const isTypingInComment = document.activeElement.id === "contenteditable-root";
+      const isTyping = isTypingInTextArea || isTypingInInput || isTypingInComment;
+
+      if (useKeyboardShortcut && userClickedTheSnipHotkey && !isTyping) {
         await addNewSnipEventHandler();
       }
-    });
+    }
+
+    const useKeyboardShortcut = await getUseKeyboardShortcut();
+    document.addEventListener("keydown", addSnipUsingKeyboardShortcut);
+    // TODO: remove event listener when video is closed
   }
 
   // section 2: add the snips to the video

@@ -6,7 +6,6 @@ import { useSnipsStore } from "~stores/sniptube";
 import { getSnips } from "~lib/storage";
 import SectionHeader from "~components/Common/SectionHeader";
 import TimelineSnip from "./TimelineSnip";
-// import "./styles.module.css";
 
 const Demo: FC = () => {
   const [isPaused, setIsPaused] = useState(true);
