@@ -39,7 +39,7 @@ const nextConfig = {
       },
       {
         source: '/edge',
-        destination: 'https://chrome.google.com/webstore/detail/sniptube-elevate-your-you/fidajdajcfpjlbmgmpbcobkofibhkimk',
+        destination: 'https://microsoftedge.microsoft.com/addons/detail/sniptube-elevate-your-y/hibkflieoofejdponchkigjjklebinia',
         permanent: false,
         basePath: false
       },
