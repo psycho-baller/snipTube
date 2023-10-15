@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from "react";
-import Tabs from "./Tabs";
-import AllSnips from "./AllSnips";
+import Tabs from "./components/Tabs";
+import AllSnips from "./components/AllSnips";
 import "src/styles/tailwind.css";
 import { useContentScriptStore } from "~stores/sniptube";
 import browser from "webextension-polyfill";

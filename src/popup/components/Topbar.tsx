@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { type Snip, type Tag } from "../lib/types";
+import { type Snip, type Tag } from "../../lib/types";
 import Dropdown from "./Dropdown";
 import ExportButton from "./ExportButton";
 import SettingsButton from "./SettingsButton";

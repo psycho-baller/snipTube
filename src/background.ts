@@ -1,38 +1,29 @@
 import browser from "webextension-polyfill";
-// chrome.runtime.onInstalled.addListener(() => {
-// predefine the snip store
-// setSnips([]);
+browser.runtime.onInstalled.addListener(() => {
+  // take the user to the demo page after installation in production
+  if (process.env.NODE_ENV === "production") {
+    browser.tabs.create({ url: "https://sniptube.tech#demo" });
+  }
+  // browser.contextMenus.create({
+  //   id: "youtube",
+  //   title: "Add to Snip",
+  //   contexts: ["link"],
+  // });
+});
 
-// chrome.contextMenus.create({
-//   id: "youtube",
-//   title: "Add to Snip",
-//   contexts: ["link"],
-// });
-// });
-export {};
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  console.log("background running", "3");
   if (changeInfo.status === "complete" && tab.active) {
-    console.log("background running", "4");
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
-    console.log("background running", "5");
-    console.log("activeTab", activeTab);
     if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
-      console.log("background running", "6");
-
-      console.log("tabId", tabId);
       const queryParameters = activeTab.url.split("?")[1];
       const urlParameters = new URLSearchParams(queryParameters);
       const vidId = urlParameters.get("v");
-      console.log("vidId", vidId);
 
       sendMessageToContentScript(tabId, {
         type: "NEW",
         vidId,
       });
-      // returning
-      // chrome.tabs.sendMessage(tabId, { // returning
     }
   }
 });
@@ -119,3 +110,4 @@ async function sendMessageToContentScript(tabId, message, retryCount = 0) {
     }
   }
 }
+export {};
