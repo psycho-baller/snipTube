@@ -1,6 +1,4 @@
-import { useEffect, type FC, useState } from "react";
-import type { VidDetails } from "~lib/types";
-import { URL } from "~lib/constants";
+import { type FC } from "react";
 interface Props {}
 
 const Home: FC<Props> = (props) => {
