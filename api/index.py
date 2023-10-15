@@ -100,10 +100,12 @@ What you need to do is summarize the transcript(3) of the youtube video into a c
 CONCISE SUMMARIZED SENTENCE FROM TRANSCRIPT(3):
 """
 
-snip_summary_template = """You are a youtube section summarizer. Which means you will be given the transcript of a section of a youtube video. What you need to do is summarize that transcript of the youtube video into a concise sentence. The sentence should only describe the main points of the transcript of the section
+snip_summary_template = """You are a youtube section summarizer. Which means you will be given the transcript of a section of a youtube video and you need to summarize that transcript of the youtube video into a concise sentence. The sentence should only describe the main points of the given transcript
+
 
 TRANSCRIPT OF SECTION OF VIDEO TO CONCISELY SUMMARIZE:
-"{text}"
+{text}
+
 
 CONCISE SUMMARIZED SENTENCE FROM TRANSCRIPT(only write one sentence):
 """
