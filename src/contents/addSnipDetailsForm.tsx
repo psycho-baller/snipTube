@@ -124,7 +124,7 @@ const AddSnipDetailsForm = () => {
                 htmlFor="defaultSnipLength"
                 className="text-lg text-gray-300"
               >
-                Default Snip Length
+                Snip Length
               </label>
               <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
                 <input
