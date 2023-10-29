@@ -39,13 +39,13 @@ export function exportSnip(snip: Snip) {
   const startTimestampSeconds = String(Math.round(startTimestamp) % 60).padStart(2, "0");
   const endTimestampMinutes = Math.floor(endTimestamp / 60);
   const endTimestampSeconds = String(Math.round(endTimestamp) % 60).padStart(2, "0");
-  const cleanedTitle = title.replace(/\n/g, " ");
+  const cleanedTitle = title?.replace(/\n/g, " ") ?? "";
   navigator.clipboard.writeText(
     `## [${vidTitle}](https://www.youtube.com/watch?v=${videoId}&t=${startTimestamp})
-
-### ${cleanedTitle} | (${startTimestampMinutes}:${startTimestampSeconds} - ${endTimestampMinutes}:${endTimestampSeconds})
+### ${
+      cleanedTitle ? cleanedTitle + " | " : ""
+    }(${startTimestampMinutes}:${startTimestampSeconds} - ${endTimestampMinutes}:${endTimestampSeconds})
 ${note}
-
 ${tags?.map((tag) => `${tag.name}`).join(", ") ?? ""}`
   );
 }
@@ -63,20 +63,20 @@ export function exportSnips(snips: Snip[]) {
 
   const text = Object.entries(groupedSnips)
     .map(([videoId, snips]) => {
-      const vidTitle = snips[0].vidTitle.replace(/\n/g, " ");
-      return `## ${vidTitle} | (${snips.length} snips)
-
+      const vidTitle = snips[0].vidTitle?.replace(/\n/g, " ") ?? "";
+      return `## ${vidTitle} | (${snips.length} ${snips.length === 1 ? "snip" : "snips"})
 ${snips
   .map((snip) => {
     const { startTimestamp, endTimestamp, title, note, tags } = snip;
-    const cleanedTitle = title.replace(/\n/g, " ");
+    const cleanedTitle = title?.replace(/\n/g, " ") ?? "";
     const startTimestampMinutes = Math.floor(startTimestamp / 60);
     const startTimestampSeconds = String(Math.round(startTimestamp) % 60).padStart(2, "0");
     const endTimestampMinutes = Math.floor(endTimestamp / 60);
     const endTimestampSeconds = String(Math.round(endTimestamp) % 60).padStart(2, "0");
-    return `### ${cleanedTitle} | (${startTimestampMinutes}:${startTimestampSeconds} - ${endTimestampMinutes}:${endTimestampSeconds})
+    return `### ${
+      cleanedTitle ? cleanedTitle + " | " : ""
+    }(${startTimestampMinutes}:${startTimestampSeconds} - ${endTimestampMinutes}:${endTimestampSeconds})
 ${note}
-
 ${tags?.length > 0 ? tags.map((tag) => `${tag.name}`).join(", ") + "\n\n" : ""}`;
   })
   .join("")}`;
