@@ -1,7 +1,36 @@
 import { cva } from "class-variance-authority";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { Snip } from "./types";
+import type { Snip, SortByOptionsType } from "./types";
+
+export function filterAndSortSnips(snips: Snip[], sortBy: SortByOptionsType, selectedTags: string[]): Snip[] {
+  return snips
+    .filter((snip) => {
+      if (selectedTags.length === 0) {
+        return true;
+      }
+      //
+      return snip.tags?.some((tag) => selectedTags.includes(tag.name)) ?? false;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case "Newest":
+          return b.createdAt - a.createdAt;
+        case "Oldest":
+          return a.createdAt - b.createdAt;
+        case "A-Z":
+          return a.title.localeCompare(b.title);
+        case "Z-A":
+          return b.title.localeCompare(a.title);
+        case "Timestamp":
+          return a.endTimestamp - b.endTimestamp;
+        case "Reverse timestamp":
+          return b.endTimestamp - a.endTimestamp;
+        default:
+          return b.createdAt - a.createdAt;
+      }
+    });
+}
 
 // TODO: settings to specify what format to export in and what data to include
 export function exportSnip(snip: Snip) {

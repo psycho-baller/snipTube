@@ -3,7 +3,7 @@ import { type Snip, type Tag } from "../../lib/types";
 import Dropdown from "./Dropdown";
 import ExportButton from "./ExportButton";
 import SettingsButton from "./SettingsButton";
-import { useContentScriptStore } from "~stores/sniptube";
+import { useAllSnipsStore, useContentScriptStore, useSnipsStore } from "~stores/sniptube";
 
 interface Props {
   tags: Tag[];
@@ -13,12 +13,29 @@ interface Props {
 }
 
 const Header: FC<Props> = (props) => {
-  const { tags, allSnips, snips } = props;
+  const { tags, snips, allSnips } = props;
 
   const inYoutube = useContentScriptStore((state) => state.inYoutube);
+  const [selectedTags, addSelectedTag, removeSelectedTag] = useSnipsStore((state) => [
+    state.selectedTags,
+    state.addSelectedTag,
+    state.removeSelectedTag,
+  ]);
 
-  const hasMoreThanFour = allSnips?.length > 4 || snips?.length > 4;
-  const takeUpFullHeight = allSnips?.length > 6 || snips?.length > 2;
+  const takeUpFullHeight = allSnips?.length > 6 ?? snips?.length > 2;
+  const theSnipsThatAreBeingDisplayed = allSnips ?? snips;
+  const hasMoreThanFour = theSnipsThatAreBeingDisplayed?.length > 4;
+
+  function handleTagClick(tag: Tag) {
+    // filter the snips by the tag
+    // if allSnips is defined, filter allSnips
+    // if snips is defined, filter snips
+    if (selectedTags.includes(tag.name)) {
+      removeSelectedTag(tag.name);
+    } else {
+      addSelectedTag(tag.name);
+    }
+  }
 
   return (
     <header className={"flex sticky bg-gray-950 py-3 -mx-4 z-10" + (inYoutube ? "  top-[3.8rem]" : " top-0")}>
@@ -27,9 +44,11 @@ const Header: FC<Props> = (props) => {
         {tags.map((tag: Tag, i: number) => (
           <button
             key={i}
-            className={`rounded-3xl px-2 py-1 text-xs mr-2 self-center whitespace-nowrap bg-${
-              tag.color ? tag.color : "gray"
-            }-700`}
+            onClick={() => handleTagClick(tag)}
+            className={
+              "rounded-3xl px-2 py-1 text-xs mr-2 self-center whitespace-nowrap " +
+              (selectedTags.includes(tag.name) ? "bg-gray-800 text-gray-300" : "bg-gray-700 text-gray-400")
+            }
           >
             {tag.name}
           </button>
@@ -37,7 +56,7 @@ const Header: FC<Props> = (props) => {
       </div>
       {/* sort at the right corner */}
       <div className={`flex justify-end flex-1 gap-2 ${hasMoreThanFour ? "" : "pr-4"}`}>
-        <ExportButton snips={allSnips ?? snips} />
+        <ExportButton snips={theSnipsThatAreBeingDisplayed} />
         <SettingsButton
           stickRight={!hasMoreThanFour}
           takeUpFullHeight={takeUpFullHeight}

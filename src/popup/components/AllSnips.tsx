@@ -1,52 +1,27 @@
-import { type FC, useEffect, useMemo } from "react";
+import { type FC, useEffect, useMemo, useState, type ComponentPropsWithoutRef } from "react";
 import type { Snip, Tag } from "../../lib/types";
 import { useAllSnipsStore, useSnipsStore } from "~stores/sniptube";
 import Topbar from "./Topbar";
 import { getAllSnips } from "~lib/storage";
 import OutsideSnip from "./OutsideSnip";
 import NoSnips from "./NoSnips";
-import { sortByOptions } from "~lib/constants";
+import { filterAndSortSnips } from "~lib/utils";
 
-interface Props {
-  className?: string;
-}
+interface Props extends ComponentPropsWithoutRef<"div"> {}
 
 const AllSnips: FC<Props> = (props) => {
   const { className } = props;
 
-  const snips: Snip[] = useAllSnipsStore((state) => state.snips);
-  const setAllVideoSnips = useAllSnipsStore((state) => state.setSnips);
-  const sortBy = useSnipsStore((state) => state.sortBy);
+  const [sortBy, selectedTags] = useSnipsStore((state) => [state.sortBy, state.selectedTags]);
+  const [snips, setAllVideoSnips] = useAllSnipsStore((state) => [state.snips, state.setSnips]);
 
   useEffect(() => {
     getAllSnips().then((allSnips) => setAllVideoSnips(allSnips));
   }, []);
 
-  useEffect(() => {
-    switch (sortBy) {
-      case sortByOptions[0]:
-        setAllVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
-        break;
-      case sortByOptions[1]:
-        setAllVideoSnips(snips.sort((a, b) => b.createdAt - a.createdAt));
-        break;
-      case sortByOptions[2]:
-        setAllVideoSnips(snips.sort((a, b) => a.title.localeCompare(b.title)));
-        break;
-      case sortByOptions[3]:
-        setAllVideoSnips(snips.sort((a, b) => b.title.localeCompare(a.title)));
-        break;
-      case sortByOptions[4]:
-        setAllVideoSnips(snips.sort((a, b) => a.endTimestamp - b.endTimestamp));
-        break;
-      case sortByOptions[5]:
-        setAllVideoSnips(snips.sort((a, b) => b.endTimestamp - a.endTimestamp));
-        break;
-      default:
-        setAllVideoSnips(snips.sort((a, b) => a.createdAt - b.createdAt));
-        break;
-    }
-  }, [sortBy, snips]);
+  const filteredAndSortedSnips = useMemo(() => {
+    return filterAndSortSnips(snips, sortBy, selectedTags);
+  }, [snips, sortBy, selectedTags]);
 
   // a list of all the tags for the current video
   const tags = useMemo<Tag[]>(() => {
@@ -67,12 +42,12 @@ const AllSnips: FC<Props> = (props) => {
     <div className={`flex flex-col ${className}`}>
       <Topbar
         tags={tags}
-        snips={snips}
+        allSnips={filteredAndSortedSnips}
       />
-      {snips.length > 0 ? (
+      {filteredAndSortedSnips.length > 0 ? (
         <main>
           <ul className="w-full overflow-scroll">
-            {snips.map(
+            {filteredAndSortedSnips.map(
               (snip: Snip, i): JSX.Element => (
                 <OutsideSnip
                   key={i}
