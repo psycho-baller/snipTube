@@ -1,4 +1,4 @@
-import { useMemo, type FC, useEffect, useState } from "react";
+import { useMemo, type FC, useEffect, type ComponentPropsWithoutRef } from "react";
 import type { Snip, Tag } from "~lib/types";
 import Topbar from "./Topbar";
 import YtSnip from "./YtSnip";
@@ -7,12 +7,12 @@ import { getSnips } from "~lib/storage";
 import NoSnips from "./NoSnips";
 import { filterAndSortSnips } from "~lib/utils";
 
-interface Props {
-  className?: string;
+interface Props extends ComponentPropsWithoutRef<"div"> {
+  tags: Set<Tag>;
 }
 
 const CurrentSnips: FC<Props> = (props) => {
-  const { className } = props;
+  const { tags, className } = props;
 
   const snips: Snip[] = useSnipsStore((state) => state.snips);
   const allSnips: Snip[] = useAllSnipsStore((state) => state.snips);
@@ -53,19 +53,6 @@ const CurrentSnips: FC<Props> = (props) => {
   //       break;
   //   }
   // }, [sortBy]);
-
-  // a list of all the tags for the current video
-  // TODO: reuse instead of calling it twice
-  const tags = useMemo<Tag[]>(() => {
-    return allSnips.reduce((acc: Tag[], snip: Snip) => {
-      snip.tags?.forEach((tag: Tag) => {
-        if (!acc.find((t: Tag) => t.name === tag.name)) {
-          acc.push(tag);
-        }
-      });
-      return acc as Tag[];
-    }, []);
-  }, [allSnips]);
 
   return (
     <div className={`flex flex-col ${className}`}>

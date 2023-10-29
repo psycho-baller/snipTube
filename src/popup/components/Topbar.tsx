@@ -6,7 +6,7 @@ import SettingsButton from "./SettingsButton";
 import { useAllSnipsStore, useContentScriptStore, useSnipsStore } from "~stores/sniptube";
 
 interface Props {
-  tags: Tag[];
+  tags: Set<Tag>;
   // depending on the page, either allSnips or snips will be defined and from that we can also tell the dropdown what to sort for and the tag filter what to filter for
   allSnips?: Snip[];
   snips?: Snip[];
@@ -41,9 +41,9 @@ const Header: FC<Props> = (props) => {
     <header className={"flex sticky bg-gray-950 py-3 -mx-4 z-10" + (inYoutube ? "  top-[3.8rem]" : " top-0")}>
       <div className="flex mr-2 overflow-x-auto rounded-full scrollbar-hidden">
         <div className="flex pl-4"></div>
-        {tags.map((tag: Tag, i: number) => (
+        {Array.from(tags).map((tag, index) => (
           <button
-            key={i}
+            key={index}
             onClick={() => handleTagClick(tag)}
             className={
               "rounded-3xl px-2 py-1 text-xs mr-2 self-center whitespace-nowrap " +

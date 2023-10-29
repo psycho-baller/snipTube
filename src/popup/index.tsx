@@ -1,9 +1,10 @@
-import { useEffect, type FC } from "react";
+import { useEffect, type FC, useMemo } from "react";
 import Tabs from "./components/Tabs";
 import AllSnips from "./components/AllSnips";
 import "src/styles/tailwind.css";
-import { useContentScriptStore } from "~stores/sniptube";
+import { useAllSnipsStore, useContentScriptStore } from "~stores/sniptube";
 import browser from "webextension-polyfill";
+import type { Tag, Snip } from "~lib/types";
 interface Props {}
 
 const Popup: FC<Props> = () => {
@@ -13,6 +14,15 @@ const Popup: FC<Props> = () => {
   // }, [count]);
   const inYoutube = useContentScriptStore((state) => state.inYoutube);
   const setInYoutube = useContentScriptStore((state) => state.setInYoutube);
+  const allSnips = useAllSnipsStore((state) => state.snips);
+  const tags = useMemo<Set<Tag>>(() => {
+    return allSnips.reduce((acc: Set<Tag>, snip: Snip) => {
+      snip.tags?.forEach((tag: Tag) => {
+        acc.add(tag);
+      });
+      return acc;
+    }, new Set<Tag>());
+  }, [allSnips]);
 
   // TODO: this does not run when the popup is first opened, gotta find an alternative way to do this
   useEffect(() => {
@@ -53,10 +63,10 @@ const Popup: FC<Props> = () => {
   return (
     <div className="w-[30rem] flex flex-col min-h-[30rem] dark:bg-gray-950 dark:text-white">
       {inYoutube ? (
-        <Tabs className="flex-grow h-full" />
+        <Tabs tags={tags} className="flex-grow h-full" />
       ) : (
         // Have a home page that shows by default when you're not on youtube
-        <AllSnips className="flex-grow px-4" />
+        <AllSnips tags={tags} className="flex-grow px-4" />
       )}
       <footer className="flex justify-center w-full mb-2 text-sm text-gray-500 dark:text-gray-400 gap-x-1">
         Made with ❤️ by

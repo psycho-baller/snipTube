@@ -7,10 +7,12 @@ import OutsideSnip from "./OutsideSnip";
 import NoSnips from "./NoSnips";
 import { filterAndSortSnips } from "~lib/utils";
 
-interface Props extends ComponentPropsWithoutRef<"div"> {}
+interface Props extends ComponentPropsWithoutRef<"div"> {
+  tags: Set<Tag>;
+}
 
 const AllSnips: FC<Props> = (props) => {
-  const { className } = props;
+  const { tags, className } = props;
 
   const [sortBy, selectedTags] = useSnipsStore((state) => [state.sortBy, state.selectedTags]);
   const [snips, setAllVideoSnips] = useAllSnipsStore((state) => [state.snips, state.setSnips]);
@@ -22,22 +24,6 @@ const AllSnips: FC<Props> = (props) => {
   const filteredAndSortedSnips = useMemo(() => {
     return filterAndSortSnips(snips, sortBy, selectedTags);
   }, [snips, sortBy, selectedTags]);
-
-  // a list of all the tags for the current video
-  const tags = useMemo<Tag[]>(() => {
-    return snips.reduce((acc: Tag[], snip: Snip) => {
-      snip.tags?.forEach((tag: Tag) => {
-        if (!acc.find((t: Tag) => t.name === tag.name)) {
-          acc.push(tag);
-          // acc.push(tag);
-          // acc.push(tag);
-          // acc.push(tag);
-          // acc.push(tag);
-        }
-      });
-      return acc as Tag[];
-    }, []);
-  }, [snips]);
   return (
     <div className={`flex flex-col ${className}`}>
       <Topbar

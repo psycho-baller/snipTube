@@ -1,13 +1,14 @@
-import { type FC, useState } from "react";
+import { type FC, useState, type ComponentPropsWithoutRef } from "react";
 import AllSnips from "./AllSnips";
 import CurrentSnips from "./CurrentSnips";
+import type { Tag } from "~lib/types";
 
-interface Props {
-  className?: string;
+interface Props extends ComponentPropsWithoutRef<"div"> {
+  tags: Set<Tag>;
 }
 
 const Tabs: FC<Props> = (props) => {
-  const { className } = props;
+  const { tags, className } = props;
 
   const tabs = ["Current Video Snips", "All Video Snips"];
 
@@ -40,7 +41,17 @@ const Tabs: FC<Props> = (props) => {
           </p>
         </button>
       </nav>
-      {activeTab === 0 ? <CurrentSnips className="flex-grow px-4 " /> : <AllSnips className="flex-grow px-4 " />}
+      {activeTab === 0 ? (
+        <CurrentSnips
+          tags={tags}
+          className="flex-grow px-4 "
+        />
+      ) : (
+        <AllSnips
+          tags={tags}
+          className="flex-grow px-4 "
+        />
+      )}
     </div>
   );
 };
