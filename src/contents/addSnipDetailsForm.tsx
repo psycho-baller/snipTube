@@ -100,6 +100,7 @@ const AddSnipDetailsForm = () => {
                 Note
               </label>
               <DynamicTextarea
+                id="note"
                 note={note}
                 setNote={setNote}
                 onKeyDown={stopPropagation}
@@ -108,12 +109,13 @@ const AddSnipDetailsForm = () => {
             </div>
             <div className="space-y-1">
               <label
-                htmlFor="name"
+                htmlFor="tags"
                 className="text-lg text-gray-300"
               >
                 Tags (separate with comma, tab, or enter)
               </label>
               <TagInput
+                id="tags"
                 tags={tags}
                 setTags={setTags}
                 placeholder="focus, productivity, ..."
@@ -121,13 +123,14 @@ const AddSnipDetailsForm = () => {
             </div>
             <div className="">
               <label
-                htmlFor="defaultSnipLength"
+                htmlFor="snipLength"
                 className="text-lg text-gray-300"
               >
                 Snip Length
               </label>
               <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
                 <input
+                  id="snipLength"
                   type="number"
                   className="w-24 form-input text-xl border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
                   value={snipLength}

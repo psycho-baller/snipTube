@@ -118,13 +118,14 @@ const SettingsForm: FC<Props> = (props) => {
         </div>
         <div className="">
           <label
-            htmlFor="addNoteAfterSaving"
+            htmlFor="useKeyboardShortcut"
             className="text-base"
           >
             Create snip with the 's' key
           </label>
           <div className="flex items-center mt-2">
             <input
+              id="useKeyboardShortcut"
               type="checkbox"
               checked={useKeyboardShortcutState}
               className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
@@ -147,6 +148,7 @@ const SettingsForm: FC<Props> = (props) => {
           </label>
           <div className="flex items-center mt-2">
             <input
+              id="addNoteAfterSaving"
               type="checkbox"
               checked={showAddSnipDetailsFormOnNewSnipState}
               className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
@@ -169,6 +171,7 @@ const SettingsForm: FC<Props> = (props) => {
           </label>
           <div className="flex items-center mt-2">
             <input
+              id="showAddSnipDetailsFormOnNewSnip"
               checked={pauseVideoOnNewSnipState}
               type="checkbox"
               className="w-4 h-4 text-gray-500 bg-gray-700 border-gray-700 rounded form-checkbox focus:ring-gray-500 focus:ring-offset-gray-800 focus:outline-none"
@@ -191,6 +194,7 @@ const SettingsForm: FC<Props> = (props) => {
           </label>
           <div className="flex items-center mt-2 !ring-gray-600 hover:ring-2 rounded-lg">
             <input
+              id="defaultSnipLength"
               type="number"
               className="w-16 form-input border-none !ring-0 rounded-l-lg bg-inherit focus:outline-none"
               value={length}
