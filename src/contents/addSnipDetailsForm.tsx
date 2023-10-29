@@ -5,6 +5,7 @@ import DynamicTextarea from "../shared/components/DynamicTextarea";
 import type { PlasmoCSConfig } from "plasmo";
 import cssText from "data-text:src/styles/tailwind.css";
 import TagInput from "src/shared/components/TagInput";
+import { youtubeLinks } from "~lib/constants";
 
 export const getStyle = () => {
   const style = document.createElement("style");
@@ -13,18 +14,7 @@ export const getStyle = () => {
 };
 // TODO(fix): 🟠 WARN   | [plasmo/parcel-runtime]: Connection to the HMR server is closed
 export const config: PlasmoCSConfig = {
-  matches: [
-    "https://youtube.com/watch*",
-    "https://www.youtube.com/watch*",
-    "https://youtu.be/watch*",
-    "https://www.youtu.be/watch*",
-    "https://www.youtube-nocookie.com/watch*",
-    "https://youtube-nocookie.com/watch*",
-    "https://www.youtube.com/embed/watch*",
-    "https://youtube.com/embed/watch*",
-    "https://*.youtube.com/*",
-    "https://www.youtube-nocookie.com/embed/*",
-  ],
+  matches: youtubeLinks as string[],
   run_at: "document_end",
 };
 const AddSnipDetailsForm = () => {

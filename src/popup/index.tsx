@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, type FC } from "react";
 import Tabs from "./components/Tabs";
 import AllSnips from "./components/AllSnips";
 import "src/styles/tailwind.css";
@@ -7,13 +7,12 @@ import browser from "webextension-polyfill";
 interface Props {}
 
 const Popup: FC<Props> = () => {
-  const [count, setCount] = useState<number>(0);
-
-  const inYoutube = useContentScriptStore((state) => state.inYoutube);
-  const setInYoutube = useContentScriptStore((state) => state.setInYoutube);
+  // const [count, setCount] = useState<number>(0);
   // useEffect(() => {
   //   chrome.action.setBadgeText({ text: count.toString() });
   // }, [count]);
+  const inYoutube = useContentScriptStore((state) => state.inYoutube);
+  const setInYoutube = useContentScriptStore((state) => state.setInYoutube);
 
   // TODO: this does not run when the popup is first opened, gotta find an alternative way to do this
   useEffect(() => {
