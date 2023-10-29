@@ -193,7 +193,7 @@ const Demo: FC = () => {
               <div className="timeline">
                 {snips.map((snip, index) => (
                   <TimelineSnip
-                    key={index}
+                    key={snip.id}
                     snip={snip}
                     videoRef={videoRef}
                     firstSnip={index === 0}

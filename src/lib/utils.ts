@@ -9,8 +9,8 @@ export function filterAndSortSnips(snips: Snip[], sortBy: SortByOptionsType, sel
       if (selectedTags.length === 0) {
         return true;
       }
-      //
-      return snip.tags?.some((tag) => selectedTags.includes(tag.name)) ?? false;
+      // if any of the selected tags are in the snip's tags, return true
+      return snip?.tags?.some((tag) => selectedTags.includes(tag.name)) ?? false;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -18,14 +18,14 @@ export function filterAndSortSnips(snips: Snip[], sortBy: SortByOptionsType, sel
           return b.createdAt - a.createdAt;
         case "Oldest":
           return a.createdAt - b.createdAt;
-        case "A-Z":
-          return a.title.localeCompare(b.title);
-        case "Z-A":
-          return b.title.localeCompare(a.title);
         case "Timestamp":
           return a.endTimestamp - b.endTimestamp;
         case "Reverse timestamp":
           return b.endTimestamp - a.endTimestamp;
+        case "A-Z": // chronological
+          return a.title?.localeCompare(b.title);
+        case "Z-A": // reverse chronological
+          return b.title?.localeCompare(a.title);
         default:
           return b.createdAt - a.createdAt;
       }
