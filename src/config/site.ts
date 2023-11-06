@@ -3,7 +3,8 @@ import type { SiteConfig } from "~types/config";
 export const siteConfig: SiteConfig = {
   name: "SnipTube",
   slogan: "Elevate Your YouTube Experience",
-  description: "Easily highlight, tag, annotate, and export your favorite YouTube moments with a click of a button.",
+  description:
+    "Easily highlight, tag, annotate, summarize, and export your favorite YouTube moments with a click of a button.",
   url: "https://sniptube.tech",
   ogImage: "https://sniptube.tech/og.jpg",
   links: {
