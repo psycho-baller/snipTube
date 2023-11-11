@@ -1,7 +1,7 @@
 import browser from "webextension-polyfill";
-browser.runtime.onInstalled.addListener(() => {
+browser.runtime.onInstalled.addListener((details) => {
   // take the user to the demo page after installation in production
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === "production" && details.reason === "install") {
     browser.tabs.create({ url: "https://sniptube.tech#demo" });
   }
   // browser.contextMenus.create({
