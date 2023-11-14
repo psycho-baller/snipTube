@@ -12,7 +12,9 @@
   <a href="https://sniptube.tech/firefox">Firefox</a> |
   <a href="https://sniptube.tech/edge">Edge</a> |
   <a href="/docs/safari.md">Safari for MacOS and iOS</a> |
-  <a href="https://sniptube.tech">Website</a>
+  <a href="https://sniptube.tech">Website</a> |
+  <a href="https://devpost.com/software/sniptube">Devpost</a>
+  (Hackathon winner)
 </p>
 
 🤹🏼‍♂️ Hours spent code juggling this project:
