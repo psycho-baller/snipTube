@@ -69,15 +69,16 @@ const Popup: FC<Props> = () => {
         <AllSnips tags={tags} className="flex-grow px-4" />
       )}
       <footer className="flex justify-center w-full mb-2 text-sm text-gray-500 dark:text-gray-400 gap-x-1">
-        Made with ❤️ by
+        {/* Made with ❤️ by */}
         <a
-          href="https://ramimaalouf.tech"
+          href="https://github.com/psycho-baller/sniptube"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-semibold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+          className="transition font-semibold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-red-300"
         >
-          Rami Maalouf
-        </a>
+          Support
+        </a>{" "}
+        this project
       </footer>
     </div>
   );
