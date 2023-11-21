@@ -14,7 +14,7 @@
   <a href="/docs/safari.md">Safari for MacOS and iOS</a> |
   <a href="https://sniptube.tech">Website</a> |
   <a href="https://devpost.com/software/sniptube">Devpost</a>
-  (Hackathon winner)
+  <a href="https://github.com/psycho-baller/snipTube/assets/81759594/50a6e1e1-fe6d-45a4-8723-15f9a3290c66">(Hackathon Winner)</a>
 </p>
 
 🤹🏼‍♂️ Hours spent code juggling this project:
