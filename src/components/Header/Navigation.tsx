@@ -46,7 +46,7 @@ const Navigation = (props: Props) => {
         {headerRoutes.map(({ path, id, ...props }, i) => (
           <NavLink
             key={i}
-            href={path || "/"}
+            href={path ?? "/"}
             isActive={pathname === path}
             isBelowHeader={isBelowHeader}
             {...props}

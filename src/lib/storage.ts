@@ -22,7 +22,7 @@ export const getSnips = async (vidId: string = undefined) => {
   const videoId: string = vidId ? vidId : await getVideoId();
 
   const snips: Snip[] = await storage.get(videoId);
-  return snips || [];
+  return snips ?? [];
 };
 
 export const getAllSnips = async () => {
@@ -43,7 +43,7 @@ export const setDefaultSnipLength = async (length: number) => {
 };
 
 export const getDefaultSnipLength = async () => {
-  const defaultSnipLength: number = await storage.get("defaultSnipLength") || await setDefaultSnipLength(30);
+  const defaultSnipLength: number = await storage.get("defaultSnipLength") ?? await setDefaultSnipLength(30);
   return defaultSnipLength;
 };
 
@@ -53,7 +53,7 @@ export const setShowAddSnipDetailsFormOnNewSnip = async (show: boolean) => {
 };
 
 export const getShowOverlayOnNewSnip = async () => {
-  const showAddSnipDetailsFormOnNewSnip: boolean = await storage.get("showAddSnipDetailsFormOnNewSnip") || await setShowAddSnipDetailsFormOnNewSnip(true);
+  const showAddSnipDetailsFormOnNewSnip: boolean = await storage.get("showAddSnipDetailsFormOnNewSnip") ?? await setShowAddSnipDetailsFormOnNewSnip(true);
   return showAddSnipDetailsFormOnNewSnip;
 };
 
@@ -63,7 +63,7 @@ export const setPauseVideoOnNewSnip = async (pause: boolean) => {
 };
 
 export const getPauseVideoOnNewSnip = async () => {
-  const pauseVideoOnNewSnip: boolean = await storage.get("pauseVideoOnNewSnip") || await setPauseVideoOnNewSnip(true);
+  const pauseVideoOnNewSnip: boolean = await storage.get("pauseVideoOnNewSnip") ?? await setPauseVideoOnNewSnip(true);
   return pauseVideoOnNewSnip;
 };
 
@@ -73,7 +73,7 @@ export const setUseKeyboardShortcut = async (use: boolean) => {
 };
 
 export const getUseKeyboardShortcut = async () => {
-  const useKeyboardShortcut: boolean = await storage.get("useKeyboardShortcut") || await setUseKeyboardShortcut(true);
+  const useKeyboardShortcut: boolean = await storage.get("useKeyboardShortcut") ?? await setUseKeyboardShortcut(true);
   return useKeyboardShortcut;
 };
 
