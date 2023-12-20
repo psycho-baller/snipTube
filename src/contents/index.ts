@@ -38,6 +38,7 @@ let vidTranscript: Subtitle[] = [];
 let vidSummary: string;
 let vidTitle: string;
 let snipBtn: HTMLButtonElement | undefined;
+const placeholderSnipId = "placeholder-snip";
 
 const newVideoLoaded = async () => {
   // const len = await getDefaultSnipLength();
@@ -332,15 +333,15 @@ async function updateVideoSnips(snips?: Snip[]) {
 
 // snip functions
 function addPlaceholderSnipToPreviewBar(startTimestamp: number, endTimestamp: number): boolean {
-  if (document.getElementById("filler-snip")) {
+  if (document.getElementById(placeholderSnipId)) {
     return false;
   }
   const snipElement = document.createElement("li");
-  snipElement.id = "filler-snip";
+  snipElement.id = placeholderSnipId;
   snipElement.style.position = "absolute";
   snipElement.style.top = "0px";
-  snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}% `;
-  snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}% `;
+  snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}%`;
+  snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}%`;
   snipElement.style.height = "100%";
   snipElement.style.backgroundColor = "hsl(161deg 55% 66%)"
   snipElement.style.zIndex = "1000";
@@ -351,7 +352,7 @@ function addPlaceholderSnipToPreviewBar(startTimestamp: number, endTimestamp: nu
 }
 
 function removePlaceholderSnipFromPreviewBar() {
-  const placeholderSnip = document.getElementById("filler-snip");
+  const placeholderSnip = document.getElementById(placeholderSnipId);
   placeholderSnip?.remove();
 }
 
