@@ -2,7 +2,6 @@ import { useState, type FC, useEffect, type MouseEvent } from "react";
 import "src/styles/play-pause-btn.css";
 import { getVideoId } from "~lib/storage";
 import { useContentScriptStore } from "~stores/sniptube";
-import browser from "webextension-polyfill";
 
 interface Props {
   start: number;

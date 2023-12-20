@@ -1,4 +1,5 @@
-import browser from "webextension-polyfill";
+import 'webextension-polyfill-global';
+
 browser.runtime.onInstalled.addListener((details) => {
   // take the user to the demo page after installation in production
   if (process.env.NODE_ENV === "production" && details.reason === "install") {
@@ -73,25 +74,25 @@ browser.tabs.onActivated.addListener(async (activeInfo) => {
 
 // });
 
-// browser.runtime.connect().onDisconnect.addListener(async () => {
-//   // clean up when content script gets disconnected
-//   console.log("content script disconnected");
-//   for (const cs of browser.runtime.getManifest().content_scripts) {
-//     for (const tab of await browser.tabs.query({ url: cs.matches })) {
-//       browser.scripting
-//         .executeScript({
-//           target: { tabId: tab.id },
-//           files: cs.js,
-//         })
-//         .then(() => {
-//           console.log("content script injected");
-//         })
-//         .catch((err) => {
-//           console.log("error injecting content script", err);
-//         });
-//     }
-//   }
-// });
+browser.runtime.connect().onDisconnect.addListener(async () => {
+  // clean up when content script gets disconnected
+  console.log("content script disconnected");
+  for (const cs of browser.runtime.getManifest().content_scripts) {
+    for (const tab of await browser.tabs.query({ url: cs.matches })) {
+      browser.scripting
+        .executeScript({
+          target: { tabId: tab.id },
+          files: cs.js,
+        })
+        .then(() => {
+          console.log("content script injected");
+        })
+        .catch((err) => {
+          console.log("error injecting content script", err);
+        });
+    }
+  }
+});
 
 const maxRetryAttempts = 3;
 

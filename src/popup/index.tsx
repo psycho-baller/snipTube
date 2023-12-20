@@ -3,8 +3,8 @@ import Tabs from "./components/Tabs";
 import AllSnips from "./components/AllSnips";
 import "src/styles/tailwind.css";
 import { useAllSnipsStore, useContentScriptStore } from "~stores/sniptube";
-import browser from "webextension-polyfill";
 import type { Tag, Snip } from "~lib/types";
+import "webextension-polyfill-global";
 interface Props {}
 
 const Popup: FC<Props> = () => {
