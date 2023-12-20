@@ -87,3 +87,7 @@ Please see [docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md) to get started.
 [MIT](https://choosealicense.com/licenses/mit/)
 
 SnipTube is not affiliated with YouTube or its parent company, Google Inc.
+
+## Hackathon Winner
+
+<img width="100%" alt="sniptube certificate" src="docs/assets/sniptube-hackathon-certificate.png">
