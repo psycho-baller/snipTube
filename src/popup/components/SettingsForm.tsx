@@ -1,3 +1,4 @@
+// TODO: add a button for the users to add their own button
 import { useState, type FC, useEffect, type ChangeEvent, useMemo } from "react";
 import {
   deleteAllDataFromStorage,

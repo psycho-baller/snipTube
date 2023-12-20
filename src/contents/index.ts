@@ -96,6 +96,7 @@ const newVideoLoaded = async () => {
     }
 
     const useKeyboardShortcut = await getUseKeyboardShortcut();
+    // TODO: use the built in keyboard shortcut functionality instead of this
     document.addEventListener("keydown", addSnipUsingKeyboardShortcut);
     // TODO: remove event listener when video is closed
   }
@@ -202,6 +203,11 @@ async function addNewSnipEventHandler() {
   });
 
   startTime = currentTime - snipLength;
+  const callingConcurrently = !addPlaceholderSnipToPreviewBar(startTime, currentTime);
+  if (callingConcurrently) {
+    // TODO: show toast message
+    return;
+  }
 
   // if there exists a transcript, use it to get the summary, otherwise use the title
   if (vidTranscript.length > 0) {
@@ -249,8 +255,11 @@ async function addNewSnipEventHandler() {
     setSnips(
       [...snips, newSnip].sort((a, b) => a.endTimestamp - b.endTimestamp),
       videoId
-    ).then((newSnips) => updateVideoSnips(newSnips))
-  );
+    ).then((newSnips) => {
+      updateVideoSnips(newSnips);
+      removePlaceholderSnipFromPreviewBar();
+    }
+  ));
 }
 
 async function updateVideoSnips(snips?: Snip[]) {
@@ -309,7 +318,7 @@ async function updateVideoSnips(snips?: Snip[]) {
     snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}% `;
     snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}% `;
     snipElement.style.height = "100%";
-    snipElement.style.backgroundColor = firstTag?.color || "yellow";
+    snipElement.style.backgroundColor = firstTag?.color || "hsl(161deg 55% 66%)";
     snipElement.style.zIndex = "1000";
     snipElement.style.cursor = "pointer";
     snipElement.title = "Click to jump to this snip";
@@ -319,6 +328,31 @@ async function updateVideoSnips(snips?: Snip[]) {
     // });
     previewBar?.appendChild(snipElement);
   });
+}
+
+// snip functions
+function addPlaceholderSnipToPreviewBar(startTimestamp: number, endTimestamp: number): boolean {
+  if (document.getElementById("filler-snip")) {
+    return false;
+  }
+  const snipElement = document.createElement("li");
+  snipElement.id = "filler-snip";
+  snipElement.style.position = "absolute";
+  snipElement.style.top = "0px";
+  snipElement.style.left = `${(startTimestamp / youtubePlayer.duration) * 100}% `;
+  snipElement.style.width = `${((endTimestamp - startTimestamp) / youtubePlayer.duration) * 100}% `;
+  snipElement.style.height = "100%";
+  snipElement.style.backgroundColor = "hsl(161deg 55% 66%)"
+  snipElement.style.zIndex = "1000";
+  snipElement.style.cursor = "pointer";
+  snipElement.title = "Click to jump to this snip";
+  previewBar?.appendChild(snipElement);
+  return true;
+}
+
+function removePlaceholderSnipFromPreviewBar() {
+  const placeholderSnip = document.getElementById("filler-snip");
+  placeholderSnip?.remove();
 }
 
 browser.runtime.onMessage.addListener(async (obj) => {
