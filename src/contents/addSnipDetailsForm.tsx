@@ -25,7 +25,7 @@ export const config: PlasmoCSConfig = {
     "https://*.youtube.com/watch*",
     "https://www.youtube-nocookie.com/embed/*",
   ],
-  run_at: "document_end",
+  run_at: "document_idle",
 };
 const AddSnipDetailsForm = () => {
   const [showAddSnipDetailsForm, setShowAddSnipDetailsForm] = useState<boolean>(true);

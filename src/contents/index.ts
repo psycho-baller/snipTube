@@ -14,7 +14,9 @@ import { getVideoDetails } from "~lib/youtube";
 import { getSnipTranscript } from "~lib/youtube";
 import { URL, invalidStartOrEndTimeMessage } from "~lib/constants";
 import { useContentScriptStore } from "~stores/sniptube";
-import browser from "webextension-polyfill";
+// import browser from "webextension-polyfill";
+import 'webextension-polyfill-global';
+
 export const config: PlasmoCSConfig = {
   matches: [
     "https://youtu.be/watch*",
@@ -26,7 +28,7 @@ export const config: PlasmoCSConfig = {
     "https://*.youtube.com/*",
     "https://www.youtube-nocookie.com/embed/*",
   ],
-  run_at: "document_end",
+  run_at: "document_idle",
 };
 let videoId = "";
 let youtubePlayer: HTMLVideoElement;
@@ -102,10 +104,9 @@ const newVideoLoaded = async () => {
   await updateVideoSnips();
 
   const { transcript, title } = await getVideoDetails(videoId);
-  // vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
+  // // vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
   vidTranscript = transcript;
-  vidTitle = title;
-
+  vidTitle = title //document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0].textContent;
   vidSummary = ""; // await getFullSummary(vidTranscript, vidTitle, videoId);
 };
 
@@ -127,7 +128,9 @@ async function addNewSnipEventHandler() {
     snipLength: number;
   }>(async (resolve, reject) => {
     // if user doesn't want to add details after snipping, resolve with empty note and tags
-    if (!(await getShowOverlayOnNewSnip())) {
+    const autoAddDetails = !(await getShowOverlayOnNewSnip());
+    console.log("autoAddDetails", autoAddDetails);
+    if (autoAddDetails) {
       const defaultSnipLength = await getDefaultSnipLength();
       // startTime = currentTime - defaultSnipLength;
       // if (vidTranscript.length > 0) {
@@ -351,4 +354,4 @@ browser.runtime.onMessage.addListener(async (obj) => {
 
 // // Call the connect function to establish the initial connection
 // connect();
-// newVideoLoaded();
+newVideoLoaded();
