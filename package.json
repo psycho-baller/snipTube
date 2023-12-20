@@ -1,7 +1,7 @@
 {
   "name": "sniptube",
   "displayName": "SnipTube - Elevate Your YouTube Experience",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Highlight, tag, annotate, and export your favorite YouTube moments with the power of AI.",
   "author": "Rami <rami.rami@ucalgary.ca> (ramimaalouf.tech)",
   "license": "MIT",
@@ -57,7 +57,8 @@
   "manifest": {
     "permissions": [
       "storage",
-      "tabs"
+      "tabs",
+      "scripting"
     ],
     "browser_specific_settings": {
       "gecko": {

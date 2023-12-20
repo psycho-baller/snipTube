@@ -96,7 +96,7 @@ browser.runtime.connect().onDisconnect.addListener(async () => {
 
 const maxRetryAttempts = 3;
 
-async function sendMessageToContentScript(tabId, message, retryCount = 0) {
+async function sendMessageToContentScript(tabId: number, message: any, retryCount = 0) {
   try {
     browser.tabs.sendMessage(tabId, message).then((response) => {
       console.log("response", response);

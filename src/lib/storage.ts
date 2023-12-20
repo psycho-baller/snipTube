@@ -3,29 +3,29 @@ import { Storage } from "@plasmohq/storage";
 
 const storage = new Storage();
 
-export const setVideoId = async (vidId: string) => {
+export async function setVideoId(vidId: string): Promise<void> {
   await storage.set("videoId", vidId);
-};
+}
 
-export const getVideoId = async () => {
+export async function getVideoId(): Promise<string> {
   const vidId: string = await storage.get("videoId");
   return vidId;
-};
+}
 
-export const setSnips = async (snips: Snip[], vidId: string = undefined) => {
+export async function setSnips(snips: Snip[], vidId: string = undefined): Promise<Snip[]> {
   const videoId: string = vidId ? vidId : await getVideoId();
   await storage.set(videoId, snips);
   return snips;
-};
+}
 
-export const getSnips = async (vidId: string = undefined) => {
+export async function getSnips(vidId: string = undefined): Promise<Snip[]> {
   const videoId: string = vidId ? vidId : await getVideoId();
 
   const snips: Snip[] = await storage.get(videoId);
   return snips ?? [];
-};
+}
 
-export const getAllSnips = async () => {
+export async function getAllSnips(): Promise<Snip[]> {
   const allStorageData = await storage.getAll();
   const allSnips: Snip[] = [];
   Object.keys(allStorageData).forEach((key) => {
@@ -35,51 +35,50 @@ export const getAllSnips = async () => {
     }
   });
   return allSnips;
-};
+}
 
-export const setDefaultSnipLength = async (length: number) => {
+export async function setDefaultSnipLength(length: number): Promise<number> {
   await storage.set("defaultSnipLength", length);
   return length;
-};
+}
 
-export const getDefaultSnipLength = async () => {
+export async function getDefaultSnipLength(): Promise<number> {
   const defaultSnipLength: number = await storage.get("defaultSnipLength") ?? await setDefaultSnipLength(30);
   return defaultSnipLength;
-};
+}
 
-export const setShowAddSnipDetailsFormOnNewSnip = async (show: boolean) => {
+export async function setShowAddSnipDetailsFormOnNewSnip(show: boolean): Promise<boolean> {
   await storage.set("showAddSnipDetailsFormOnNewSnip", show);
   return show;
-};
+}
 
-export const getShowOverlayOnNewSnip = async () => {
+export async function getShowOverlayOnNewSnip(): Promise<boolean> {
   const showAddSnipDetailsFormOnNewSnip: boolean = await storage.get("showAddSnipDetailsFormOnNewSnip") ?? await setShowAddSnipDetailsFormOnNewSnip(true);
   return showAddSnipDetailsFormOnNewSnip;
-};
+}
 
-export const setPauseVideoOnNewSnip = async (pause: boolean) => {
+export async function setPauseVideoOnNewSnip(pause: boolean): Promise<boolean> {
   await storage.set("pauseVideoOnNewSnip", pause);
   return pause;
-};
+}
 
-export const getPauseVideoOnNewSnip = async () => {
+export async function getPauseVideoOnNewSnip(): Promise<boolean> {
   const pauseVideoOnNewSnip: boolean = await storage.get("pauseVideoOnNewSnip") ?? await setPauseVideoOnNewSnip(true);
   return pauseVideoOnNewSnip;
-};
+}
 
-export const setUseKeyboardShortcut = async (use: boolean) => {
+export async function setUseKeyboardShortcut(use: boolean): Promise<boolean> {
   await storage.set("useKeyboardShortcut", use);
   return use;
-};
+}
 
-export const getUseKeyboardShortcut = async () => {
+export async function getUseKeyboardShortcut(): Promise<boolean> {
   const useKeyboardShortcut: boolean = await storage.get("useKeyboardShortcut") ?? await setUseKeyboardShortcut(true);
   return useKeyboardShortcut;
-};
+}
 
-export const deleteAllDataFromStorage = async () => {
+export async function deleteAllDataFromStorage(): Promise<void> {
   await storage.removeAll();
-
 }
 
 // export const getChapters = async () => {
