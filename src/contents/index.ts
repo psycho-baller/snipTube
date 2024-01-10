@@ -389,4 +389,4 @@ browser.runtime.onMessage.addListener(async (obj) => {
 
 // // Call the connect function to establish the initial connection
 // connect();
-newVideoLoaded();
+// newVideoLoaded();

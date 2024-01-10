@@ -13,10 +13,13 @@ browser.runtime.onInstalled.addListener((details) => {
 });
 
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  console.log("background running", changeInfo, tab);
   if (changeInfo.status === "complete" && tab.active) {
+    console.log("background running", "youtube tab activated");
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const activeTab = tabs[0];
     if (activeTab.url && activeTab.url.includes("youtube.com/watch")) {
+      console.warn("background running", activeTab.url);
       const queryParameters = activeTab.url.split("?")[1];
       const urlParameters = new URLSearchParams(queryParameters);
       const vidId = urlParameters.get("v");

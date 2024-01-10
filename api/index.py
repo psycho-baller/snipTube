@@ -9,9 +9,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 from fastapi.middleware.cors import CORSMiddleware
-from langchain import PromptTemplate
+from langchain.prompts import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.llms import OpenAI, HuggingFaceHub
+from langchain_community.llms import OpenAI, HuggingFaceHub
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 
@@ -70,7 +70,7 @@ async def summarizeSnip(item: SummarizeSnip):
     # TODO: are metadata necessary?
     text_document = [Document(page_content=text, metadata={"title": title, "summary": summary, "transcript": text})]
         
-    summary = chain({'input_documents': text_document}, return_only_outputs=True)['output_text'].strip()
+    summary = chain.invoke({'input_documents': text_document}, return_only_outputs=True)['output_text'].strip()
     wrapped_summary = textwrap.fill(summary, width=100)
     
     return {"summary": wrapped_summary}
