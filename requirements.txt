@@ -5,3 +5,4 @@ uvicorn
 tiktoken
 python-dotenv
 langchain-community
+langchain-openai

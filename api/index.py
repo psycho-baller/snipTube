@@ -11,7 +11,8 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from langchain.prompts import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.llms import OpenAI, HuggingFaceHub
+from langchain_community.llms import HuggingFaceHub
+from langchain_openai.llms import OpenAI
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 
