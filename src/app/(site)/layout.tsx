@@ -1,29 +1,29 @@
-import Header from "~components/Header";
-import Footer from "~components/Footer";
-import Lines from "~components/Lines";
-import ScrollToTop from "~components/ScrollToTop";
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
-import ThemeProvider from "~components/ThemeProvider";
-import type { Metadata } from "next";
-import type { ReactNode } from "react";
-import { siteConfig } from "~config/site";
-import { TailwindIndicator } from "~components/TailwindIndicator";
+import Header from '~components/Header';
+import Footer from '~components/Footer';
+import Lines from '~components/Lines';
+import ScrollToTop from '~components/ScrollToTop';
+import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
+import ThemeProvider from '~components/ThemeProvider';
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import { siteConfig } from '~config/site';
+import { TailwindIndicator } from '~components/TailwindIndicator';
 // import ToasterContext from "../context/ToastContext";
-import "../globals.css";
-import Script from "next/script";
+import '../globals.css';
+import Script from 'next/script';
 
 const fontSans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  subsets: ['latin'],
+  variable: '--font-sans',
 });
 const fontHeading = localFont({
-  src: "../../../public/fonts/CalSans-SemiBold.woff2",
-  variable: "--font-heading",
+  src: '../../../public/fonts/CalSans-SemiBold.woff2',
+  variable: '--font-heading',
 });
 const fontSketch = localFont({
-  src: "../../../public/fonts/One Little Font Regular.otf",
-  variable: "--font-sketch",
+  src: '../../../public/fonts/One Little Font Regular.otf',
+  variable: '--font-sketch',
 });
 // const fontAcorn = localFont({
 //   src: "../../../public/fonts/acorn.woff",
@@ -37,34 +37,34 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "Chrome Extension",
-    "Browser Extension",
-    "Extensions",
-    "SnipTube",
-    "AI",
-    "Artificial Intelligence",
-    "AI summarization",
-    "LLM",
-    "Youtube",
-    "Summarize",
-    "Summarization",
-    "Summarize Youtube",
-    "Summarize Youtube Videos",
+    'Chrome Extension',
+    'Browser Extension',
+    'Extensions',
+    'SnipTube',
+    'AI',
+    'Artificial Intelligence',
+    'AI summarization',
+    'LLM',
+    'Youtube',
+    'Summarize',
+    'Summarization',
+    'Summarize Youtube',
+    'Summarize Youtube Videos',
   ],
   authors: [
     {
-      name: "Rami Maalouf",
-      url: "https://ramimaalouf.tech",
+      name: 'Rami Maalouf',
+      url: 'https://rami-maalouf.tech',
     },
   ],
-  creator: "Rami Maalouf",
+  creator: 'Rami Maalouf',
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    type: 'website',
+    locale: 'en_US',
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
@@ -78,8 +78,8 @@ export const metadata: Metadata = {
   //   creator: "@",
   // },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
     // apple: "/apple-touch-icon.png",
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
