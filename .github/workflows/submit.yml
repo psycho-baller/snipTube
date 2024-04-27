@@ -1,5 +1,12 @@
 name: "Submit to Web Store"
-on: [release, workflow_dispatch]
+on:
+  release:
+  workflow_dispatch:
+    # inputs:
+    #   version:
+    #     description: "Extension version"
+    #     required: true
+    #     default: "0.0.0"
 
 jobs:
   build:
@@ -23,7 +30,7 @@ jobs:
           node-version: "18"
           cache: "pnpm"
       - name: Install deps
-        run: pnpm i
+        run: pnpm i sharp
       - name: Build the chromium based extension and zip it
         run: pnpm build:plasmo --zip
       - name: Build the safari based extension and zip it
