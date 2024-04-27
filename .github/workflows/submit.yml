@@ -1,11 +1,5 @@
 name: "Submit to Web Store"
-workflow_dispatch:
-  # inputs:
-  #   version:
-  #     description: "Extension version"
-  #     required: true
-  #     default: "0.0.0"
-on: [release]
+on: [release, workflow_dispatch]
 
 jobs:
   build:
