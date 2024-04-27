@@ -3,11 +3,11 @@
   "displayName": "SnipTube - AI powered YouTube bookmarker",
   "version": "0.4.2",
   "description": "Highlight, tag, annotate, and export your favorite YouTube moments with the power of AI.",
-  "author": "Rami <rami.rami@ucalgary.ca> (ramimaalouf.tech)",
+  "author": "Rami <rami.rami@ucalgary.ca> (rami-maalouf.tech)",
   "license": "MIT",
   "homepage_url": "https://sniptube.tech",
   "contributors": [
-    "Rami <rami.rami@ucalgary.ca> (ramimaalouf.tech)"
+    "Rami <rami.rami@ucalgary.ca> (rami-maalouf.tech)"
   ],
   "scripts": {
     "start": "next start",
@@ -15,7 +15,7 @@
     "dev:plasmo": "plasmo dev",
     "dev:next": "next dev --port 3000",
     "dev:fastapi": "source venv/bin/activate && uvicorn api.index:app --reload",
-    "dev:backend": "run-p dev:fastapi dev:next",
+    "dev-backend": "run-p dev:fastapi dev:next",
     "build": "run-p build:*",
     "build:plasmo": "plasmo build",
     "build:next": "next build",
@@ -32,7 +32,7 @@
     "get-youtube-chapters": "^2.0.0",
     "next": "^13.5.6",
     "next-themes": "^0.2.1",
-    "plasmo": "^0.84.0",
+    "plasmo": "^0.86.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^1.14.0",
