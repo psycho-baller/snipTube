@@ -22,7 +22,8 @@ jobs:
         with:
           node-version: "18"
           cache: "pnpm"
-
+      - name: Install deps
+        run: pnpm i
       - name: Build the chromium based extension and zip it
         run: pnpm build:plasmo --zip
       - name: Build the safari based extension and zip it
