@@ -106,7 +106,7 @@ const InputTag: FC<Props> = (props) => {
 						}}
 						style={{ width }}
 						type="text"
-						className="text-xl font-medium placeholder-gray-400 border-none outline-none bg-inherit focus:placeholder-transparent"
+						className="text-xl font-medium placeholder-gray-500 border-none outline-none bg-inherit focus:placeholder-transparent"
 						onKeyDown={inputKeyDown}
 						ref={input}
 						{...rest}
