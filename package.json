@@ -5,7 +5,7 @@
   "description": "Highlight, tag, annotate, and export your favorite YouTube moments with the power of AI.",
   "author": "Rami <rami.rami@ucalgary.ca> (rami-maalouf.tech)",
   "license": "MIT",
-  "homepage_url": "https://sniptube.tech",
+  "homepage_url": "https://sniptube.vercel.app",
   "contributors": [
     "Rami <rami.rami@ucalgary.ca> (rami-maalouf.tech)"
   ],

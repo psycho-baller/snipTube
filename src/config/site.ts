@@ -5,8 +5,8 @@ export const siteConfig: SiteConfig = {
   slogan: 'Elevate Your YouTube Experience',
   description:
     'Easily highlight, tag, annotate, summarize, and export your favorite YouTube moments with a click of a button.',
-  url: 'https://sniptube.tech',
-  ogImage: 'https://sniptube.tech/og.jpg',
+  url: 'https://sniptube.vercel.app',
+  ogImage: 'https://sniptube.vercel.app/og.jpg',
   links: {
     // twitter: "https://twitter.com/",
     github: 'https://github.com/psycho-baller/sniptube',
