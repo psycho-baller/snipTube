@@ -1,7 +1,7 @@
 {
   "name": "sniptube",
   "displayName": "SnipTube - AI powered YouTube bookmarker",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Highlight, tag, annotate, and export your favorite YouTube moments with the power of AI.",
   "author": "Rami <rami.rami@ucalgary.ca> (rami-maalouf.tech)",
   "license": "MIT",
