@@ -7,7 +7,7 @@
 - [python3](https://www.python.org/downloads/) (and pip)
 
 - run `pnpm i` in the root folder to install all the node dependencies.
-- create a virtual environment with `python3 -m venv venv` and activate it with `source venv/bin/activate` then run `pip install -r requirements.txt` to install all the python dependencies.
+- create a virtual environment with `python3 -m venv .venv` and activate it with `source venv/bin/activate` then run `pip install -r requirements.txt` to install all the python dependencies.
 - run `cp .env.example .env` to create a `.env` file and fill in the required environment variables.
 
 ## Development
