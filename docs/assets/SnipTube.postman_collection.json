@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "0039ab80-0173-470b-99c0-eb11a2c35180",
+		"name": "SnipTube",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23796705"
+	},
+	"item": [
+		{
+			"name": "local (dev)",
+			"item": [
+				{
+					"name": "Healthchecker",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/llm/healthchecker",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"llm",
+								"healthchecker"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Summarize Snip",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"How to be a better coder\",\n    \"transcript\": \"You should spend at least 5 minutes meditating\",\n    \"encoded\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/llm/summarize/snip",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"llm",
+								"summarize",
+								"snip"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prod",
+			"item": [
+				{
+					"name": "Healthchecker",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sniptube.vercel.app/api/llm/healthchecker",
+							"protocol": "https",
+							"host": [
+								"sniptube",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"llm",
+								"healthchecker"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Summarize Snip",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"How to be a better coder\",\n    \"transcript\": \"You should spend at least 5 minutes meditating\",\n    \"encoded\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sniptube.vercel.app/api/llm/summarize/snip",
+							"protocol": "https",
+							"host": [
+								"sniptube",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"llm",
+								"summarize",
+								"snip"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
