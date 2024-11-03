@@ -40,7 +40,7 @@ app = FastAPI(
 origins = [
     "https://www.youtube.com",
     "http://localhost:3000",
-    "https://www.sniptube.vercel.app",
+    "https://sniptube.vercel.app",
 ]
 
 app.add_middleware(
