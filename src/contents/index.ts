@@ -105,7 +105,9 @@ const newVideoLoaded = async () => {
   // section 2: add the snips to the video
   await updateVideoSnips();
 
-  const { transcript, title } = await getVideoDetails(videoId);
+  const { transcript = "", title = "" } = await getVideoDetails(videoId);
+  console.log("transcript", transcript);
+  console.log("title", title);
   // // vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
   vidTranscript = transcript;
   vidTitle = title //document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0].textContent;
@@ -212,35 +214,48 @@ async function addNewSnipEventHandler() {
 
   // if there exists a transcript, use it to get the summary, otherwise use the title
   if (vidTranscript.length > 0) {
-    snipTranscript = await getSnipTranscript(vidTranscript, startTime, currentTime);
-    if (snipTranscript === invalidStartOrEndTimeMessage) {
-      return;
+    try {
+      snipTranscript = await getSnipTranscript(vidTranscript, startTime, currentTime);
+      if (snipTranscript === invalidStartOrEndTimeMessage) {
+        return;
+      }
+
+      const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
+      const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
+      const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
+      const encodedSummary = vidSummary ? Buffer.from(vidSummary).toString("base64") : "";
+
+      // Validate inputs before making the fetch call
+      if (!encodedTranscript || !encodedTitle) {
+        throw new Error("Invalid input for API call");
+      }
+
+      const response = await fetch(`${URL}/llm/summarize/snip`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transcript: encodedTranscript,
+          title: encodedTitle,
+          // summary: encodedSummary,
+        }),
+      });
+
+      // Check if the response is ok
+      if (!response.ok) {
+        throw new Error(`Error fetching summary: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      summary = data.summary;
+    } catch (error) {
+      console.error("An error occurred while processing the snip:", error);
     }
-    const encodedTranscript = Buffer.from(snipTranscript).toString("base64");
-    // remove things that don't work with base64 encoding like emojis
-    const cleanedTitle = vidTitle.replace(/[\uD800-\uDFFF]./g, "");
-    const encodedTitle = Buffer.from(cleanedTitle).toString("base64");
-    const encodedSummary = vidSummary ? Buffer.from(vidSummary).toString("base64") : "";
-    summary = await fetch(`${URL}/llm/summarize/snip`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        transcript: encodedTranscript,
-        title: encodedTitle,
-        // summary: encodedSummary,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => data.summary);
-  } else {
-    // if there is no transcript
-    summary = vidTitle;
   }
   const newSnip: Snip = {
-    vidTitle: vidTitle as string,
-    title: summary,
+    vidTitle: vidTitle,
+    title: summary || snipNote || vidTitle,
     note: snipNote,
     // make it folder based instead of tag based
     tags: snipTags.map((tag) => ({ name: tag })),
@@ -260,7 +275,7 @@ async function addNewSnipEventHandler() {
       updateVideoSnips(newSnips);
       removePlaceholderSnipFromPreviewBar();
     }
-  ));
+    ));
 }
 
 async function updateVideoSnips(snips?: Snip[]) {
