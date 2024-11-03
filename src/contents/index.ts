@@ -105,7 +105,7 @@ const newVideoLoaded = async () => {
   // section 2: add the snips to the video
   await updateVideoSnips();
 
-  const { transcript = "", title = "" } = await getVideoDetails(videoId);
+  const { transcript = [], title = "" } = await getVideoDetails(videoId);
   console.log("transcript", transcript);
   console.log("title", title);
   // // vidTranscript = transcript?.map((d) => d.text).join(" ") || "";
