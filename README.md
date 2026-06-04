@@ -14,7 +14,7 @@
   <a href="/docs/safari.md">Safari for MacOS and iOS</a> |
   <a href="https://sniptube.vercel.app">Website</a> |
   <a href="https://devpost.com/software/sniptube">Devpost</a>
-  <a href="https://github.com/psycho-baller/snipTube/assets/81759594/50a6e1e1-fe6d-45a4-8723-15f9a3290c66">(Hackathon Winner)</a>
+  <a href="https://github.com/rami-maalouf/snipTube/assets/81759594/50a6e1e1-fe6d-45a4-8723-15f9a3290c66">(Hackathon Winner)</a>
 </p>
 
 🤹🏼‍♂️ Hours spent code juggling this project:
@@ -52,7 +52,7 @@ As one of the first to experience the game-changing SnipTube extension, your fee
 
 Reach out to us through:
 
-- 🐞 [Creating a GitHub issue](https://github.com/psycho-baller/snipTube/issues/new/choose)
+- 🐞 [Creating a GitHub issue](https://github.com/rami-maalouf/snipTube/issues/new/choose)
 - 📧 [Sending me an email](https://mail.google.com/mail/u/0/?fs=1&to=rami.rami@ucalgary.ca&su=SnipTube%20-%20&body=Hey%20Rami,%20....&tf=cm)
 - 📞 [Scheduling an online call with me](https://cal.com/rami-maalouf/any)
 
@@ -70,7 +70,7 @@ Please see [docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md) to get started.
 
 ## 🚀 Tech Stack
 
-- ✅ **Bootstrapping**: A mix of [Nextjs + FastAPI](https://github.com/psycho-baller/nextjs-and-fastapi-backend) and [Plasmo's Nextjs starter](https://github.com/PlasmoHQ/examples/tree/main/with-nextjs)
+- ✅ **Bootstrapping**: A mix of [Nextjs + FastAPI](https://github.com/rami-maalouf/nextjs-and-fastapi-backend) and [Plasmo's Nextjs starter](https://github.com/PlasmoHQ/examples/tree/main/with-nextjs)
 - ✅ **Frameworks**:
   - [Nextjs 13 + Typescript](https://nextjs.org/) for the marketing website, some API endpoints, and just making it possible to connect all these different technologies together.
   - [FastAPI](https://fastapi.tiangolo.com/) for the rest of the API endpoints (the ones that involve AI)

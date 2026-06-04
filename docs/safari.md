@@ -1,6 +1,6 @@
 # Installing SnipTube as a Safari extension
 
-Source code: https://github.com/psycho-baller/SniptubeSafari
+Source code: https://github.com/rami-maalouf/SniptubeSafari
 
 I'm currently not willing to pay Apple $99/year to be able to distribute this extension through the App Store because [Safari sucks](https://www.reddit.com/media?url=https://preview.redd.it/safari-is-just-the-new-ie-v0-8h038hccu8x91.png?auto%3Dwebp%26s%3D7f63af0589883e983bfab5c8097503f78a6fcd77), but if you still want to use it there, you'll have to build it yourself, which takes about 5 minutes.
 
@@ -8,7 +8,7 @@ I'm currently not willing to pay Apple $99/year to be able to distribute this ex
 
 Prerequisite: Install Xcode
 
-1. Download `SafariExtension.zip` from [the latest release](https://github.com/psycho-baller/sniptube/releases/latest) and unzip it
+1. Download `SafariExtension.zip` from [the latest release](https://github.com/rami-maalouf/sniptube/releases/latest) and unzip it
 
 2. [Convert the extension to a MacOS app](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) using:
 
@@ -18,7 +18,7 @@ xcrun safari-web-extension-converter /path/to/extension
 
 3. Click run in the top of Xcode
 
-![image](https://github.com/psycho-baller/snipTube/assets/81759594/442fbfcd-20fd-4cce-bdc4-eca4ee671a45)
+![image](https://github.com/rami-maalouf/snipTube/assets/81759594/442fbfcd-20fd-4cce-bdc4-eca4ee671a45)
 
 
 if you get an error that says: 
@@ -28,7 +28,7 @@ if you get an error that says:
 ```
 
 Create and add a development team here:
-![image](https://github.com/psycho-baller/snipTube/assets/81759594/e87261b0-f3be-4d93-a6b6-1d7f64d18d85)
+![image](https://github.com/rami-maalouf/snipTube/assets/81759594/e87261b0-f3be-4d93-a6b6-1d7f64d18d85)
 
 
 4. [Configure Safari in macOS to Run Unsigned Extensions](https://developer.apple.com/documentation/safariservices/safari_web_extensions/running_your_safari_web_extension#3744467)

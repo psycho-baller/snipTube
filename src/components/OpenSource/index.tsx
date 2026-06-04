@@ -9,7 +9,7 @@ interface Props {}
 
 async function getGitHubStars(): Promise<string | null> {
   try {
-    const response = await fetch("https://api.github.com/repos/psycho-baller/SnipTube", {
+    const response = await fetch("https://api.github.com/repos/rami-maalouf/SnipTube", {
       headers: {
         Accept: "application/vnd.github+json",
         Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,

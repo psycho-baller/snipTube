@@ -45,7 +45,7 @@ const nextConfig = {
       },
       {
         source: '/safari',
-        destination: 'https://github.com/psycho-baller/snipTube/blob/main/docs/safari.md',
+        destination: 'https://github.com/rami-maalouf/snipTube/blob/main/docs/safari.md',
         permanent: false,
         basePath: false
       },
